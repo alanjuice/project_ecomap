@@ -1,6 +1,6 @@
 const SpeciesCard = ({ imageUrl, label }) => {
   return (
-    <div className="border border-gray-200 rounded-lg shadow-md overflow-hidden">
+    <div className="border border-gray-200 rounded-lg shadow-md ">
       <img
         src={imageUrl}
         alt={label}

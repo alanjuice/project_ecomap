@@ -15,12 +15,46 @@ const speciesData = [
   },
   {
     label: "Fish",
+  },{
+    label: "Fish",
+  },{
+    label: "Fish",
+  },{
+    label: "Fish",
+  },{
+    label: "Fish",
+  },{
+    label: "Fish",
+  },{
+    label: "Fish",
+  },,{
+    label: "Fish",
+  },,{
+    label: "Fish",
+  },,{
+    label: "Fish",
+  },,{
+    label: "Fish",
+  },,{
+    label: "Fish",
+  },,{
+    label: "Fish",
+  },,{
+    label: "Fish",
+  },,{
+    label: "Fish",
+  },,{
+    label: "Fish",
+  },,{
+    label: "Fish",
+  },,{
+    label: "Fish",
   }]
 
 
 const CardGrid = () => {
     return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 p-4">
         {speciesData.map((species, index) => (
           <SpeciesCard
             key={index}
