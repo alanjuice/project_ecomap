@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar";
 import HomePage from "./pages/HomePage";
 import SpeciesPage from "./pages/SpeciesPage";
 import OccurrencePage from "./pages/OccurrencePage";
+import ExpertLoginPage from "./pages/ExpertLoginPage";
 
 let router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ let router = createBrowserRouter([
       {
         path: "occurrence",
         element: <OccurrencePage />,
+      },
+      {
+        path: "expert/login",
+        element: <ExpertLoginPage />,
       },
     ],
   },

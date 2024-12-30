@@ -33,13 +33,19 @@ const Navbar = () => {
           </ul>
         </div>
         <div>
-          <button className="">
+
+          {/* If logged in, send user to 
+          expert/ 
+          else go to 
+          expert/login */}
+
+          <Link to="/expert/login">
             <img
               src={AccountLogo}
               alt=""
               className="w-8 h-8 transition-colors hover:invert"
             />
-          </button>
+          </Link>
         </div>
       </nav>
       <Outlet />
