@@ -1,11 +1,11 @@
 import CardGrid from "../components/CardGrid";
-import SearchSpecies from "../components/SearchSpecies";
+import FilterContent from "../components/FilterContent";
 
 const SpeciesPage = () => {
   return (
     <>
       <div className="flex ">
-        <SearchSpecies />
+        <FilterContent />
         <CardGrid/>
       </div>
     </>

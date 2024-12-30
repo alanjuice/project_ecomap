@@ -1,5 +1,13 @@
+import FilterContent from "../components/FilterContent";
+import CardGrid from "../components/CardGrid";
+
 const OccurencePage = () => {
-  return <h1>Occurence</h1>;
+  return <>
+    <div className="flex ">
+        <FilterContent/>
+        <CardGrid/>
+      </div>
+  </>;
 };
 
 export default OccurencePage;
