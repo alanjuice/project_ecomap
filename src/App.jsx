@@ -6,6 +6,8 @@ import HomePage from "./pages/HomePage";
 import SpeciesPage from "./pages/SpeciesPage";
 import OccurrencePage from "./pages/OccurrencePage";
 import ExpertLoginPage from "./pages/ExpertLoginPage";
+import ExpertMainPage from "./pages/ExpertMainPage";
+import SpottingListPage from "./pages/SpottingListPage";
 
 let router = createBrowserRouter([
   {
@@ -24,6 +26,16 @@ let router = createBrowserRouter([
         path: "occurrence",
         element: <OccurrencePage />,
       },
+      {
+        path: "expert/",
+        element: <ExpertMainPage />,
+        children: [
+          {
+          path:"spottings",
+          element:<SpottingListPage/>
+            }
+        ]}
+      ,
       {
         path: "expert/login",
         element: <ExpertLoginPage />,
