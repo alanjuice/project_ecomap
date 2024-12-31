@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const ExpertLoginPage = () => {
+const ExpertSignUpPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -15,7 +16,7 @@ const ExpertLoginPage = () => {
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h1 className="text-2xl font-semibold text-center text-gray-700 mb-6">
-                    Expert Login
+                    Expert Sign Up
                 </h1>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
@@ -32,6 +33,24 @@ const ExpertLoginPage = () => {
                             className="w-full px-4 py-2 mt-2 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="mb-6">
+                        <label
+                            htmlFor="name"
+                            className="block text-sm font-medium text-gray-600"
+                        >
+                            Name
+                        </label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            className="w-full px-4 py-2 mt-2 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             required
                         />
                     </div>
@@ -64,12 +83,12 @@ const ExpertLoginPage = () => {
 
                 <div className="mt-4 text-center text-sm text-gray-600">
                     <p>
-                        Don't have an account?{" "}
+                        Have an account?{" "}
                         <Link
-                            to="/expert/signup"
+                            to="/expert/login"
                             className="text-indigo-600 hover:text-indigo-700"
                         >
-                            Sign Up
+                            Login
                         </Link>
                     </p>
                 </div>
@@ -78,4 +97,4 @@ const ExpertLoginPage = () => {
     );
 };
 
-export default ExpertLoginPage;
+export default ExpertSignUpPage;
