@@ -9,6 +9,9 @@ import ExpertLoginPage from "./pages/ExpertLoginPage";
 import ExpertMainPage from "./pages/ExpertMainPage";
 import SpottingListPage from "./pages/SpottingListPage";
 import ExpertSignUpPage from "./pages/ExpertSignUpPage";
+import SpeciesDetailsPage from "./pages/SpeciesDetailsPage";
+import SpottingDetailsPage from "./pages/SpottingDetailsPage";
+import OccurenceDetailsPage from "./pages/OccurenceDetailsPage";
 
 let router = createBrowserRouter([
     {
@@ -24,8 +27,16 @@ let router = createBrowserRouter([
                 element: <SpeciesPage />,
             },
             {
+                path: "species/:id",
+                element: <SpeciesDetailsPage />,
+            },
+            {
                 path: "occurrence",
                 element: <OccurrencePage />,
+            },
+            {
+                path: "occurrence/:id",
+                element: <OccurenceDetailsPage />,
             },
             {
                 path: "expert/",
@@ -34,6 +45,10 @@ let router = createBrowserRouter([
                     {
                         path: "spottings",
                         element: <SpottingListPage />,
+                    },
+                    {
+                        path: "spottings/:id",
+                        element: <SpottingDetailsPage />,
                     },
                 ],
             },

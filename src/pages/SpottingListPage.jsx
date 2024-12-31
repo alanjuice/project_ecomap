@@ -1,6 +1,13 @@
+import CardGrid from "../components/CardGrid";
+import Pagination from "../components/Pagination";
+
 const SpottingListPage = () => {
-    return ( <>
-    <h1>Sp</h1></> );
-}
- 
+    return (
+        <div className="">
+            <CardGrid />
+            <Pagination />
+        </div>
+    );
+};
+
 export default SpottingListPage;
