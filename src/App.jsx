@@ -35,7 +35,7 @@ let router = createBrowserRouter([
                 element: <OccurrencePage />,
             },
             {
-                path: "occurrence/:id",
+                path: "occurence/:id",
                 element: <OccurenceDetailsPage />,
             },
             {
