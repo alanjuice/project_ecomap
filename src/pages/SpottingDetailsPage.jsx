@@ -71,7 +71,7 @@ const SpottingDetailsPage = () => {
     }
 
     return (
-        <div className="bg-gray-50 p-4 w-3/4">
+        <div className="bg-gray-50 p-4 w-screen">
             <h1 className="text-2xl font-bold mb-4">Spotting Details</h1>
 
             {/* Image Section */}
@@ -126,13 +126,13 @@ const SpottingDetailsPage = () => {
                         ))}
                     </select>
                     <button
-                        className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105"
+                        className="px-3 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105"
                         onClick={handleIdentify}
                     >
                         Identify
                     </button>
                     <button
-                        className="px-6 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 transition duration-300 ease-in-out transform hover:scale-105"
+                        className="px-3 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 transition duration-300 ease-in-out transform hover:scale-105"
                         onClick={() => setShowForm(!showForm)}
                     >
                         Can't Find Species?
@@ -267,7 +267,7 @@ const SpottingDetailsPage = () => {
                         latitude: spottingData.Coordinates[1],
                         zoom: 5,
                     }}
-                    style={{ width: "75%", height: 400 }}
+                    style={{ width: "100%", height: 400 }}
                     mapStyle="https://demotiles.maplibre.org/style.json"
                 >
                     <Marker
