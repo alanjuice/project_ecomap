@@ -20,9 +20,9 @@ const HomePage = () => {
             {/* Statistics Section */}
             <div className="bg-white py-8">
                 <div className="container flex justify-evenly sm:flex-row flex-col">
-                    <ColouredCard title={"Species"} value={20000} color="green-500" extraStyle={"sm:w-1/4 m-3"} />
-                    <ColouredCard title={"Observations"} value={20000} color="green-500" extraStyle={"sm:w-1/4 m-3"} />
-                    <ColouredCard title={"Users"} value={1200} color="green-500" extraStyle={"sm:w-1/4 m-3"}/>
+                    <ColouredCard title={"Species"} value={20000} color="lightblue" extraStyle={"sm:w-1/4 m-3"} />
+                    <ColouredCard title={"Observations"} value={20000} color="lightgreen" extraStyle={"sm:w-1/4 m-3"} />
+                    <ColouredCard title={"Users"} value={1200} color="red" extraStyle={"sm:w-1/4 m-3"}/>
                 </div>
             </div>
 

@@ -87,9 +87,9 @@ const SpeciesDetailsPage = () => {
                 {/* Info Grid */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <ColouredCard title={"Scientific Name"} color={"indigo-500"} value={"Leos"}/>
-                    <ColouredCard title={"Taxonomic Class"} color={"green-500"} value={"Mammalia"}/>
-                    <ColouredCard title={"Taxonomic Class"} color={"yellow-500"} value={"Mammalia"}/>
+                    <ColouredCard title={"Scientific Name"} color={"lightblue"} value={"Leos"}/>
+                    <ColouredCard title={"Taxonomic Class"} color={"orange"} value={"Mammalia"}/>
+                    <ColouredCard title={"Taxonomic Class"} color={"yellow"} value={"Mammalia"}/>
                 </div>
 
                 <div className="mt-8">

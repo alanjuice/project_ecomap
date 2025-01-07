@@ -71,9 +71,9 @@ const OccurenceDetailsPage = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {/* Taxonomic Class */}
-                    <ColouredCard title={"Spotted By"} color={"green-200"} value={"Alfredo"}/>
+                    <ColouredCard title={"Spotted By"} color={"lightgreen"} value={"Alfredo"}/>
 
-                    <ColouredCard title={"Spotted At"} color={"indigo-500"} value={"19-09-2009"}/>
+                    <ColouredCard title={"Spotted At"} color={"orange"} value={"19-09-2009"}/>
                 </div>
 
                 <div className="mt-8">
