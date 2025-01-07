@@ -5,10 +5,7 @@ import { speciesMinimialData } from "../utils/mockData";
 const SpottingListPage = () => {
     return (
         <div className="">
-            <CardGrid
-                data={speciesMinimialData}
-                resource={"expert/spottings"}
-            />
+            <CardGrid data={speciesMinimialData} resource={"expert/spotting"} />
             <Pagination />
         </div>
     );
