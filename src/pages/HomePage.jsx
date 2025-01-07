@@ -1,4 +1,4 @@
-import Card from "../components/Card";
+import ColouredCard from "../components/ColouredCard";
 
 const HomePage = () => {
     return (
@@ -20,9 +20,9 @@ const HomePage = () => {
             {/* Statistics Section */}
             <div className="bg-white py-8">
                 <div className="container flex justify-evenly sm:flex-row flex-col">
-                    <Card title={"Species"} value={20000} />
-                    <Card title={"Observations"} value={20000} />
-                    <Card title={"Users"} value={1200} />
+                    <ColouredCard title={"Species"} value={20000} color="green-500" extraStyle={"sm:w-1/4 m-3"} />
+                    <ColouredCard title={"Observations"} value={20000} color="green-500" extraStyle={"sm:w-1/4 m-3"} />
+                    <ColouredCard title={"Users"} value={1200} color="green-500" extraStyle={"sm:w-1/4 m-3"}/>
                 </div>
             </div>
 

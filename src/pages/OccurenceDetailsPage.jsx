@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import { heatmapLayerStyle, pointLayerStyle } from "../utils/MapLayerStyle";
+import ColouredCard from "../components/ColouredCard";
 
 const OccurenceDetailsPage = () => {
     const { id } = useParams();
@@ -71,24 +71,9 @@ const OccurenceDetailsPage = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {/* Taxonomic Class */}
-                    <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-indigo-500">
-                        <h3 className="text-xl font-semibold text-gray-700 mb-2">
-                            Spotted By
-                        </h3>
-                        <p className="text-2xl font-bold text-gray-900">
-                            {occurenceData.Spotted_By}
-                        </p>
-                    </div>
+                    <ColouredCard title={"Spotted By"} color={"green-200"} value={"Alfredo"}/>
 
-                    {/* Scientific Name */}
-                    <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-yellow-500">
-                        <h3 className="text-xl font-semibold text-gray-700 mb-2">
-                            Spotted At
-                        </h3>
-                        <p className="text-2xl font-bold text-gray-900">
-                            {occurenceData.Date_Spotted}
-                        </p>
-                    </div>
+                    <ColouredCard title={"Spotted At"} color={"indigo-500"} value={"19-09-2009"}/>
                 </div>
 
                 <div className="mt-8">

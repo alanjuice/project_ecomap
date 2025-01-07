@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Map, Layer, Source } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
+import ColouredCard from "../components/ColouredCard";
 
 import { heatmapLayerStyle, pointLayerStyle } from "../utils/MapLayerStyle";
 
@@ -86,35 +87,9 @@ const SpeciesDetailsPage = () => {
                 {/* Info Grid */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {/* Taxonomic Class */}
-                    <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-indigo-500">
-                        <h3 className="text-xl font-semibold text-gray-700 mb-2">
-                            Taxonomic Class
-                        </h3>
-                        <p className="text-2xl font-bold text-gray-900">
-                            {speciesData.Taxonomic_Class}
-                        </p>
-                    </div>
-
-                    {/* Scientific Name */}
-                    <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-yellow-500">
-                        <h3 className="text-xl font-semibold text-gray-700 mb-2">
-                            Scientific Name
-                        </h3>
-                        <p className="text-2xl font-bold text-gray-900">
-                            {speciesData.Scientific_Name}
-                        </p>
-                    </div>
-
-                    {/* Conservation Status */}
-                    <div className="bg-white shadow-md rounded-lg p-6 text-center border-t-4 border-green-500">
-                        <h3 className="text-xl font-semibold text-gray-700 mb-2">
-                            Conservation Status
-                        </h3>
-                        <p className="text-2xl font-bold text-gray-900">
-                            {speciesData.Conservation_Status}
-                        </p>
-                    </div>
+                    <ColouredCard title={"Scientific Name"} color={"indigo-500"} value={"Leos"}/>
+                    <ColouredCard title={"Taxonomic Class"} color={"green-500"} value={"Mammalia"}/>
+                    <ColouredCard title={"Taxonomic Class"} color={"yellow-500"} value={"Mammalia"}/>
                 </div>
 
                 <div className="mt-8">
