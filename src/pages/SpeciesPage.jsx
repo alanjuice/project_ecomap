@@ -8,7 +8,7 @@ const SpeciesPage = () => {
     return (
         <>
             <div className="flex ">
-                <FilterContent />
+                <FilterContent type={"species"} />
                 <CardGrid data={speciesData} resource={"species"} />
             </div>
         </>

@@ -1,18 +1,98 @@
-const FilterObservation = () => {
+const FilterObservation = ({ type }) => {
+    const conservationStatuses = [
+        "Endangered",
+        "Vulnerable",
+        "Near Threatened",
+        "Least Concern",
+        "Critically Endangered",
+    ];
+
     return (
         <div className="h-screen bg-gray-100 shadow-lg p-4 space-y-6 sticky top-0">
             <div className="text-xl font-bold text-gray-700">Filter</div>
 
+            {/* Name Input */}
             <div className="relative">
+                <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                    Common Name
+                </h3>
                 <input
                     type="text"
                     placeholder="Name"
-                    className="w-full p-2  border border-gray-300 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-300 rounded focus:ring-blue-500 focus:outline-none"
                 />
             </div>
 
+            {/* Conservation Status Selector for Species */}
+            {type === "species" && (
+                <div>
+                    <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                        Conservation Status
+                    </h3>
+                    <div className="space-y-2">
+                        {conservationStatuses.map((status, index) => (
+                            <div
+                                key={index}
+                                className="flex items-center space-x-2"
+                            >
+                                <input
+                                    type="radio"
+                                    id={status}
+                                    name="conservationStatus"
+                                    className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                />
+                                <label
+                                    htmlFor={status}
+                                    className="text-gray-700 font-medium"
+                                >
+                                    {status}
+                                </label>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Time Range For Occurennces */}
+            {type === "occurrence" && (
+                <div>
+                    <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                        Time Range
+                    </h3>
+                    <div className="flex space-x-4">
+                        <div className="flex flex-col">
+                            <label
+                                htmlFor="startDate"
+                                className="text-gray-700 font-medium mb-1"
+                            >
+                                Start Date
+                            </label>
+                            <input
+                                type="date"
+                                id="startDate"
+                                className="p-2 border border-gray-300 rounded focus:ring-blue-500 focus:outline-none"
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <label
+                                htmlFor="endDate"
+                                className="text-gray-700 font-medium mb-1"
+                            >
+                                End Date
+                            </label>
+                            <input
+                                type="date"
+                                id="endDate"
+                                className="p-2 border border-gray-300 rounded focus:ring-blue-500 focus:outline-none"
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Search Button */}
             <div className="space-y-2">
-                <button className="w-full bg-green-500 text-white p-2  hover:bg-green-600 transition">
+                <button className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 transition">
                     Search
                 </button>
             </div>

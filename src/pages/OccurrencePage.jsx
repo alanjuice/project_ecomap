@@ -6,7 +6,7 @@ const OccurencePage = () => {
     return (
         <>
             <div className="flex ">
-                <FilterContent />
+                <FilterContent type={"occurrence"}/>
                 <CardGrid data={occurenceMinimalData} resource={"occurence"} />
             </div>
         </>
