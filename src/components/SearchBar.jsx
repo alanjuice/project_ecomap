@@ -14,7 +14,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div className=" p-4 space-y-3 sticky top-0 sm:block w-3/4 md:w-100">
+    <div className=" p-4 space-y-3 sticky top-0 sm:block w-100 md:w-100 flex-grow max-w-80" >
       <div className="relative">
         <div className="text-xl font-bold text-gray-700 mb-4 hidden md:block">Search</div>
         <input
