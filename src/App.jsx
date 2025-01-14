@@ -12,6 +12,7 @@ import ExpertSignUpPage from "./pages/ExpertSignUpPage";
 import SpeciesDetailsPage from "./pages/SpeciesDetailsPage";
 import SpottingDetailsPage from "./pages/SpottingDetailsPage";
 import OccurenceDetailsPage from "./pages/OccurenceDetailsPage";
+import AdminLoginPage from "./pages/AdminLoginPage";
 
 let router = createBrowserRouter([
   {
@@ -59,6 +60,10 @@ let router = createBrowserRouter([
       {
         path: "expert/signup",
         element: <ExpertSignUpPage />,
+      },
+      {
+        path: "admin",
+        element: <AdminLoginPage />,
       },
     ],
   },
