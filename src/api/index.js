@@ -32,10 +32,22 @@ const getSpeciesDatabyID = async (id) => {
     return response;
 };
 
+const getSpecies = async (id) => {
+    const response = await instance.get(`expert/get-species`);
+    console.log(response);
+    return response;
+};
+
 const addSpecies = async (speciesData) => {
     const response = await instance.post("expert/add-species", speciesData);
     console.log(response);
     return response;
 };
 
-export { loginExpert, registerExpert, getSpeciesDatabyID, addSpecies };
+export {
+    loginExpert,
+    registerExpert,
+    getSpeciesDatabyID,
+    addSpecies,
+    getSpecies,
+};

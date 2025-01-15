@@ -1,15 +1,26 @@
 import CardGrid from "../components/CardGrid";
-import { speciesMinimialData } from "../utils/mockData";
 import SideBar from "../components/SideBar";
+import { useEffect, useState } from "react";
+import { getSpecies } from "../api";
 
 const SpeciesPage = () => {
-    const speciesData = speciesMinimialData;
+    const [speciesData, setSpeciesData] = useState([]);
+
+    useEffect(() => {
+        getSpeciesData();
+    }, []);
+
+    const getSpeciesData = async () => {
+        const response = await getSpecies();
+        console.log(response);
+        setSpeciesData(response.data);
+    };
 
     return (
         <>
             <div className="flex flex-col md:flex-row">
-                <SideBar type={"species"}/>
-                <CardGrid data={speciesMinimialData} resource={"species"} />
+                <SideBar type={"species"} />
+                <CardGrid data={speciesData} resource={"species"} />
             </div>
         </>
     );

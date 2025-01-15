@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { Map, Layer, Source } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import ColouredCard from "../components/ColouredCard";
+import { getSpeciesDatabyID } from "../api";
 
 import { heatmapLayerStyle, pointLayerStyle } from "../utils/MapLayerStyle";
 
@@ -14,26 +15,10 @@ const SpeciesDetailsPage = () => {
     const [isMapLoading, setIsMapLoading] = useState(true);
     const [mapData, setMapData] = useState("");
 
-    const getSpeciesData = (id) => {
-        useEffect(() => {
-            // Simulate fetching data based on species ID
-            console.log("Fetching details of Species id: " + id);
-
-            // Example data for now
-
-            const data = {
-                Species_ID: 1,
-                Common_Name: "Lion",
-                Scientific_Name: "Panthera leo",
-                Taxonomic_Class: "Mammalia",
-                Conservation_Status: "Vulnerable",
-                Image_URL:
-                    "https://upload.wikimedia.org/wikipedia/commons/3/3f/Walking_tiger_female.jpg",
-            };
-
-            setSpeciesData(data);
-            setIsLoading(false);
-        }, [id]);
+    const getSpeciesData = async (id) => {
+        const response = await getSpeciesDatabyID(id);
+        setIsLoading(false);
+        setSpeciesData(response.data);
     };
 
     const getMapData = (id) => {
@@ -87,9 +72,21 @@ const SpeciesDetailsPage = () => {
                 {/* Info Grid */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <ColouredCard title={"Scientific Name"} color={"lightblue"} value={"Leos"}/>
-                    <ColouredCard title={"Taxonomic Class"} color={"orange"} value={"Mammalia"}/>
-                    <ColouredCard title={"Taxonomic Class"} color={"yellow"} value={"Mammalia"}/>
+                    <ColouredCard
+                        title={"Scientific Name"}
+                        color={"lightblue"}
+                        value={"Leos"}
+                    />
+                    <ColouredCard
+                        title={"Taxonomic Class"}
+                        color={"orange"}
+                        value={"Mammalia"}
+                    />
+                    <ColouredCard
+                        title={"Taxonomic Class"}
+                        color={"yellow"}
+                        value={"Mammalia"}
+                    />
                 </div>
 
                 <div className="mt-8">
