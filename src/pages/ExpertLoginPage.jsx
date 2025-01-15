@@ -1,14 +1,34 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { loginExpert } from "../api/";
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ExpertLoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Email:", email);
-        console.log("Password:", password);
+        const response = await loginExpert({ email, password });
+        if (!response.success) {
+            toast.error(response.data.message, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: true,
+                theme: "light",
+            });
+            return 0;
+        }
+
+        if (response.data.token) {
+            localStorage.setItem("token", response.data.token);
+        }
+        navigate("/expert");
     };
 
     return (
@@ -74,6 +94,7 @@ const ExpertLoginPage = () => {
                     </p>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };
