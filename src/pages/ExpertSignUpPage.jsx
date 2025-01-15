@@ -118,7 +118,6 @@ const ExpertSignUpPage = () => {
                     </p>
                 </div>
             </div>
-            <ToastContainer />
         </div>
     );
 };

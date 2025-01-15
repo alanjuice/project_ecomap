@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { addSpecies } from "../api";
-import { ToastContainer, toast } from "react-toastify";
 
 const SpottingDetailsPage = () => {
     const { id } = useParams();
@@ -55,34 +53,11 @@ const SpottingDetailsPage = () => {
         alert(`Identified as: ${selectedSpecies}`);
     };
 
-    const handleAddSpecies = async (e) => {
+    const handleAddSpecies = (e) => {
         e.preventDefault();
-        const response = await addSpecies({
-            common_name: newSpecies.name,
-            scientific_name: newSpecies.scientificName,
-            taxonomy_class: newSpecies.class,
-            conservation_status: newSpecies.conservationStatus,
-        });
-        if (!response.success) {
-            toast.error(response.data.message, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: true,
-                theme: "light",
-            });
-            return 0;
-        } else {
-            toast(response.data.message, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: true,
-                theme: "light",
-            });
-        }
+        console.log("New Species Added:", newSpecies);
+        alert("New species submitted successfully!");
+        setShowForm(false);
     };
 
     if (isLoading) {
@@ -302,7 +277,6 @@ const SpottingDetailsPage = () => {
                     />
                 </Map>
             </div>
-            <ToastContainer />
         </div>
     );
 };
