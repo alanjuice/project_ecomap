@@ -83,12 +83,11 @@ const ExpertLoginPage = () => {
 
                 <div className="mt-4 text-center text-sm text-gray-600">
                     <p>
-                        Don't have an account?{" "}
                         <Link
-                            to="/expert/signup"
+                            to="/admin/login"
                             className="text-indigo-600 hover:text-indigo-700"
                         >
-                            Sign Up
+                            Login as Admin?
                         </Link>
                     </p>
                 </div>
