@@ -33,7 +33,6 @@ const Navbar = () => {
           </ul>
         </div>
         <div>
-
           {/* If logged in, send user to 
           expert/ 
           else go to 

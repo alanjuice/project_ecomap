@@ -1,15 +1,40 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { registerExpert } from "../api";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
 const ExpertSignUpPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Email:", email);
         console.log("Password:", password);
+        console.log("Name:", name);
+
+        const response = await registerExpert({ email, password, name });
+        if (!response.success)
+            toast.error(response.data.message, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: true,
+                theme: "light",
+            });
+        else {
+            toast(response.data.message, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: true,
+                theme: "light",
+            });
+        }
     };
 
     return (
@@ -93,6 +118,7 @@ const ExpertSignUpPage = () => {
                     </p>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };

@@ -5,8 +5,6 @@ const instance = axios.create({
     timeout: 1000,
 });
 
-console.log(import.meta.env.VITE_SERVER_URL);
-
 instance.interceptors.response.use(
     function (response) {
         return { success: true, data: response.data };
@@ -35,7 +33,9 @@ const getSpeciesDatabyID = async (id) => {
     return response;
 };
 
+
 const getSpecies = async () => {
+
     const response = await instance.get(`expert/get-species`);
     console.log(response);
     return response;

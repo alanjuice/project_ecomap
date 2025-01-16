@@ -14,11 +14,13 @@ const SearchBar = () => {
   };
 
   return (
-    <div className=" p-4 space-y-3 sticky top-0 sm:block w-100 md:w-100 flex-grow max-w-80" >
+    <div className=" p-4 space-y-3 sticky top-0 sm:block w-100 md:w-100 flex-grow max-w-80">
       <div className="relative">
-        <div className="text-xl font-bold text-gray-700 mb-4 hidden md:block">Search</div>
+        <div className="text-xl font-bold text-gray-700 mb-4 hidden md:block">
+          Search
+        </div>
         <input
-          type="text"   
+          type="text"
           value={searchTerm}
           onChange={handleInputChange}
           placeholder="Search"
