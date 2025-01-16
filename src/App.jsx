@@ -8,10 +8,14 @@ import OccurrencePage from "./pages/OccurrencePage";
 import ExpertLoginPage from "./pages/ExpertLoginPage";
 import ExpertMainPage from "./pages/ExpertMainPage";
 import SpottingListPage from "./pages/SpottingListPage";
-import ExpertSignUpPage from "./pages/ExpertSignUpPage";
 import SpeciesDetailsPage from "./pages/SpeciesDetailsPage";
 import SpottingDetailsPage from "./pages/SpottingDetailsPage";
 import OccurenceDetailsPage from "./pages/OccurenceDetailsPage";
+import AdminLoginPage from "./pages/AdminLoginPage";
+import AdminMainPage from "./pages/AdminMainPage";
+import AdminExpertsList from "./pages/AdminExpertsList";
+import AdminUsersList from "./pages/AdminUsersList";
+import ExpertAccountPage from "./pages/ExpertAccountPage";
 
 let router = createBrowserRouter([
     {
@@ -47,8 +51,26 @@ let router = createBrowserRouter([
                         element: <SpottingListPage />,
                     },
                     {
+                        path: "account/",
+                        element: <ExpertAccountPage />,
+                    },
+                    {
                         path: "spottings/:id",
                         element: <SpottingDetailsPage />,
+                    },
+                ],
+            },
+            {
+                path: "admin/",
+                element: <AdminMainPage />,
+                children: [
+                    {
+                        path: "experts",
+                        element: <AdminExpertsList />,
+                    },
+                    {
+                        path: "users",
+                        element: <AdminUsersList />,
                     },
                 ],
             },
@@ -57,8 +79,8 @@ let router = createBrowserRouter([
                 element: <ExpertLoginPage />,
             },
             {
-                path: "expert/signup",
-                element: <ExpertSignUpPage />,
+                path: "admin/login",
+                element: <AdminLoginPage />,
             },
         ],
     },
