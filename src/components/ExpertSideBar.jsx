@@ -6,9 +6,7 @@ const ExpertSideBar = () => {
 
     const tabs = [
         { name: "Spottings", path: "/expert/spottings" },
-        { name: "Data", path: "#" },
-        { name: "Help", path: "#" },
-        { name: "Map", path: "#" },
+        { name: "Account", path: "/expert/account" },
     ];
 
     return (
