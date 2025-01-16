@@ -27,12 +27,15 @@ const registerExpert = async (registerData) => {
 };
 
 const getSpeciesDatabyID = async (id) => {
-    const response = await instance.get(`species/${id}`);
+    console.log(id);
+    const response = await instance.get(`expert/species/${id}`);
     console.log(response);
     return response;
 };
 
-const getSpecies = async (id) => {
+
+const getSpecies = async () => {
+
     const response = await instance.get(`expert/get-species`);
     console.log(response);
     return response;

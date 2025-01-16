@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { loginExpert } from "../api/";
-import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { loginExpert } from "../api";
+import { toast, ToastContainer } from "react-toastify";
 
 const ExpertLoginPage = () => {
     const [email, setEmail] = useState("");
@@ -12,23 +11,23 @@ const ExpertLoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Email:", email);
+        console.log("Password:", password);
         const response = await loginExpert({ email, password });
         if (!response.success) {
             toast.error(response.data.message, {
                 position: "top-right",
-                autoClose: 2000,
+                autoClose: 3000,
                 hideProgressBar: true,
-                closeOnClick: false,
                 pauseOnHover: true,
                 theme: "light",
             });
-            return 0;
         }
 
         if (response.data.token) {
             localStorage.setItem("token", response.data.token);
+            navigate("expert/");
         }
-        navigate("/expert");
     };
 
     return (
@@ -84,12 +83,11 @@ const ExpertLoginPage = () => {
 
                 <div className="mt-4 text-center text-sm text-gray-600">
                     <p>
-                        Don't have an account?{" "}
                         <Link
-                            to="/expert/signup"
+                            to="/admin/login"
                             className="text-indigo-600 hover:text-indigo-700"
                         >
-                            Sign Up
+                            Login as Admin?
                         </Link>
                     </p>
                 </div>

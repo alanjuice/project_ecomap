@@ -4,12 +4,10 @@ import { Link } from "react-router-dom";
 const ExpertSideBar = () => {
   const [activeTab, setActiveTab] = useState("Spottings");
 
-  const tabs = [
-    { name: "Spottings", path: "/expert/spottings" },
-    { name: "Data", path: "#" },
-    { name: "Help", path: "#" },
-    { name: "Map", path: "#" },
-  ];
+    const tabs = [
+        { name: "Spottings", path: "/expert/spottings" },
+        { name: "Account", path: "/expert/account" },
+    ];
 
   return (
     <>
