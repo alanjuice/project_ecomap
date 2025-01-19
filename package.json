@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@table-library/react-table-library": "^4.1.7",
     "@vis.gl/react-maplibre": "^1.0.0-alpha.4",
     "axios": "^1.7.9",
     "maplibre-gl": "^5.0.0",
