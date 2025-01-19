@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
     Table,
     Header,
@@ -10,13 +11,14 @@ import {
 
 import { useTheme } from "@table-library/react-table-library/theme";
 import { getTheme } from "@table-library/react-table-library/baseline";
-import { useEffect, useState } from "react";
+import UserRegistrationModal from "../components/RegistrationModal";
 
-const AdminExpertsList = () => {
+const AdminUsersList = ({ userType }) => {
     const theme = useTheme(getTheme());
 
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
+    const [modalOpen, setModalOpen] = useState(false);
 
     const handleSearch = (event) => {
         setSearch(event.target.value);
@@ -50,7 +52,7 @@ const AdminExpertsList = () => {
     return (
         <div className="w-screen sm:m-2 p-4 bg-white sm:w-1/2">
             <h1 className="text-2xl font-bold mb-4 text-gray-800">
-                Experts List
+                {userType}s List
             </h1>
 
             {/* Search Bar & Add User Button */}
@@ -59,20 +61,33 @@ const AdminExpertsList = () => {
                     type="text"
                     value={search}
                     onChange={handleSearch}
-                    placeholder="Search experts..."
+                    placeholder="Search..."
                     className="p-2 border border-gray-300 focus:outline-none sm:w-1/3 w-2/3 max-w-52s"
                 />
-                <button className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition">
-                    Add User
+                <button
+                    onClick={() => setModalOpen(true)}
+                    className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition"
+                >
+                    Add {userType}
                 </button>
             </div>
 
+            <UserRegistrationModal
+                isOpen={modalOpen}
+                toggle={() => setModalOpen(false)}
+                userType={userType}
+                className=""
+            />
+
             {/* User Table */}
-            <Table data={data} theme={theme}>
+            <Table data={data} theme={theme} className="">
                 {(tableList) => (
                     <>
                         <Header>
                             <HeaderRow className="bg-gray-800 text-white">
+                                <HeaderCell className="p-3 border">
+                                    No
+                                </HeaderCell>
                                 <HeaderCell className="p-3 border">
                                     Name
                                 </HeaderCell>
@@ -84,12 +99,15 @@ const AdminExpertsList = () => {
 
                         <Body>
                             {tableList.length > 0 ? (
-                                tableList.map((user) => (
+                                tableList.map((user, index) => (
                                     <Row
                                         key={user.id}
                                         item={user}
                                         className="border hover:bg-gray-100 transition duration-200"
                                     >
+                                        <Cell className="p-3 border">
+                                            {index + 1}
+                                        </Cell>
                                         <Cell className="p-3 border">
                                             {user.name}
                                         </Cell>
@@ -116,4 +134,4 @@ const AdminExpertsList = () => {
     );
 };
 
-export default AdminExpertsList;
+export default AdminUsersList;

@@ -13,8 +13,7 @@ import SpottingDetailsPage from "./pages/SpottingDetailsPage";
 import OccurenceDetailsPage from "./pages/OccurenceDetailsPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminMainPage from "./pages/AdminMainPage";
-import AdminExpertsList from "./pages/AdminExpertsList";
-import AdminUsersList from "./pages/AdminUsersList";
+import AdminUsersList from "./pages/AdminUsersListPage";
 import ExpertAccountPage from "./pages/ExpertAccountPage";
 
 let router = createBrowserRouter([
@@ -66,11 +65,11 @@ let router = createBrowserRouter([
                 children: [
                     {
                         path: "experts",
-                        element: <AdminExpertsList />,
+                        element: <AdminUsersList userType={"Expert"} />,
                     },
                     {
                         path: "users",
-                        element: <AdminUsersList />,
+                        element: <AdminUsersList userType={"Citizen"} />,
                     },
                 ],
             },
