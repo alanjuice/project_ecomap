@@ -1,14 +1,22 @@
+import { useQuery } from "@tanstack/react-query";
 import CardGrid from "../components/CardGrid";
-import Pagination from "../components/Pagination";
-import { speciesMinimialData } from "../utils/mockData";
+import { getSpottings } from "../api";
 
 const SpottingListPage = () => {
-  return (
-    <div className="">
-      <CardGrid data={speciesMinimialData} resource={"expert/spottings"} />
-      <Pagination />
-    </div>
-  );
+    const { data: spottingListData, isLoading } = useQuery({
+        queryKey: ["getallspottings"],
+        queryFn: getSpottings,
+    });
+    console.log(spottingListData);
+
+    if (isLoading) {
+        return <>Loading</>;
+    }
+    return (
+        <div className="">
+            <CardGrid data={spottingListData} resource={"expert/spottings"} />
+        </div>
+    );
 };
 
 export default SpottingListPage;
