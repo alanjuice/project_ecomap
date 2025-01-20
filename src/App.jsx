@@ -15,6 +15,7 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminMainPage from "./pages/AdminMainPage";
 import AdminUsersList from "./pages/AdminUsersListPage";
 import ExpertAccountPage from "./pages/ExpertAccountPage";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 
 let router = createBrowserRouter([
     {
@@ -86,9 +87,13 @@ let router = createBrowserRouter([
 ]);
 
 function App() {
+    const queryClient = new QueryClient();
+
     return (
         <>
-            <RouterProvider router={router}></RouterProvider>
+            <QueryClientProvider client={queryClient}>
+                <RouterProvider router={router}></RouterProvider>
+            </QueryClientProvider>
         </>
     );
 }

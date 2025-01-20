@@ -5,19 +5,8 @@ const instance = axios.create({
     timeout: 1000,
 });
 
-instance.interceptors.response.use(
-    function (response) {
-        return { success: true, data: response.data };
-    },
-    function (error) {
-        return { success: false, data: error.response.data };
-    }
-);
-
 const loginExpert = async (loginData) => {
-    const response = await instance.post("expert/login", loginData);
-    console.log(response);
-    return response;
+    return instance.post("expert/login", loginData);
 };
 
 const registerExpert = async (registerData) => {
@@ -33,12 +22,8 @@ const getSpeciesDatabyID = async (id) => {
     return response;
 };
 
-
 const getSpecies = async () => {
-
-    const response = await instance.get(`expert/get-species`);
-    console.log(response);
-    return response;
+    return await instance.get(`expert/get-species`);
 };
 
 const addSpecies = async (speciesData) => {
