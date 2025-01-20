@@ -2,32 +2,38 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginExpert } from "../api";
 import { toast, ToastContainer } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
 
 const ExpertLoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const navigate = useNavigate();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log("Email:", email);
-        console.log("Password:", password);
-        const response = await loginExpert({ email, password });
-        if (!response.success) {
-            toast.error(response.data.message, {
+    const mutation = useMutation({
+        mutationFn: loginExpert,
+        onSuccess: (response) => {
+            console.log(response);
+            if (response.data.token) {
+                localStorage.setItem("token", response.data.token);
+                navigate("/expert/");
+            }
+        },
+        onError: (error) => {
+            console.log(error);
+            toast.error(error.response.data.message, {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: true,
                 pauseOnHover: true,
                 theme: "light",
             });
-        }
+        },
+    });
 
-        if (response.data.token) {
-            localStorage.setItem("token", response.data.token);
-            navigate("expert/");
-        }
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        mutation.mutate({ email, password });
     };
 
     return (

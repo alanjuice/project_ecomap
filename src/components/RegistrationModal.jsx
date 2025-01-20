@@ -1,6 +1,37 @@
+import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
+import { registerExpert } from "../api";
+import { toast, ToastContainer } from "react-toastify";
 
 const RegistrationModal = ({ isOpen, toggle, userType }) => {
+    const mutation = useMutation({
+        mutationFn: userType == "Expert" ? registerExpert : console.log("dd"),
+        onSuccess: (response) => {
+            console.log("fghfgh");
+            toast.success(userType + " created", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                pauseOnHover: true,
+                theme: "light",
+            });
+            setFormData({
+                name: "",
+                email: "",
+                password: "",
+            });
+        },
+        onError: (error) => {
+            toast.error(error.response.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                pauseOnHover: true,
+                theme: "light",
+            });
+        },
+    });
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -13,11 +44,10 @@ const RegistrationModal = ({ isOpen, toggle, userType }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("User Registered:", formData);
-        toggle(); // Close modal after submission
+        mutation.mutate(formData);
     };
 
-    if (!isOpen) return null; // Hide modal when closed
+    if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
@@ -90,6 +120,7 @@ const RegistrationModal = ({ isOpen, toggle, userType }) => {
                     </div>
                 </form>
             </div>
+            <ToastContainer />
         </div>
     );
 };
