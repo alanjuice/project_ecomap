@@ -1,13 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { registerExpert } from "../api";
+import { registerExpert, registerUser } from "../api";
 import { toast, ToastContainer } from "react-toastify";
 
 const RegistrationModal = ({ isOpen, toggle, userType }) => {
     const mutation = useMutation({
-        mutationFn: userType == "Expert" ? registerExpert : console.log("dd"),
-        onSuccess: (response) => {
-            console.log("fghfgh");
+        mutationFn: userType == "Expert" ? registerExpert : registerUser,
+        onSuccess: () => {
             toast.success(userType + " created", {
                 position: "top-right",
                 autoClose: 3000,

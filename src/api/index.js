@@ -15,6 +15,10 @@ const registerExpert = async (registerData) => {
     return response;
 };
 
+const registerUser = async (registerData) => {
+    return await instance.post("user/register", registerData);
+};
+
 const getSpeciesDatabyID = async (id) => {
     console.log(id);
     const response = await instance.get(`expert/species/${id}`);
@@ -38,4 +42,5 @@ export {
     getSpeciesDatabyID,
     addSpecies,
     getSpecies,
+    registerUser,
 };
