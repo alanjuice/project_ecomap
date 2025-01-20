@@ -70,7 +70,7 @@ let router = createBrowserRouter([
                     },
                     {
                         path: "users",
-                        element: <AdminUsersList userType={"Citizen"} />,
+                        element: <AdminUsersList userType={"User"} />,
                     },
                 ],
             },

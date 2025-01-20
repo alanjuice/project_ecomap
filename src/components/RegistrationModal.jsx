@@ -6,7 +6,8 @@ import { toast, ToastContainer } from "react-toastify";
 const RegistrationModal = ({ isOpen, toggle, userType }) => {
     const mutation = useMutation({
         mutationFn: userType == "Expert" ? registerExpert : registerUser,
-        onSuccess: () => {
+        onSuccess: (resp) => {
+            console.log(resp);
             toast.success(userType + " created", {
                 position: "top-right",
                 autoClose: 3000,
@@ -21,6 +22,7 @@ const RegistrationModal = ({ isOpen, toggle, userType }) => {
             });
         },
         onError: (error) => {
+            console.log(error);
             toast.error(error.response.data.message, {
                 position: "top-right",
                 autoClose: 3000,
