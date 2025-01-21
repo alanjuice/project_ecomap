@@ -40,8 +40,8 @@ const SpottingDetailsPage = () => {
     const [showForm, setShowForm] = useState(false);
 
     const [newSpecies, setNewSpecies] = useState({
-        name: "",
-        scientificName: "",
+        common_name: "",
+        scientific_name: "",
         class: "",
         conservationStatus: "",
         imageUrl: null,
@@ -71,8 +71,8 @@ const SpottingDetailsPage = () => {
 
     const resetForm = () => {
         setNewSpecies({
-            name: "",
-            scientificName: "",
+            common_name: "",
+            scientific_name: "",
             class: "",
             conservationStatus: "",
             imageUrl: null,
@@ -97,7 +97,7 @@ const SpottingDetailsPage = () => {
             </div>
 
             {/* Table Section */}
-            <table className="table-auto w-full border border-gray-300 text-left mb-8">
+            <table className="table-auto w-full md:w-3/4 border border-gray-300 text-left mb-8">
                 <tbody>
                     <tr className="border-b">
                         <th className="p-2">Spotting ID</th>
@@ -170,64 +170,117 @@ const SpottingDetailsPage = () => {
             {/* Add New Species Form */}
             {showForm && (
                 <form
-                    className="bg-white p-4 rounded shadow-md space-y-4 w-1/2"
+                    className="bg-white p-4 rounded shadow-md space-y-4 w-full md:w-1/2"
                     onSubmit={handleAddSpecies}
                 >
                     <h3 className="text-lg font-semibold text-gray-700">
                         Add New Species
                     </h3>
-                    <input
-                        type="text"
-                        placeholder="Species Name"
-                        className="input"
-                        value={newSpecies.name}
-                        onChange={(e) =>
-                            setNewSpecies({
-                                ...newSpecies,
-                                name: e.target.value,
-                            })
-                        }
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Scientific Name"
-                        className="input"
-                        value={newSpecies.scientificName}
-                        onChange={(e) =>
-                            setNewSpecies({
-                                ...newSpecies,
-                                scientificName: e.target.value,
-                            })
-                        }
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Taxonomic Class"
-                        className="input"
-                        value={newSpecies.class}
-                        onChange={(e) =>
-                            setNewSpecies({
-                                ...newSpecies,
-                                class: e.target.value,
-                            })
-                        }
-                        required
-                    />
-                    <input
-                        type="file"
-                        className="input"
-                        onChange={(e) =>
-                            setNewSpecies({
-                                ...newSpecies,
-                                imageUrl: e.target.files[0],
-                            })
-                        }
-                        required
-                    />
-                    <button type="submit" className="btn-primary">
-                        {mutation.isLoading ? "Submitting..." : "Submit"}
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Species Name
+                        </label>
+                        <input
+                            type="text"
+                            className="w-full p-2 border border-gray-300 rounded"
+                            value={newSpecies.common_name}
+                            onChange={(e) =>
+                                setNewSpecies({
+                                    ...newSpecies,
+                                    common_name: e.target.value,
+                                })
+                            }
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Scientific Name
+                        </label>
+                        <input
+                            type="text"
+                            className="w-full p-2 border border-gray-300 rounded"
+                            value={newSpecies.scientific_name}
+                            onChange={(e) =>
+                                setNewSpecies({
+                                    ...newSpecies,
+                                    scientific_name: e.target.value,
+                                })
+                            }
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Taxonomic Class
+                        </label>
+                        <input
+                            type="text"
+                            className="w-full p-2 border border-gray-300 rounded"
+                            value={newSpecies.class}
+                            onChange={(e) =>
+                                setNewSpecies({
+                                    ...newSpecies,
+                                    class: e.target.value,
+                                })
+                            }
+                            required
+                        />
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Conservation Status
+                        </label>
+                        <select
+                            className=" p-3 border border-gray-300 rounded-lg shadow-sm "
+                            value={newSpecies.conservationStatus || ""}
+                            onChange={(e) =>
+                                setNewSpecies({
+                                    ...newSpecies,
+                                    conservationStatus: e.target.value,
+                                })
+                            }
+                            required
+                        >
+                            <option value="" disabled>
+                                Select Conservation Status
+                            </option>
+                            <option value="Least Concern">Least Concern</option>
+                            <option value="Near Threatened">
+                                Near Threatened
+                            </option>
+                            <option value="Vulnerable">Vulnerable</option>
+                            <option value="Endangered">Endangered</option>
+                            <option value="Extinct">Extinct</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700">
+                            Image URL
+                        </label>
+                        <input
+                            type="file"
+                            className="w-full p-2 border border-gray-300 rounded"
+                            value={newSpecies.imageUrl}
+                            onChange={(e) =>
+                                setNewSpecies({
+                                    ...newSpecies,
+                                    imageUrl: e.target.value,
+                                })
+                            }
+                            required
+                        />
+                    </div>
+
+                    <button
+                        type="submit"
+                        className="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105"
+                    >
+                        Submit
                     </button>
                 </form>
             )}
