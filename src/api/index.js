@@ -40,10 +40,18 @@ const getSpecies = async () => {
     return await instance.get(`expert/get-species`);
 };
 
+const getOccurence = async () => {
+    return await instance.get(`expert/get-occurence`);
+};
+
 const addSpecies = async (speciesData) => {
     const response = await instance.post("expert/add-species", speciesData);
     console.log(response);
     return response;
+};
+
+const getSpottingById = async (id) => {
+    return await instance.get("expert/get-upload-byid/" + id);
 };
 
 export {
@@ -54,4 +62,6 @@ export {
     getSpecies,
     getSpottings,
     registerUser,
+    getSpottingById,
+    getOccurence,
 };

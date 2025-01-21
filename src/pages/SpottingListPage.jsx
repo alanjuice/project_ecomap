@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import CardGrid from "../components/CardGrid";
 import { getSpottings } from "../api";
+import LoadingIcon from "../components/LoadingIcon";
 
 const SpottingListPage = () => {
     const { data: spottingListData, isLoading } = useQuery({
@@ -10,16 +11,20 @@ const SpottingListPage = () => {
     console.log(spottingListData);
 
     if (isLoading) {
-        return <>Loading</>;
+        return (
+            <>
+                <LoadingIcon />
+            </>
+        );
     }
     return (
         <div className="flex flex-col md:flex-row">
             {isLoading ? (
                 <p>Loading...</p>
-            ) : spottingListData.length > 0 ? (
+            ) : spottingListData.data.length > 0 ? (
                 <CardGrid
-                    data={spottingListData}
-                    resource={"expert/spotting"}
+                    data={spottingListData.data}
+                    resource={"expert/spottings"}
                 />
             ) : (
                 <div>No spottings found</div>

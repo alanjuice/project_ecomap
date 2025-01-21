@@ -1,13 +1,41 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { addSpecies, getSpottingById } from "../api";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { toast, ToastContainer } from "react-toastify";
+import LoadingIcon from "../components/LoadingIcon";
 
 const SpottingDetailsPage = () => {
     const { id } = useParams();
 
-    const [spottingData, setSpottingData] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
+    const { data: spottingData, isLoading } = useQuery({
+        queryKey: ["getspottingbyid", id],
+        queryFn: () => getSpottingById(id),
+    });
+
+    const mutation = useMutation({
+        mutationFn: (formData) => addSpecies(formData),
+        onSuccess: () => {
+            toast.success("Species added successfully!", {
+                position: "top-right",
+                autoClose: 3000,
+            });
+            setShowForm(false);
+            resetForm();
+        },
+        onError: (error) => {
+            toast.error(
+                error?.response?.data?.message || "Failed to add species!",
+                {
+                    position: "top-right",
+                    autoClose: 3000,
+                }
+            );
+        },
+    });
+
     const [selectedSpecies, setSelectedSpecies] = useState("");
     const [showForm, setShowForm] = useState(false);
 
@@ -16,7 +44,7 @@ const SpottingDetailsPage = () => {
         scientificName: "",
         class: "",
         conservationStatus: "",
-        imageUrl: "",
+        imageUrl: null,
     });
 
     const speciesOptions = [
@@ -29,45 +57,30 @@ const SpottingDetailsPage = () => {
         "Giraffe",
     ];
 
-    useEffect(() => {
-        // Simulate fetching data based on spotting ID
-        console.log("Fetching details of Spotting id: " + id);
-
-        // Example data
-        const data = {
-            Spotting_ID: id,
-            Spotted_By: "John Doe",
-            Spotted_At: "2024-12-30",
-            Coordinates: [78.9629, 20.5937],
-            Description:
-                "A majestic tiger was spotted in the wilderness. Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-            Image_URL:
-                "https://upload.wikimedia.org/wikipedia/commons/3/3f/Walking_tiger_female.jpg",
-        };
-
-        setSpottingData(data);
-        setIsLoading(false);
-    }, [id]);
-
     const handleIdentify = () => {
-        alert(`Identified as: ${selectedSpecies}`);
+        if (!selectedSpecies) {
+            toast.error("Please select a species!", { autoClose: 3000 });
+            return;
+        }
     };
 
     const handleAddSpecies = (e) => {
         e.preventDefault();
-        console.log("New Species Added:", newSpecies);
-        alert("New species submitted successfully!");
-        setShowForm(false);
+        mutation.mutate(newSpecies);
+    };
+
+    const resetForm = () => {
+        setNewSpecies({
+            name: "",
+            scientificName: "",
+            class: "",
+            conservationStatus: "",
+            imageUrl: null,
+        });
     };
 
     if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-screen bg-gray-100">
-                <span className="text-lg font-semibold text-gray-600">
-                    Loading...
-                </span>
-            </div>
-        );
+        return <LoadingIcon />;
     }
 
     return (
@@ -77,7 +90,7 @@ const SpottingDetailsPage = () => {
             {/* Image Section */}
             <div className="flex justify-center mb-6">
                 <img
-                    src={spottingData.Image_URL}
+                    src={spottingData.data.image || "https://placehold.co/400"}
                     alt="Spotted Animal"
                     className="w-full max-w-md rounded-lg shadow-md"
                 />
@@ -88,19 +101,28 @@ const SpottingDetailsPage = () => {
                 <tbody>
                     <tr className="border-b">
                         <th className="p-2">Spotting ID</th>
-                        <td className="p-2">{spottingData.Spotting_ID}</td>
+                        <td className="p-2">
+                            {spottingData.data._id || "N/A"}
+                        </td>
                     </tr>
                     <tr className="border-b">
                         <th className="p-2">Spotted By</th>
-                        <td className="p-2">{spottingData.Spotted_By}</td>
+                        <td className="p-2">
+                            {spottingData.data.user.name || "Unknown"}
+                        </td>
                     </tr>
                     <tr className="border-b">
                         <th className="p-2">Spotted At</th>
-                        <td className="p-2">{spottingData.Spotted_At}</td>
+                        <td className="p-2">
+                            {spottingData.data.date || "N/A"}
+                        </td>
                     </tr>
                     <tr className="border-b">
                         <th className="p-2">Description</th>
-                        <td className="p-2">{spottingData.Description}</td>
+                        <td className="p-2">
+                            {spottingData.data.description ||
+                                "No description available."}
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -119,20 +141,25 @@ const SpottingDetailsPage = () => {
                         <option value="" disabled>
                             Select Species
                         </option>
-                        {speciesOptions.map((species, index) => (
-                            <option key={index} value={species}>
-                                {species}
-                            </option>
-                        ))}
+                        {speciesOptions.length > 0 ? (
+                            speciesOptions.map((species, index) => (
+                                <option key={index} value={species}>
+                                    {species}
+                                </option>
+                            ))
+                        ) : (
+                            <option disabled>No species available</option>
+                        )}
                     </select>
                     <button
-                        className="px-3 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105"
+                        className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
                         onClick={handleIdentify}
                     >
                         Identify
                     </button>
+
                     <button
-                        className="px-3 py-2 bg-gray-500 text-white font-semibold rounded-lg shadow-md hover:bg-gray-600 transition duration-300 ease-in-out transform hover:scale-105"
+                        className="px-6 py-2 bg-gray-600 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105"
                         onClick={() => setShowForm(!showForm)}
                     >
                         Can't Find Species?
@@ -149,134 +176,79 @@ const SpottingDetailsPage = () => {
                     <h3 className="text-lg font-semibold text-gray-700">
                         Add New Species
                     </h3>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            Species Name
-                        </label>
-                        <input
-                            type="text"
-                            className="w-full p-2 border border-gray-300 rounded"
-                            value={newSpecies.name}
-                            onChange={(e) =>
-                                setNewSpecies({
-                                    ...newSpecies,
-                                    name: e.target.value,
-                                })
-                            }
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            Scientific Name
-                        </label>
-                        <input
-                            type="text"
-                            className="w-full p-2 border border-gray-300 rounded"
-                            value={newSpecies.scientificName}
-                            onChange={(e) =>
-                                setNewSpecies({
-                                    ...newSpecies,
-                                    scientificName: e.target.value,
-                                })
-                            }
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            Taxonomic Class
-                        </label>
-                        <input
-                            type="text"
-                            className="w-full p-2 border border-gray-300 rounded"
-                            value={newSpecies.class}
-                            onChange={(e) =>
-                                setNewSpecies({
-                                    ...newSpecies,
-                                    class: e.target.value,
-                                })
-                            }
-                            required
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Conservation Status
-                        </label>
-                        <select
-                            className=" p-3 border border-gray-300 rounded-lg shadow-sm "
-                            value={newSpecies.conservationStatus || ""}
-                            onChange={(e) =>
-                                setNewSpecies({
-                                    ...newSpecies,
-                                    conservationStatus: e.target.value,
-                                })
-                            }
-                            required
-                        >
-                            <option value="" disabled>
-                                Select Conservation Status
-                            </option>
-                            <option value="Least Concern">Least Concern</option>
-                            <option value="Near Threatened">
-                                Near Threatened
-                            </option>
-                            <option value="Vulnerable">Vulnerable</option>
-                            <option value="Endangered">Endangered</option>
-                            <option value="Extinct">Extinct</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            Image URL
-                        </label>
-                        <input
-                            type="file"
-                            className="w-full p-2 border border-gray-300 rounded"
-                            value={newSpecies.imageUrl}
-                            onChange={(e) =>
-                                setNewSpecies({
-                                    ...newSpecies,
-                                    imageUrl: e.target.value,
-                                })
-                            }
-                            required
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105"
-                    >
-                        Submit
+                    <input
+                        type="text"
+                        placeholder="Species Name"
+                        className="input"
+                        value={newSpecies.name}
+                        onChange={(e) =>
+                            setNewSpecies({
+                                ...newSpecies,
+                                name: e.target.value,
+                            })
+                        }
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Scientific Name"
+                        className="input"
+                        value={newSpecies.scientificName}
+                        onChange={(e) =>
+                            setNewSpecies({
+                                ...newSpecies,
+                                scientificName: e.target.value,
+                            })
+                        }
+                        required
+                    />
+                    <input
+                        type="text"
+                        placeholder="Taxonomic Class"
+                        className="input"
+                        value={newSpecies.class}
+                        onChange={(e) =>
+                            setNewSpecies({
+                                ...newSpecies,
+                                class: e.target.value,
+                            })
+                        }
+                        required
+                    />
+                    <input
+                        type="file"
+                        className="input"
+                        onChange={(e) =>
+                            setNewSpecies({
+                                ...newSpecies,
+                                imageUrl: e.target.files[0],
+                            })
+                        }
+                        required
+                    />
+                    <button type="submit" className="btn-primary">
+                        {mutation.isLoading ? "Submitting..." : "Submit"}
                     </button>
                 </form>
             )}
 
             {/* Map Section */}
-            <div className="mt-8">
-                <h2 className="text-xl font-semibold mb-4">Location on Map</h2>
-                <Map
-                    initialViewState={{
-                        longitude: spottingData.Coordinates[0],
-                        latitude: spottingData.Coordinates[1],
-                        zoom: 5,
-                    }}
-                    style={{ width: "100%", height: 400 }}
-                    mapStyle="https://demotiles.maplibre.org/style.json"
-                >
-                    <Marker
-                        longitude={spottingData.Coordinates[0]}
-                        latitude={spottingData.Coordinates[1]}
-                        anchor="bottom"
-                    />
-                </Map>
-            </div>
+            <Map
+                initialViewState={{
+                    longitude: spottingData?.Coordinates?.[0] || 78.9629,
+                    latitude: spottingData?.Coordinates?.[1] || 20.5937,
+                    zoom: 5,
+                }}
+                style={{ width: "100%", height: 400 }}
+                mapStyle="https://demotiles.maplibre.org/style.json"
+            >
+                <Marker
+                    longitude={spottingData?.Coordinates?.[0] || 78.9629}
+                    latitude={spottingData?.Coordinates?.[1] || 20.5937}
+                    anchor="bottom"
+                />
+            </Map>
+            <ToastContainer />
         </div>
     );
 };
