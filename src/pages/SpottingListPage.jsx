@@ -13,8 +13,17 @@ const SpottingListPage = () => {
         return <>Loading</>;
     }
     return (
-        <div className="">
-            <CardGrid data={spottingListData} resource={"expert/spottings"} />
+        <div className="flex flex-col md:flex-row">
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : spottingListData.length > 0 ? (
+                <CardGrid
+                    data={spottingListData}
+                    resource={"expert/spotting"}
+                />
+            ) : (
+                <div>No spottings found</div>
+            )}
         </div>
     );
 };

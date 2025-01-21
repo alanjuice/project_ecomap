@@ -14,11 +14,14 @@ const SpeciesPage = () => {
             <SideBar type={"species"} />
             {isLoading ? (
                 <p>Loading...</p>
-            ) : (
+            ) : speciesListData.length > 0 ? (
                 <CardGrid data={speciesListData} resource={"species"} />
+            ) : (
+                <div>No species found</div>
             )}
         </div>
     );
+    
 };
 
 export default SpeciesPage;
