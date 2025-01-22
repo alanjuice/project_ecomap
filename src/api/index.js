@@ -40,8 +40,17 @@ const getSpecies = async () => {
     return await instance.get(`expert/get-species`);
 };
 
+
+const getSpeciesbyId = async (id) => {
+    return await instance.get(`expert/get-species-byid/${id}`);
+};
+
+const getOccurencebyId = async (id) => {
+    return await instance.get(`expert//get-occurance/${id}`);
+};
+
 const getOccurence = async () => {
-    return await instance.get(`expert/get-occurence`);
+    return await instance.get("expert/get-occurance");
 };
 
 const addSpecies = async (speciesData) => {
@@ -55,7 +64,7 @@ const getSpottingById = async (id) => {
 };
 
 const identifySpecies = async (data) => {
-    return await instance.post("expert/save-occurance" + id);
+    return await instance.post("expert/save-occurance",data);
 };
 
 export {
@@ -69,4 +78,6 @@ export {
     getSpottingById,
     identifySpecies,
     getOccurence,
+    getSpeciesbyId,
+    getOccurencebyId
 };

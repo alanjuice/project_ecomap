@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { addSpecies, getSpottingById, identifySpecies } from "../api";
+import { addSpecies, getSpecies, getSpottingById, identifySpecies } from "../api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast, ToastContainer } from "react-toastify";
 import LoadingIcon from "../components/LoadingIcon";
@@ -15,6 +15,12 @@ const SpottingDetailsPage = () => {
         queryKey: ["getspottingbyid", id],
         queryFn: () => getSpottingById(id),
     });
+
+    const { data: speciesOptions, isDropDownDataLoading } = useQuery({
+        queryKey: ["getallspecies"],
+        queryFn: getSpecies,
+    });
+
 
     const mutation = useMutation({
         mutationFn: (formData) => addSpecies(formData),
@@ -38,21 +44,27 @@ const SpottingDetailsPage = () => {
     });
 
     const identificationMutation = useMutation({
-        mutationFn: (formData) => identifySpecies(formData),
-        onSuccess: () => {
-            toast.success("Species Identified", {
+        mutationFn: ({ spotId, userId, speciesId }) =>
+            identifySpecies({ spotId, userId, speciesId }),
+        onSuccess: (data) => {
+            toast.success("Species Identified Successfully!", {
                 position: "top-right",
                 autoClose: 3000,
             });
-            navigate("expert/spotting");
+            navigate("/expert/spottings");
         },
         onError: (error) => {
-            toast.error(error.response.data.message, {
-                position: "top-right",
-                autoClose: 3000,
-            });
+            console.log(error)
+            toast.error(
+                error?.response?.data?.message || "Failed to identify species!",
+                {
+                    position: "top-right",
+                    autoClose: 3000,
+                }
+            );
         },
     });
+    
 
     const [selectedSpecies, setSelectedSpecies] = useState("");
     const [showForm, setShowForm] = useState(false);
@@ -65,22 +77,13 @@ const SpottingDetailsPage = () => {
         imageUrl: null,
     });
 
-    const speciesOptions = [
-        "Tiger",
-        "Lion",
-        "Elephant",
-        "Leopard",
-        "Deer",
-        "Zebra",
-        "Giraffe",
-    ];
 
     const handleIdentify = (e) => {
+        e.preventDefault();
         if (!selectedSpecies) {
             toast.error("Please select a species!", { autoClose: 3000 });
             return;
         }
-        e.preventDefault();
         identificationMutation.mutate({
             spotId: id,
             userId: spottingData.data.user._id,
@@ -103,7 +106,7 @@ const SpottingDetailsPage = () => {
         });
     };
 
-    if (isLoading) {
+    if (isLoading || isDropDownDataLoading) {
         return <LoadingIcon />;
     }
 
@@ -165,10 +168,10 @@ const SpottingDetailsPage = () => {
                         <option value="" disabled>
                             Select Species
                         </option>
-                        {speciesOptions.length > 0 ? (
-                            speciesOptions.map((species, index) => (
-                                <option key={index} value={species}>
-                                    {species}
+                        {speciesOptions.data.length > 0 ? (
+                            speciesOptions.data.map((species) => (
+                                <option key={species._id} value={species._id}>
+                                    {species.common_name}
                                 </option>
                             ))
                         ) : (

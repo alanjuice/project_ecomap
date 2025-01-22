@@ -8,8 +8,8 @@ const SpeciesCardGrid = ({ data, resource }) => {
                 <Link to={"/" + resource + "/" + item._id}>
                     <ImageCard
                         key={item.id}
-                        imageUrl={item.image || "https://placehold.co/400"}
-                        label={item.title || item.common_name}
+                        imageUrl={item.image || item.spotId?.image || "https://placehold.co/400"}
+                        label={item.title || item.common_name || item.spotId.title}
                     />
                 </Link>
             ))}
