@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const AdminSideBar = () => {
     const [activeTab, setActiveTab] = useState("Experts");
@@ -8,6 +8,13 @@ const AdminSideBar = () => {
         { name: "Experts", path: "/admin/experts" },
         { name: "Users", path: "/admin/users" },
     ];
+
+    const navigate = useNavigate();
+
+    const handleSignOut = () => {
+        localStorage.removeItem("token");
+        navigate("/");
+    };
 
     return (
         <>
@@ -48,6 +55,12 @@ const AdminSideBar = () => {
                         </Link>
                     ))}
                 </div>
+                <button
+                    className="w-full mt-auto bg-red-600 text-white p-2 rounded hover:bg-red-700 transition"
+                    onClick={handleSignOut}
+                >
+                    Sign Out
+                </button>
             </div>
         </>
     );

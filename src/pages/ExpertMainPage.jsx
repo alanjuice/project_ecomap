@@ -1,13 +1,26 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import ExpertSideBar from "../components/ExpertSideBar";
+import { useEffect, useState } from "react";
 
 const ExpertMainPage = () => {
-    return (
-        <div className="flex sm:flex-row flex-col">
-            <ExpertSideBar />
-            <Outlet />
-        </div>
-    );
+    const navigate = useNavigate();
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+    useEffect(() => {
+        if (!localStorage.getItem("token")) {
+            navigate("expert/login");
+            return;
+        }
+        setIsAuthenticated(true);
+    }, []);
+
+    if (isAuthenticated)
+        return (
+            <div className="flex sm:flex-row flex-col">
+                <ExpertSideBar />
+                <Outlet />
+            </div>
+        );
 };
 
 export default ExpertMainPage;
