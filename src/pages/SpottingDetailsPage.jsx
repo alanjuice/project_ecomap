@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { addSpecies, getSpottingById } from "../api";
+import { addSpecies, getSpottingById, identifySpecies } from "../api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast, ToastContainer } from "react-toastify";
 import LoadingIcon from "../components/LoadingIcon";
 
 const SpottingDetailsPage = () => {
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const { data: spottingData, isLoading } = useQuery({
         queryKey: ["getspottingbyid", id],
@@ -36,6 +37,23 @@ const SpottingDetailsPage = () => {
         },
     });
 
+    const identificationMutation = useMutation({
+        mutationFn: (formData) => identifySpecies(formData),
+        onSuccess: () => {
+            toast.success("Species Identified", {
+                position: "top-right",
+                autoClose: 3000,
+            });
+            navigate("expert/spotting");
+        },
+        onError: (error) => {
+            toast.error(error.response.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+            });
+        },
+    });
+
     const [selectedSpecies, setSelectedSpecies] = useState("");
     const [showForm, setShowForm] = useState(false);
 
@@ -57,11 +75,17 @@ const SpottingDetailsPage = () => {
         "Giraffe",
     ];
 
-    const handleIdentify = () => {
+    const handleIdentify = (e) => {
         if (!selectedSpecies) {
             toast.error("Please select a species!", { autoClose: 3000 });
             return;
         }
+        e.preventDefault();
+        identificationMutation.mutate({
+            spotId: id,
+            userId: spottingData.data.user._id,
+            speciesId: selectedSpecies,
+        });
     };
 
     const handleAddSpecies = (e) => {

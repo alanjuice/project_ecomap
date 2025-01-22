@@ -54,6 +54,10 @@ const getSpottingById = async (id) => {
     return await instance.get("expert/get-upload-byid/" + id);
 };
 
+const identifySpecies = async (data) => {
+    return await instance.post("expert/save-occurance" + id);
+};
+
 export {
     loginExpert,
     registerExpert,
@@ -63,5 +67,6 @@ export {
     getSpottings,
     registerUser,
     getSpottingById,
+    identifySpecies,
     getOccurence,
 };
