@@ -14,7 +14,7 @@ const ExpertLoginPage = () => {
             console.log(response);
             if (response.data.token) {
                 localStorage.setItem("token", response.data.token);
-                navigate("/expert/");
+                navigate("/expert/spottings");
             }
         },
         onError: (error) => {

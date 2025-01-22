@@ -16,6 +16,7 @@ import AdminMainPage from "./pages/AdminMainPage";
 import AdminUsersList from "./pages/AdminUsersListPage";
 import ExpertAccountPage from "./pages/ExpertAccountPage";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import NotFoundPage from "./pages/NotFoundPage";
 
 let router = createBrowserRouter([
     {
@@ -47,6 +48,10 @@ let router = createBrowserRouter([
                 element: <ExpertMainPage />,
                 children: [
                     {
+                        path: "",
+                        element: <></>,
+                    },
+                    {
                         path: "spottings",
                         element: <SpottingListPage />,
                     },
@@ -65,6 +70,10 @@ let router = createBrowserRouter([
                 element: <AdminMainPage />,
                 children: [
                     {
+                        path: "",
+                        element: <></>,
+                    },
+                    {
                         path: "experts",
                         element: <AdminUsersList userType={"Expert"} />,
                     },
@@ -82,6 +91,7 @@ let router = createBrowserRouter([
                 path: "admin/login",
                 element: <AdminLoginPage />,
             },
+            { path: "*", element: <NotFoundPage /> },
         ],
     },
 ]);
