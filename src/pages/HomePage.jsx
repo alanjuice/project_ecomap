@@ -7,6 +7,33 @@ const fadeIn = {
     visible: { opacity: 1, y: 0, transition: { duration: 1 } },
 };
 
+const steps = [
+    {
+        title: "Log Your Sighting",
+        description:
+            "Users can log their sightings of animals through the platform by uploading images and details.",
+        image: "https://placehold.co/150?text=1",
+    },
+    {
+        title: "Validation",
+        description:
+            "Experts validate the sightings, ensuring accurate identification and reliable biodiversity data.",
+        image: "https://placehold.co/150?text=2",
+    },
+    {
+        title: "Data Storage",
+        description:
+            "The validated observations are stored in a central database, ready for further analysis.",
+        image: "https://placehold.co/150?text=3",
+    },
+    {
+        title: "Interactive Density Map",
+        description:
+            "The collected data is visualized on an interactive map, showcasing insights into biodiversity hotspots and patterns.",
+        image: "https://placehold.co/150?text=4",
+    },
+];
+
 const HomePage = () => {
     return (
         <>
@@ -82,27 +109,39 @@ const HomePage = () => {
                 </div>
             </motion.div>
 
-            {/* How it Works Section */}
             <motion.div
                 className="bg-green-50 p-8"
                 initial="hidden"
                 whileInView="visible"
-                variants={fadeIn}
                 viewport={{ once: true }}
             >
-                <h2 className="text-3xl font-bold text-green-700 mb-4 text-center">
-                    How it works
+                <h2 className="text-3xl font-bold text-green-700 mb-8 text-center">
+                    How It Works
                 </h2>
-                <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto mb-4">
-                    Users can log their sightings of animals and plants through
-                    the platform. These observations are then validated and
-                    added to a central database.
-                </p>
-                <p className="text-lg text-gray-700 leading-relaxed max-w-3xl mx-auto">
-                    The collected data is visualized on an interactive map,
-                    showcasing real-time insights into biodiversity hotspots and
-                    patterns.
-                </p>
+
+                <div className="flex flex-col items-center space-y-10">
+                    {steps.map((step, index) => (
+                        <motion.div
+                            key={index}
+                            className="flex flex-col md:flex-row items-center md:space-x-6 text-center md:text-left w-full max-w-4xl p-4 bg-white shadow-md rounded-lg"
+                            variants={fadeIn}
+                        >
+                            <img
+                                src={step.image}
+                                alt={step.title}
+                                className="w-32 h-32 object-cover rounded-lg shadow-md m-6 md:m-0"
+                            />
+                            <div className="md:w-2/3">
+                                <h3 className="text-xl font-semibold text-green-800 m-6 md:m-0">
+                                    {step.title}
+                                </h3>
+                                <p className="text-gray-700 mt-2 m-6 md:m-0">
+                                    {step.description}
+                                </p>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
             </motion.div>
         </>
     );
