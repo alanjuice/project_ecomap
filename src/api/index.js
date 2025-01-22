@@ -46,7 +46,7 @@ const getSpeciesbyId = async (id) => {
 };
 
 const getOccurencebyId = async (id) => {
-    return await instance.get(`expert//get-occurance/${id}`);
+    return await instance.get(`expert/get-occurance/${id}`);
 };
 
 const getOccurence = async () => {
