@@ -1,53 +1,48 @@
-import React, { useEffect, useState } from "react";
-import {
-    Table,
-    Header,
-    HeaderRow,
-    Body,
-    Row,
-    HeaderCell,
-    Cell,
-} from "@table-library/react-table-library/table";
-
-import { useTheme } from "@table-library/react-table-library/theme";
-import { getTheme } from "@table-library/react-table-library/baseline";
+import React, { useState, useEffect } from "react";
 import UserRegistrationModal from "../components/RegistrationModal";
+import { useQuery } from "@tanstack/react-query";
+import { getExperts, getUsers } from "../api";
+import LoadingIcon from "../components/LoadingIcon";
 
 const AdminUsersList = ({ userType }) => {
-    const theme = useTheme(getTheme());
+    const {
+        data: users,
+        isLoading,
+        isError,
+    } = useQuery({
+        queryKey: [userType],
+        queryFn: userType === "Expert" ? getExperts : getUsers,
+    });
 
-    const [users, setUsers] = useState([]);
     const [search, setSearch] = useState("");
     const [modalOpen, setModalOpen] = useState(false);
-
-    const handleSearch = (event) => {
-        setSearch(event.target.value);
-    };
+    const [filteredUsers, setFilteredUsers] = useState([]);
 
     useEffect(() => {
-        fetchUsers();
-    }, []);
-
-    const fetchUsers = async () => {
-        try {
-            const response = [
-                { id: "1", name: "John Doe", email: "john@example.com" },
-                { id: "2", name: "Jane Smith", email: "jane@example.com" },
-                { id: "3", name: "Alice Brown", email: "alice@example.com" },
-            ];
-            setUsers(response);
-        } catch (error) {
-            console.error("Error fetching users:", error);
+        if (users) {
+            setFilteredUsers(
+                users.filter(
+                    (user) =>
+                        user?.name
+                            ?.toLowerCase()
+                            .includes(search.toLowerCase()) ||
+                        user?.email
+                            ?.toLowerCase()
+                            .includes(search.toLowerCase())
+                )
+            );
         }
-    };
+    }, [search, users]);
 
-    const filteredUsers = users.filter(
-        (user) =>
-            user.name.toLowerCase().includes(search.toLowerCase()) ||
-            user.email.toLowerCase().includes(search.toLowerCase())
-    );
+    const handleSearch = (event) => setSearch(event.target.value);
 
-    const data = { nodes: filteredUsers };
+    if (isLoading) return <LoadingIcon />;
+    if (isError)
+        return (
+            <p className="text-red-500 text-center">
+                Failed to load {userType}s. Please try again.
+            </p>
+        );
 
     return (
         <div className="w-screen sm:m-2 p-4 bg-white sm:w-1/2">
@@ -55,14 +50,13 @@ const AdminUsersList = ({ userType }) => {
                 {userType}s List
             </h1>
 
-            {/* Search Bar & Add User Button */}
             <div className="flex justify-between items-center mb-4">
                 <input
                     type="text"
                     value={search}
                     onChange={handleSearch}
                     placeholder="Search..."
-                    className="p-2 border border-gray-300 focus:outline-none sm:w-1/3 w-2/3 max-w-52s"
+                    className="p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300 sm:w-1/3 w-2/3"
                 />
                 <button
                     onClick={() => setModalOpen(true)}
@@ -74,62 +68,42 @@ const AdminUsersList = ({ userType }) => {
 
             <UserRegistrationModal
                 isOpen={modalOpen}
-                toggle={() => setModalOpen(false)}
+                toggle={() => setModalOpen(!modalOpen)}
                 userType={userType}
-                className=""
             />
 
-            {/* User Table */}
-            <Table data={data} theme={theme} className="">
-                {(tableList) => (
-                    <>
-                        <Header>
-                            <HeaderRow className="bg-gray-800 text-white">
-                                <HeaderCell className="p-3 border">
-                                    No
-                                </HeaderCell>
-                                <HeaderCell className="p-3 border">
-                                    Name
-                                </HeaderCell>
-                                <HeaderCell className="p-3 border">
-                                    Email
-                                </HeaderCell>
-                            </HeaderRow>
-                        </Header>
-
-                        <Body>
-                            {tableList.length > 0 ? (
-                                tableList.map((user, index) => (
-                                    <Row
-                                        key={user.id}
-                                        item={user}
-                                        className="border hover:bg-gray-100 transition duration-200"
-                                    >
-                                        <Cell className="p-3 border">
-                                            {index + 1}
-                                        </Cell>
-                                        <Cell className="p-3 border">
-                                            {user.name}
-                                        </Cell>
-                                        <Cell className="p-3 border">
-                                            {user.email}
-                                        </Cell>
-                                    </Row>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td
-                                        colSpan="3"
-                                        className="p-4 text-center text-gray-500"
-                                    >
-                                        No users found.
-                                    </td>
-                                </tr>
-                            )}
-                        </Body>
-                    </>
-                )}
-            </Table>
+            <table className="min-w-full table-auto">
+                <thead className="bg-gray-800 text-white">
+                    <tr>
+                        <th className="p-3 border">No</th>
+                        <th className="p-3 border">Name</th>
+                        <th className="p-3 border">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredUsers.length > 0 ? (
+                        filteredUsers.map((user, index) => (
+                            <tr
+                                key={user._id}
+                                className="border hover:bg-gray-100 transition duration-200"
+                            >
+                                <td className="p-3 border">{index + 1}</td>
+                                <td className="p-3 border">{user.name}</td>
+                                <td className="p-3 border">{user.email}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td
+                                colSpan="3"
+                                className="p-4 text-center text-gray-500"
+                            >
+                                No users found.
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
         </div>
     );
 };
