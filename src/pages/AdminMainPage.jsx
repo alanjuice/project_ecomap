@@ -8,7 +8,7 @@ const AdminMainPage = () => {
 
     useEffect(() => {
         if (!localStorage.getItem("token")) {
-            navigate("admin/login");
+            navigate("/admin/login");
             return;
         }
         setIsAuthenticated(true);

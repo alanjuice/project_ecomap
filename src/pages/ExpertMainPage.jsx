@@ -8,7 +8,7 @@ const ExpertMainPage = () => {
 
     useEffect(() => {
         if (!localStorage.getItem("token")) {
-            navigate("expert/login");
+            navigate("/expert/login");
             return;
         }
         setIsAuthenticated(true);
