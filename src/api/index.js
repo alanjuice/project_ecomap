@@ -18,6 +18,10 @@ const loginExpert = async (loginData) => {
     return instance.post("expert/login", loginData);
 };
 
+const loginAdmin = async (loginData) => {
+    return instance.post("expert/login", loginData);
+};
+
 const registerExpert = async (registerData) => {
     const response = await instance.post("expert/register", registerData);
     return response;
@@ -45,7 +49,9 @@ const getSpeciesbyId = async (id) => {
 };
 
 const getOccurencebyId = async (id) => {
-    return await instance.get(`expert/get-occurance/${id}`);
+    const data = await instance.get(`expert/get-occurance/${id}`);
+    console.log(data);
+    return data;
 };
 
 const getOccurence = async () => {
@@ -83,6 +89,7 @@ const identifySpecies = async (data) => {
 };
 
 export {
+    loginAdmin,
     loginExpert,
     registerExpert,
     getSpeciesDatabyID,

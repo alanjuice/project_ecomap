@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { loginExpert } from "../api";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { loginAdmin } from "../api";
 import { toast, ToastContainer } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
 
 const AdminLoginPage = () => {
     const [email, setEmail] = useState("");
@@ -11,29 +12,33 @@ const AdminLoginPage = () => {
 
     useEffect(() => {
         if (localStorage.getItem("token")) {
-            navigate("/admin/spottings");
+            navigate("/admin/experts");
         }
     });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log("Email:", email);
-        console.log("Password:", password);
-        const response = await loginExpert({ email, password });
-        if (!response.success) {
-            toast.error(response.data.message, {
+    const mutation = useMutation({
+        mutationFn: loginAdmin,
+        onSuccess: (response) => {
+            if (response.data.token) {
+                localStorage.setItem("token", response.data.token);
+                navigate("/admin/experts");
+            }
+        },
+        onError: (error) => {
+            console.log(error);
+            toast.error(error.response.data.message, {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: true,
                 pauseOnHover: true,
                 theme: "light",
             });
-        }
+        },
+    });
 
-        if (response.data.token) {
-            localStorage.setItem("token", response.data.token);
-            navigate("/admin/experts");
-        }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        mutation.mutate({ email, password });
     };
 
     return (

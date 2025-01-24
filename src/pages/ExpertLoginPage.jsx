@@ -92,17 +92,6 @@ const ExpertLoginPage = () => {
                         Login
                     </button>
                 </form>
-
-                <div className="mt-4 text-center text-sm text-gray-600">
-                    <p>
-                        <Link
-                            to="/admin/login"
-                            className="text-indigo-600 hover:text-indigo-700"
-                        >
-                            Login as Admin?
-                        </Link>
-                    </p>
-                </div>
             </div>
             <ToastContainer />
         </div>
