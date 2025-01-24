@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
 import ColouredCard from "../components/ColouredCard";
 import IntroVideo from "../assets/videoplayback.webm";
+import { useQuery } from "@tanstack/react-query";
+import { getCount } from "../api";
+import LoadingIcon from "../components/LoadingIcon";
+import { data } from "react-router-dom";
 
 const fadeIn = {
     hidden: { opacity: 0, y: 20 },
@@ -35,6 +39,14 @@ const steps = [
 ];
 
 const HomePage = () => {
+    const { data: countData, isLoading } = useQuery({
+        queryKey: ["getcount"],
+        queryFn: getCount,
+    });
+
+    if (isLoading) {
+        return <LoadingIcon />;
+    }
     return (
         <>
             {/* Video Section with Fade-in Animation */}
@@ -85,13 +97,21 @@ const HomePage = () => {
             >
                 <div className="container flex justify-evenly sm:flex-row flex-col">
                     {[
-                        { title: "Species", value: 20000, color: "lightblue" },
                         {
-                            title: "Observations",
-                            value: 20000,
+                            title: "Species",
+                            value: countData.data.species,
+                            color: "lightblue",
+                        },
+                        {
+                            title: "Occurences",
+                            value: countData.data.occurrence,
                             color: "lightgreen",
                         },
-                        { title: "Users", value: 1200, color: "red" },
+                        {
+                            title: "Users",
+                            value: countData.data.User,
+                            color: "red",
+                        },
                     ].map((item, index) => (
                         <motion.div
                             key={index}

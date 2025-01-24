@@ -74,6 +74,10 @@ const getSpottingById = async (id) => {
     return await instance.get("expert/get-upload-byid/" + id);
 };
 
+const getCount = async (id) => {
+    return await instance.get("expert/count");
+};
+
 const identifySpecies = async (data) => {
     return await instance.post("expert/save-occurance", data);
 };
@@ -93,4 +97,5 @@ export {
     getOccurencebyId,
     getExperts,
     getUsers,
+    getCount,
 };
