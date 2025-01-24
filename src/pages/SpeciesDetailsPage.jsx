@@ -8,6 +8,7 @@ import { getSpeciesbyId, getSpeciesDatabyID } from "../api";
 import { heatmapLayerStyle, pointLayerStyle } from "../utils/MapLayerStyle";
 import LoadingIcon from "../components/LoadingIcon";
 import { useQuery } from "@tanstack/react-query";
+import Error from "../components/Error";
 
 const SpeciesDetailsPage = () => {
     const { id } = useParams();
@@ -15,7 +16,12 @@ const SpeciesDetailsPage = () => {
     const [isMapLoading, setIsMapLoading] = useState(true);
     const [mapData, setMapData] = useState("");
 
-    const { data: speciesData, isLoading } = useQuery({
+    const {
+        data: speciesData,
+        isLoading,
+        error,
+        isError,
+    } = useQuery({
         queryKey: ["getSpeciesById"],
         queryFn: () => getSpeciesbyId(id),
     });
@@ -30,10 +36,14 @@ const SpeciesDetailsPage = () => {
     };
 
     getMapData(id);
-    console.log(speciesData)
+    console.log(speciesData);
+
+    if (isError) {
+        return <Error message={error.message} />;
+    }
 
     if (isLoading) {
-        return <LoadingIcon/>
+        return <LoadingIcon />;
     }
 
     return (
@@ -42,7 +52,7 @@ const SpeciesDetailsPage = () => {
             <div className="relative w-full h-96 bg-gradient-to-br from-gray-800 to-gray-600">
                 <img
                     src={speciesData.Image_URL}
-                   // alt={speciesData.data.common_name}
+                    // alt={speciesData.data.common_name}
                     className="absolute inset-0 w-full h-full object-cover opacity-50"
                 />
                 <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
@@ -60,7 +70,7 @@ const SpeciesDetailsPage = () => {
                 {/* Info Grid */}
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <ColouredCard
+                    <ColouredCard
                         title={"Common Name"}
                         color={"yellow"}
                         value={speciesData.data.common_name}
@@ -75,7 +85,6 @@ const SpeciesDetailsPage = () => {
                         color={"orange"}
                         value={speciesData.data.taxonomy_class || "NA"}
                     />
-                    
                 </div>
 
                 <div className="mt-8">

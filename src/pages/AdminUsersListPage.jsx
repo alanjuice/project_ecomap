@@ -3,16 +3,22 @@ import UserRegistrationModal from "../components/RegistrationModal";
 import { useQuery } from "@tanstack/react-query";
 import { getExperts, getUsers } from "../api";
 import LoadingIcon from "../components/LoadingIcon";
+import Error from "../components/Error";
 
 const AdminUsersList = ({ userType }) => {
     const {
         data: users,
         isLoading,
         isError,
+        error,
     } = useQuery({
         queryKey: [userType],
         queryFn: userType === "Expert" ? getExperts : getUsers,
     });
+
+    if (isError) {
+        return <Error message={error.message} />;
+    }
 
     const [search, setSearch] = useState("");
     const [modalOpen, setModalOpen] = useState(false);

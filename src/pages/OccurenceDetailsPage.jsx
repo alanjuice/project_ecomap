@@ -2,65 +2,53 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
+import LoadingIcon from "../components/LoadingIcon";
 
 import ColouredCard from "../components/ColouredCard";
+import { getOccurencebyId } from "../api";
+import { useQuery } from "@tanstack/react-query";
+import Error from "../components/Error";
 
 const OccurenceDetailsPage = () => {
     const { id } = useParams();
 
-    const [occurenceData, setOccurenceData] = useState({});
-    const [isLoading, setIsLoading] = useState(true);
+    const {
+        data: occurenceData,
+        isLoading,
+        error,
+        isError,
+    } = useQuery({
+        queryKey: ["getOccurenceById"],
+        queryFn: () => getOccurencebyId(id),
+    });
 
-    const getOccurenceData = (id) => {
-        useEffect(() => {
-            // Simulate fetching data based on species ID
-            console.log("Fetching details of Occurence id: " + id);
-
-            // Example data for now
-
-            const data = {
-                Occurence_ID: 1,
-                Common_Name: "Lion",
-                Scientific_Name: "Panthera leo",
-                Image_URL:
-                    "https://upload.wikimedia.org/wikipedia/commons/3/3f/Walking_tiger_female.jpg",
-                Coordinates: [78, 20],
-                Date_Spotted: "19-01-2022",
-                Spotted_By: "Alfredo",
-            };
-
-            setOccurenceData(data);
-            setIsLoading(false);
-        }, [id]);
-    };
-
-    getOccurenceData(id);
+    if (isError) {
+        return <Error message={error.message} />;
+    }
 
     if (isLoading) {
-        return (
-            <div className="flex justify-center items-center h-screen bg-gray-100">
-                <span className="text-lg font-semibold text-gray-600">
-                    Loading...
-                </span>
-            </div>
-        );
+        return <LoadingIcon />;
     }
 
     return (
         <div className="min-h-screen bg-gray-50">
             {/* Hero Section */}
+
             <div className="relative w-full h-96 bg-gradient-to-br from-gray-800 to-gray-600">
                 <img
-                    src={occurenceData.Image_URL}
-                    alt={occurenceData.Common_Name}
+                    src={
+                        occurenceData.data.image ||
+                        "https://placehold.co/600x400"
+                    }
+                    alt={occurenceData.data.speciesId.common_name}
                     className="absolute inset-0 w-full h-full object-cover opacity-50"
                 />
                 <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
                     <h1 className="text-4xl font-extrabold mb-2">
-                        {occurenceData.Common_Name}
+                        {occurenceData.data.speciesId.name}
                     </h1>
                     <h2 className="text-lg font-semibold italic">
-                        {occurenceData.Scientific_Name}
+                        {occurenceData.data.speciesId.scientific_name}
                     </h2>
                 </div>
             </div>
@@ -74,13 +62,13 @@ const OccurenceDetailsPage = () => {
                     <ColouredCard
                         title={"Spotted By"}
                         color={"lightgreen"}
-                        value={"Alfredo"}
+                        value={occurenceData.data.userId.name}
                     />
 
                     <ColouredCard
                         title={"Spotted At"}
                         color={"orange"}
-                        value={"19-09-2009"}
+                        value={occurenceData.data.spotId.date}
                     />
                 </div>
 
@@ -91,15 +79,21 @@ const OccurenceDetailsPage = () => {
                     <Map
                         initialViewState={{
                             longitude: 78.9629,
-                            latitude: 20.5937,
+                            latitude: 78.9629,
                             zoom: 4,
                         }}
                         style={{ width: "100%", height: 500 }}
                         mapStyle="https://demotiles.maplibre.org/style.json"
                     >
                         <Marker
-                            longitude={occurenceData.Coordinates[0]}
-                            latitude={occurenceData.Coordinates[1]}
+                            longitude={
+                                occurenceData.data.spotId.location
+                                    .coordinates[0]
+                            }
+                            latitude={
+                                occurenceData.data.spotId.location
+                                    .coordinates[1]
+                            }
                             anchor="bottom"
                         ></Marker>
                     </Map>

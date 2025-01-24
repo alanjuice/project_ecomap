@@ -2,13 +2,22 @@ import { useQuery } from "@tanstack/react-query";
 import CardGrid from "../components/CardGrid";
 import { getSpottings } from "../api";
 import LoadingIcon from "../components/LoadingIcon";
+import Error from "../components/Error";
 
 const SpottingListPage = () => {
-    const { data: spottingListData, isLoading } = useQuery({
+    const {
+        data: spottingListData,
+        isLoading,
+        error,
+        isError,
+    } = useQuery({
         queryKey: ["getallspottings"],
         queryFn: getSpottings,
     });
-    console.log(spottingListData);
+
+    if (isError) {
+        return <Error message={error.message} />;
+    }
 
     if (isLoading) {
         return (

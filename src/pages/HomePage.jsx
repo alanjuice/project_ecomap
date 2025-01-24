@@ -4,7 +4,7 @@ import IntroVideo from "../assets/videoplayback.webm";
 import { useQuery } from "@tanstack/react-query";
 import { getCount } from "../api";
 import LoadingIcon from "../components/LoadingIcon";
-import { data } from "react-router-dom";
+import Error from "../components/Error";
 
 const fadeIn = {
     hidden: { opacity: 0, y: 20 },
@@ -39,10 +39,19 @@ const steps = [
 ];
 
 const HomePage = () => {
-    const { data: countData, isLoading } = useQuery({
+    const {
+        data: countData,
+        isLoading,
+        error,
+        isError,
+    } = useQuery({
         queryKey: ["getcount"],
         queryFn: getCount,
     });
+
+    if (isError) {
+        return <Error message={error.message} />;
+    }
 
     if (isLoading) {
         return <LoadingIcon />;

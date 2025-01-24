@@ -2,29 +2,44 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import {
-    getSpecies,
-    getSpottingById,
-    identifySpecies,
-} from "../api";
+import { getSpecies, getSpottingById, identifySpecies } from "../api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast, ToastContainer } from "react-toastify";
 import LoadingIcon from "../components/LoadingIcon";
 import AddSpeciesModal from "../components/AddSpeciesModal";
+import Error from "../components/Error";
 
 const SpottingDetailsPage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const { data: spottingData, isLoading } = useQuery({
+    const {
+        data: spottingData,
+        isLoading,
+        isError: isSpottingLoadingError,
+        error: spottingerror,
+    } = useQuery({
         queryKey: ["getspottingbyid", id],
         queryFn: () => getSpottingById(id),
     });
 
-    const { data: speciesOptions, isDropDownDataLoading } = useQuery({
+    const {
+        data: speciesOptions,
+        isDropDownDataLoading,
+        isError,
+        error,
+    } = useQuery({
         queryKey: ["getallspecies"],
         queryFn: getSpecies,
     });
+
+    if (isSpottingLoadingError) {
+        return <Error message={spottingerror.message} />;
+    }
+
+    if (isError) {
+        return <Error message={error.message} />;
+    }
 
     const identificationMutation = useMutation({
         mutationFn: ({ spotId, userId, speciesId }) =>
