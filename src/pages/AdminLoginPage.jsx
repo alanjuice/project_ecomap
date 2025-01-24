@@ -9,6 +9,12 @@ const AdminLoginPage = () => {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            navigate("/admin/spottings");
+        }
+    });
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Email:", email);
@@ -26,7 +32,7 @@ const AdminLoginPage = () => {
 
         if (response.data.token) {
             localStorage.setItem("token", response.data.token);
-            navigate("admin/experts");
+            navigate("/admin/experts");
         }
     };
 

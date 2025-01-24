@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginExpert } from "../api";
 import { toast, ToastContainer } from "react-toastify";
@@ -7,6 +7,14 @@ import { useMutation } from "@tanstack/react-query";
 const ExpertLoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (localStorage.getItem("token")) {
+            navigate("/expert/spottings");
+        }
+    });
 
     const mutation = useMutation({
         mutationFn: loginExpert,
@@ -28,8 +36,6 @@ const ExpertLoginPage = () => {
             });
         },
     });
-
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
