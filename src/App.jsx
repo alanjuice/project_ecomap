@@ -13,10 +13,11 @@ import SpottingDetailsPage from "./pages/SpottingDetailsPage";
 import OccurenceDetailsPage from "./pages/OccurenceDetailsPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminMainPage from "./pages/AdminMainPage";
-import AdminUsersList from "./pages/AdminUsersListPage";
+import AdminUsersList from "./pages/AdminListPage";
 import ExpertAccountPage from "./pages/ExpertAccountPage";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import NotFoundPage from "./pages/NotFoundPage";
+import AdminListPage from "./pages/AdminListPage";
 
 let router = createBrowserRouter([
     {
@@ -75,11 +76,15 @@ let router = createBrowserRouter([
                     },
                     {
                         path: "experts",
-                        element: <AdminUsersList userType={"Expert"} />,
+                        element: <AdminListPage resource={"Expert"} />,
                     },
                     {
                         path: "users",
-                        element: <AdminUsersList userType={"User"} />,
+                        element: <AdminListPage resource={"User"} />,
+                    },
+                    {
+                        path: "species",
+                        element: <AdminListPage resource={"Species"} />,
                     },
                 ],
             },

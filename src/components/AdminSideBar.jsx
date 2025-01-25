@@ -7,6 +7,7 @@ const AdminSideBar = () => {
     const tabs = [
         { name: "Experts", path: "/admin/experts" },
         { name: "Users", path: "/admin/users" },
+        { name: "Species", path: "/admin/species" },
     ];
 
     const navigate = useNavigate();
