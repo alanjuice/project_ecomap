@@ -37,7 +37,7 @@ const OccurenceDetailsPage = () => {
             <div className="relative w-full h-96 bg-gradient-to-br from-gray-800 to-gray-600">
                 <img
                     src={
-                        occurenceData.data.image ||
+                        occurenceData.data.spotId.image ||
                         "https://placehold.co/600x400"
                     }
                     alt={occurenceData.data.speciesId.common_name}
@@ -45,7 +45,7 @@ const OccurenceDetailsPage = () => {
                 />
                 <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
                     <h1 className="text-4xl font-extrabold mb-2">
-                        {occurenceData.data.speciesId.name}
+                        {occurenceData.data.speciesId.common_name}
                     </h1>
                     <h2 className="text-lg font-semibold italic">
                         {occurenceData.data.speciesId.scientific_name}
@@ -79,7 +79,7 @@ const OccurenceDetailsPage = () => {
                     <Map
                         initialViewState={{
                             longitude: 78.9629,
-                            latitude: 78.9629,
+                            latitude: 20.5937,
                             zoom: 4,
                         }}
                         style={{ width: "100%", height: 500 }}
