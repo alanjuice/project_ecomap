@@ -51,8 +51,8 @@ const SpeciesDetailsPage = () => {
             {/* Hero Section */}
             <div className="relative w-full h-96 bg-gradient-to-br from-gray-800 to-gray-600">
                 <img
-                    src={speciesData.Image_URL}
-                    // alt={speciesData.data.common_name}
+                    src={speciesData.data.image}
+                    alt={speciesData.data.common_name}
                     className="absolute inset-0 w-full h-full object-cover opacity-50"
                 />
                 <div className="absolute inset-0 flex flex-col justify-center items-center text-white">

@@ -68,7 +68,7 @@ const OccurenceDetailsPage = () => {
                     <ColouredCard
                         title={"Spotted At"}
                         color={"orange"}
-                        value={occurenceData.data.spotId.date}
+                        value={occurenceData.data.spotId.date.split("T")[0]}
                     />
                 </div>
 
