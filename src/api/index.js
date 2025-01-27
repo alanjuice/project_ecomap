@@ -86,20 +86,11 @@ const getSpottingById = async (id) => {
 };
 
 const getMapData = async (id) => {
-    return await instance.get("expert/map");
+    return await instance.get("expert/species-map/" + id);
 };
 
 const getCount = async (id) => {
     return await instance.get("expert/count");
-};
-
-const filterOccurance = async (filters) => {
-    const params = new URLSearchParams({
-        contact: filters,
-        phoneNumber: this.PhoneNumber,
-        email: this.Email,
-    }).toString();
-    return await instance.get("expert/filter-species", {}, { params: filters });
 };
 
 const identifySpecies = async (data) => {

@@ -30,12 +30,13 @@ const SpeciesDetailsPage = () => {
         error: mapError,
     } = useQuery({
         queryKey: ["getMapData"],
-        queryFn: getMapData,
+        queryFn: () => getMapData(id),
     });
 
     console.log(speciesData);
 
     if (isError || isMapError) {
+        console.log(mapError);
         return <Error message={"Something went wrong"} />;
     }
 

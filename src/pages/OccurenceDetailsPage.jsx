@@ -78,9 +78,13 @@ const OccurenceDetailsPage = () => {
                     </h2>
                     <Map
                         initialViewState={{
-                            longitude: 78.9629,
-                            latitude: 20.5937,
-                            zoom: 4,
+                            longitude:
+                                occurenceData.data.spotId.location
+                                    .coordinates[0],
+                            latitude:
+                                occurenceData.data.spotId.location
+                                    .coordinates[1],
+                            zoom: 3,
                         }}
                         style={{ width: "100%", height: 500 }}
                         mapStyle="https://demotiles.maplibre.org/style.json"
