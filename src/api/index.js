@@ -19,9 +19,8 @@ const loginExpert = async (loginData) => {
 };
 
 const loginAdmin = async (loginData) => {
-    return instance.post("expert/login", loginData);
+    return instance.post("admin/login", loginData);
 };
-
 
 const registerExpert = async (registerData) => {
     const response = await instance.post("expert/register", registerData);
@@ -40,7 +39,6 @@ const getSpeciesDatabyID = async (id) => {
     const response = await instance.get(`expert/species/${id}`);
     return response;
 };
-
 
 const deleteSpecies = async (id) => {
     const response = await instance.post(`expert/delete-species/${id}`);
@@ -95,8 +93,13 @@ const getCount = async (id) => {
     return await instance.get("expert/count");
 };
 
-const filterOccurance = async (id) => {
-    return await instance.get("expert/filter-species");
+const filterOccurance = async (filters) => {
+    const params = new URLSearchParams({
+        contact: filters,
+        phoneNumber: this.PhoneNumber,
+        email: this.Email,
+    }).toString();
+    return await instance.get("expert/filter-species", {}, { params: filters });
 };
 
 const identifySpecies = async (data) => {
@@ -121,5 +124,5 @@ export {
     getUsers,
     getCount,
     deleteSpecies,
-    getMapData
+    getMapData,
 };
