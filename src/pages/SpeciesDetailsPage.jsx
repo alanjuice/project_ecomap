@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Map, Layer, Source } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 import ColouredCard from "../components/ColouredCard";
-import { getSpeciesbyId, getSpeciesDatabyID } from "../api";
+import { getMapData, getSpeciesbyId, getSpeciesDatabyID } from "../api";
 
 import { heatmapLayerStyle, pointLayerStyle } from "../utils/MapLayerStyle";
 import LoadingIcon from "../components/LoadingIcon";
@@ -13,9 +13,24 @@ import Error from "../components/Error";
 const SpeciesDetailsPage = () => {
     const { id } = useParams();
 
-    const [isMapLoading, setIsMapLoading] = useState(true);
-    const [mapData, setMapData] = useState("");
+    const customGeoJson = {
+        type: "FeatureCollection",
+        features: [
+            {
+                type: "Feature",
+                geometry: {
+                    type: "Point",
+                    coordinates: [-100, 40], // Longitude, Latitude for the point
+                },
+                properties: {
+                    title: "Sample Location",
+                    description: "This is a sample point",
+                },
+            },
+        ],
+    };
 
+    
     const {
         data: speciesData,
         isLoading,
@@ -26,23 +41,24 @@ const SpeciesDetailsPage = () => {
         queryFn: () => getSpeciesbyId(id),
     });
 
-    const getMapData = (id) => {
-        useEffect(() => {
-            const data =
-                "https://maplibre.org/maplibre-gl-js/docs/assets/earthquakes.geojson";
-            setMapData(data);
-            setIsMapLoading(false);
-        }, [id]);
-    };
+    const {
+        data: mapData,
+        isLoading: isMapLoading,
+        isError: isMapError,
+        error: mapError,
+    } = useQuery({
+        queryKey: ["getMapData"],
+        queryFn: getMapData,
+    });
 
     getMapData(id);
     console.log(speciesData);
 
-    if (isError) {
-        return <Error message={error.message} />;
+    if (isError || isMapError) {
+        return <Error message={"Something went wrong"} />;
     }
 
-    if (isLoading) {
+    if (isLoading || isMapError) {
         return <LoadingIcon />;
     }
 
@@ -103,7 +119,7 @@ const SpeciesDetailsPage = () => {
                         <Source
                             id="species-locations"
                             type="geojson"
-                            data={mapData}
+                            data={customGeoJson}
                         >
                             <Layer {...heatmapLayerStyle}></Layer>
                             <Layer {...pointLayerStyle}></Layer>
