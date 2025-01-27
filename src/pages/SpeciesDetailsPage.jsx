@@ -13,24 +13,6 @@ import Error from "../components/Error";
 const SpeciesDetailsPage = () => {
     const { id } = useParams();
 
-    const customGeoJson = {
-        type: "FeatureCollection",
-        features: [
-            {
-                type: "Feature",
-                geometry: {
-                    type: "Point",
-                    coordinates: [-100, 40], // Longitude, Latitude for the point
-                },
-                properties: {
-                    title: "Sample Location",
-                    description: "This is a sample point",
-                },
-            },
-        ],
-    };
-
-    
     const {
         data: speciesData,
         isLoading,
@@ -51,14 +33,13 @@ const SpeciesDetailsPage = () => {
         queryFn: getMapData,
     });
 
-    getMapData(id);
     console.log(speciesData);
 
     if (isError || isMapError) {
         return <Error message={"Something went wrong"} />;
     }
 
-    if (isLoading || isMapError) {
+    if (isLoading || isMapLoading) {
         return <LoadingIcon />;
     }
 
@@ -116,10 +97,11 @@ const SpeciesDetailsPage = () => {
                         style={{ width: "100%", height: 500 }}
                         mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
                     >
+                        {console.log(mapData)}
                         <Source
                             id="species-locations"
                             type="geojson"
-                            data={customGeoJson}
+                            data={mapData.data}
                         >
                             <Layer {...heatmapLayerStyle}></Layer>
                             <Layer {...pointLayerStyle}></Layer>

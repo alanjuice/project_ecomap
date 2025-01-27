@@ -95,6 +95,10 @@ const getCount = async (id) => {
     return await instance.get("expert/count");
 };
 
+const filterOccurance = async (id) => {
+    return await instance.get("expert/filter-species");
+};
+
 const identifySpecies = async (data) => {
     return await instance.post("expert/save-occurance", data);
 };
