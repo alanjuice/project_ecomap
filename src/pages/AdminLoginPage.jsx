@@ -11,7 +11,10 @@ const AdminLoginPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (localStorage.getItem("token")) {
+        if (
+            localStorage.getItem("token") &&
+            localStorage.getItem("role") == "admin"
+        ) {
             navigate("/admin/experts");
         }
     });
@@ -21,6 +24,7 @@ const AdminLoginPage = () => {
         onSuccess: (response) => {
             if (response.data.token) {
                 localStorage.setItem("token", response.data.token);
+                localStorage.setItem("role", "admin");
                 navigate("/admin/experts");
             }
         },

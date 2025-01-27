@@ -68,6 +68,10 @@ let router = createBrowserRouter([
             },
             {
                 path: "admin/",
+                element: <AdminLoginPage />,
+            },
+            {
+                path: "admin/",
                 element: <AdminMainPage />,
                 children: [
                     {

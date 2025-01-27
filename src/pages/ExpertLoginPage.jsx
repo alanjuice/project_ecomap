@@ -11,7 +11,10 @@ const ExpertLoginPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (localStorage.getItem("token")) {
+        if (
+            localStorage.getItem("token") &&
+            localStorage.getItem("role") == "expert"
+        ) {
             navigate("/expert/spottings");
         }
     });
@@ -22,6 +25,7 @@ const ExpertLoginPage = () => {
             console.log(response);
             if (response.data.token) {
                 localStorage.setItem("token", response.data.token);
+                localStorage.setItem("role", "expert");
                 navigate("/expert/spottings");
             }
         },

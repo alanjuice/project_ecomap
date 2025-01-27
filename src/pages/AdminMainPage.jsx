@@ -7,7 +7,10 @@ const AdminMainPage = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        if (!localStorage.getItem("token")) {
+        if (
+            !localStorage.getItem("token") &
+            (!localStorage.getItem("role") == "admin")
+        ) {
             navigate("/admin/login");
             return;
         }

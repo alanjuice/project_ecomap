@@ -13,6 +13,7 @@ const ExpertSideBar = () => {
 
     const handleSignOut = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("role");
         navigate("/");
     };
 

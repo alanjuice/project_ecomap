@@ -7,7 +7,10 @@ const ExpertMainPage = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
-        if (!localStorage.getItem("token")) {
+        if (
+            !localStorage.getItem("token") &&
+            !localStorage.getItem("role") == "expert"
+        ) {
             navigate("/expert/login");
             return;
         }
