@@ -4,16 +4,19 @@ import { getSpecies } from "../api";
 import { useQuery } from "@tanstack/react-query";
 import LoadingIcon from "../components/LoadingIcon";
 import Error from "../components/Error";
+import { FilterProvider, useFilter } from "../context/FilterContext";
 
-const SpeciesPage = () => {
+const SpeciesContent = () => {
+    const { filter } = useFilter();
+
     const {
         data: speciesListData,
         isLoading,
         error,
         isError,
     } = useQuery({
-        queryKey: ["getallspecies"],
-        queryFn: getSpecies,
+        queryKey: ["getallspecies", filter],
+        queryFn: () => getSpecies(filter),
     });
 
     if (isError) {
@@ -34,4 +37,10 @@ const SpeciesPage = () => {
     );
 };
 
-export default SpeciesPage;
+export default function SpeciesPage() {
+    return (
+        <FilterProvider>
+            <SpeciesContent />
+        </FilterProvider>
+    );
+}

@@ -45,8 +45,8 @@ const deleteSpecies = async (id) => {
     return response;
 };
 
-const getSpecies = async () => {
-    return await instance.get(`expert/get-species`);
+const getSpecies = async (filter) => {
+    return await instance.get(`expert/get-species`, { params: filter });
 };
 
 const getSpeciesbyId = async (id) => {
@@ -59,8 +59,12 @@ const getOccurencebyId = async (id) => {
     return data;
 };
 
-const getOccurence = async () => {
-    return await instance.get("expert/get-occurance");
+const getOccurence = async (filter) => {
+    console.log(filter);
+    const response = await instance.get("expert/get-occurance", {
+        params: filter,
+    });
+    return response;
 };
 
 const getExperts = async () => {
@@ -95,6 +99,13 @@ const getCount = async (id) => {
 
 const identifySpecies = async (data) => {
     return await instance.post("expert/save-occurance", data);
+};
+const filterOccurence = async (filter) => {
+    return await instance.get("expert/filter-occurrences");
+};
+
+const filterSpecies = async (filter) => {
+    return await instance.get("expert/filter-species");
 };
 
 export {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useFilter } from "../context/FilterContext";
 
 const FilterContent = ({ type, viewFilter }) => {
     const conservationStatuses = [
@@ -9,20 +10,44 @@ const FilterContent = ({ type, viewFilter }) => {
         "Critically Endangered",
     ];
 
+    const { updateFilter } = useFilter();
     const [filterStyle, setFilterStyle] = useState(viewFilter ? "" : "hidden");
 
     useEffect(() => {
         setFilterStyle(viewFilter ? "" : "hidden");
     }, [viewFilter]);
 
-    // State for sorting options
     const [sortOption, setSortOption] = useState(
-        type === "occurrence" ? "recent" : "alphabetic"
+        type === "occurence" ? "recent" : "alphabetic"
     );
 
-    // Handle sorting option change
+    const [selectedConservationStatus, setSelectedConservationStatus] =
+        useState("");
+    const [startDate, setStartDate] = useState("");
+    const [endDate, setEndDate] = useState("");
+
     const handleSortChange = (e) => {
-        setSortOption(e.target.value);
+        const value = e.target.value;
+        setSortOption(value);
+        updateFilter({ sortBy: value });
+    };
+
+    const handleStatusChange = (e) => {
+        const value = e.target.value;
+        setSelectedConservationStatus(value);
+        updateFilter({ conservationStatus: value });
+    };
+
+    const handleStartDateChange = (e) => {
+        const value = e.target.value;
+        setStartDate(value);
+        updateFilter({ startDate: value });
+    };
+
+    const handleEndDateChange = (e) => {
+        const value = e.target.value;
+        setEndDate(value);
+        updateFilter({ endDate: value });
     };
 
     return (
@@ -49,6 +74,11 @@ const FilterContent = ({ type, viewFilter }) => {
                                     type="radio"
                                     id={status}
                                     name="conservationStatus"
+                                    value={status}
+                                    checked={
+                                        selectedConservationStatus === status
+                                    }
+                                    onChange={handleStatusChange}
                                     className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                                 />
                                 <label
@@ -80,6 +110,8 @@ const FilterContent = ({ type, viewFilter }) => {
                             <input
                                 type="date"
                                 id="startDate"
+                                value={startDate}
+                                onChange={handleStartDateChange}
                                 className="p-2 border border-gray-300 rounded focus:ring-blue-500 focus:outline-none"
                             />
                         </div>
@@ -93,6 +125,8 @@ const FilterContent = ({ type, viewFilter }) => {
                             <input
                                 type="date"
                                 id="endDate"
+                                value={endDate}
+                                onChange={handleEndDateChange}
                                 className="p-2 border border-gray-300 rounded focus:ring-blue-500 focus:outline-none"
                             />
                         </div>
@@ -113,12 +147,12 @@ const FilterContent = ({ type, viewFilter }) => {
                     {type === "occurence" ? (
                         <>
                             <option value="recent">Recently Added</option>
-                            <option value="old">Oldest First</option>
+                            <option value="oldest">Oldest First</option>
                         </>
                     ) : (
                         <>
-                            <option value="alphabetic">Alphabetic (A-Z)</option>
-                            <option value="descending">Alphabetic (Z-A)</option>
+                            <option value="asc">Alphabetic (A-Z)</option>
+                            <option value="desc">Alphabetic (Z-A)</option>
                         </>
                     )}
                 </select>

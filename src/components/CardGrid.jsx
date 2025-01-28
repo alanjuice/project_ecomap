@@ -14,7 +14,10 @@ const SpeciesCardGrid = ({ data, resource }) => {
                             "https://placehold.co/400"
                         }
                         label={
-                            item.title || item.common_name || item.spotId.title
+                            item.title ||
+                            item.common_name ||
+                            item.speciesId.common_name ||
+                            item.spotId.title
                         }
                     />
                 </Link>

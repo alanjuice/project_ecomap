@@ -4,16 +4,20 @@ import { getOccurence } from "../api";
 import { useQuery } from "@tanstack/react-query";
 import LoadingIcon from "../components/LoadingIcon";
 import Error from "../components/Error";
+import FilterContent from "../components/FilterContent";
+import { FilterProvider, useFilter } from "../context/FilterContext";
 
-const OccurencePage = () => {
+const OccurenceContent = () => {
+    const { filter } = useFilter();
+
     const {
         data: occurenceListData,
         isLoading,
         error,
         isError,
     } = useQuery({
-        queryKey: ["getalloccurences"],
-        queryFn: getOccurence,
+        queryKey: ["getalloccurences", filter],
+        queryFn: () => getOccurence(filter),
     });
 
     if (isError) {
@@ -37,4 +41,10 @@ const OccurencePage = () => {
     );
 };
 
-export default OccurencePage;
+export default function OccurrencePage() {
+    return (
+        <FilterProvider>
+            <OccurenceContent />
+        </FilterProvider>
+    );
+}
