@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingIcon from "../components/LoadingIcon";
 import Error from "../components/Error";
 import { FilterProvider, useFilter } from "../context/FilterContext";
+import NoResourceFound from "../components/NoResourceFound";
 
 const SpeciesContent = () => {
     const { filter } = useFilter();
@@ -31,7 +32,7 @@ const SpeciesContent = () => {
             ) : speciesListData.data.length > 0 ? (
                 <CardGrid data={speciesListData.data} resource={"species"} />
             ) : (
-                <div>No species found</div>
+                <NoResourceFound resource={"Species"} />
             )}
         </div>
     );

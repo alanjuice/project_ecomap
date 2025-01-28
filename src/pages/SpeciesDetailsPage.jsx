@@ -51,7 +51,7 @@ const SpeciesDetailsPage = () => {
                 <img
                     src={speciesData.data.image}
                     alt={speciesData.data.common_name}
-                    className="absolute inset-0 w-full h-full object-cover opacity-50"
+                    className="absolute inset-0 w-full h-full object-scale-down opacity-50"
                 />
                 <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
                     <h1 className="text-4xl font-extrabold mb-2">

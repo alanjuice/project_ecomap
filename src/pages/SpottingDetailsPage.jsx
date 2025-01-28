@@ -2,7 +2,11 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import { getSpecies, getSpottingById, identifySpecies } from "../api";
+import {
+    getSpottingById,
+    getSpottings,
+    identifySpecies,
+} from "../api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast, ToastContainer } from "react-toastify";
 import LoadingIcon from "../components/LoadingIcon";
@@ -30,7 +34,7 @@ const SpottingDetailsPage = () => {
         error,
     } = useQuery({
         queryKey: ["getallspecies"],
-        queryFn: getSpecies,
+        queryFn: getSpottings,
     });
 
     if (isSpottingLoadingError) {

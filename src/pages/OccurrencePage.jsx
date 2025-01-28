@@ -6,6 +6,7 @@ import LoadingIcon from "../components/LoadingIcon";
 import Error from "../components/Error";
 import FilterContent from "../components/FilterContent";
 import { FilterProvider, useFilter } from "../context/FilterContext";
+import NoResourceFound from "../components/NoResourceFound";
 
 const OccurenceContent = () => {
     const { filter } = useFilter();
@@ -35,7 +36,7 @@ const OccurenceContent = () => {
                     resource={"occurence"}
                 />
             ) : (
-                <div>No occurence found</div>
+                <NoResourceFound resource={"Occurence"} />
             )}
         </div>
     );

@@ -3,6 +3,7 @@ import CardGrid from "../components/CardGrid";
 import { getSpottings } from "../api";
 import LoadingIcon from "../components/LoadingIcon";
 import Error from "../components/Error";
+import NoResourceFound from "../components/NoResourceFound";
 
 const SpottingListPage = () => {
     const {
@@ -28,15 +29,13 @@ const SpottingListPage = () => {
     }
     return (
         <div className="flex flex-col md:flex-row">
-            {isLoading ? (
-                <p>Loading...</p>
-            ) : spottingListData.data.length > 0 ? (
+            {spottingListData.data.length > 0 ? (
                 <CardGrid
                     data={spottingListData.data}
                     resource={"expert/spottings"}
                 />
             ) : (
-                <div>No spottings found</div>
+                <NoResourceFound resource={"Spotting"} />
             )}
         </div>
     );

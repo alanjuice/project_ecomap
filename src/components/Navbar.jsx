@@ -2,7 +2,6 @@ import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import EcoMapLogo from "../assets/ecomap_logo.png";
 import AccountLogo from "../assets/account.png";
-import EcoMapBanner from "../assets/ecomap_banner.png";
 
 const Navbar = () => {
     return (
