@@ -131,7 +131,7 @@ const AdminListPage = ({ resource }) => {
     };
 
     return (
-        <div className="w-screen sm:m-2 p-4 bg-white sm:w-1/2">
+        <div className="w-100 sm:m-2 p-4 bg-white sm:w-1/2">
             <h1 className="text-2xl font-bold mb-4 text-gray-800">
                 {resource} List
             </h1>
