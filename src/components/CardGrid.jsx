@@ -3,7 +3,7 @@ import ImageCard from "./ImageCard";
 
 const SpeciesCardGrid = ({ data, resource }) => {
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 p-4 grid-rows-3 w-screen">
+        <div className="grid auto-cols-fr gap-3 p-4 auto-rows-fr w-100">
             {data.map((item) => (
                 <Link to={"/" + resource + "/" + item._id}>
                     <ImageCard
@@ -14,9 +14,9 @@ const SpeciesCardGrid = ({ data, resource }) => {
                             "https://placehold.co/400"
                         }
                         label={
+                            item.speciesId.common_name ||
                             item.title ||
                             item.common_name ||
-                            item.speciesId.common_name ||
                             item.spotId.title
                         }
                     />

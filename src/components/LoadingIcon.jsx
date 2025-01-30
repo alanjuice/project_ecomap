@@ -3,7 +3,7 @@ import { Mosaic } from "react-loading-indicators";
 
 export default function LoadingIcon() {
     return (
-        <div className="flex justify-center items-center h-screen mx-auto w-screen">
+        <div className="flex justify-center items-center h-screen mx-auto w-100">
             <Mosaic color={["#33CCCC", "#33CC36", "#B8CC33", "#FCCA00"]} />
         </div>
     );
