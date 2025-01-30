@@ -20,7 +20,7 @@ const ExpertSideBar = () => {
     return (
         <>
             {/* Horizontal Tabs for Small Screens */}
-            <div className="sm:hidden bg-gray-800 text-white flex justify-around items-center py-2 shadow-lg w-screen h-12 ">
+            <div className="sm:hidden bg-gray-800 text-white flex justify-around items-center py-2 shadow-lg w-100 h-12 ">
                 {tabs.map((tab) => (
                     <Link
                         to={tab.path}
@@ -38,7 +38,7 @@ const ExpertSideBar = () => {
             </div>
 
             {/* Sidebar for Larger Screens */}
-            <div className="hidden sm:block sm:h-screen sm:w-64 bg-gray-800 text-white shadow-lg p-4 space-y-6 sticky top-0">
+            <div className="hidden sm:block sm:h-screen bg-gray-800 text-white shadow-lg p-4 space-y-6 sticky top-0">
                 <div className="text-xl font-bold text-gray-200">Dashboard</div>
                 <div className="space-y-4">
                     {tabs.map((tab) => (

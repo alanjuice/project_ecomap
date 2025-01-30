@@ -1,22 +1,21 @@
 import { Link } from "react-router-dom";
 import ImageCard from "./ImageCard";
 
-const SpeciesCardGrid = ({ data, resource }) => {
+const CardGrid = ({ data, resource }) => {
     return (
-        <div className="grid auto-cols-fr gap-3 p-4 auto-rows-fr w-100">
+        <div className="grid grid-cols-[repeat(auto-fit,200px)] gap-3 p-4 w-full justify-center">
             {data.map((item) => (
                 <Link to={"/" + resource + "/" + item._id}>
                     <ImageCard
-                        key={item.id}
                         imageUrl={
                             item.image ||
                             item.spotId?.image ||
                             "https://placehold.co/400"
                         }
                         label={
-                            item.speciesId.common_name ||
                             item.title ||
                             item.common_name ||
+                            item.speciesId.common_name ||
                             item.spotId.title
                         }
                     />
@@ -26,4 +25,4 @@ const SpeciesCardGrid = ({ data, resource }) => {
     );
 };
 
-export default SpeciesCardGrid;
+export default CardGrid;
