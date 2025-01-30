@@ -28,7 +28,7 @@ const SpottingListPage = () => {
         );
     }
     return (
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col md:flex-row w-100">
             {spottingListData.data.length > 0 ? (
                 <CardGrid
                     data={spottingListData.data}

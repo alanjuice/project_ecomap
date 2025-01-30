@@ -3,10 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginExpert } from "../api";
 import { toast, ToastContainer } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "../context/AuthContext";
 
 const ExpertLoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const { login } = useAuth();
 
     const navigate = useNavigate();
 
@@ -24,8 +27,9 @@ const ExpertLoginPage = () => {
         onSuccess: (response) => {
             console.log(response);
             if (response.data.token) {
-                localStorage.setItem("token", response.data.token);
-                localStorage.setItem("role", "expert");
+                // localStorage.setItem("token", response.data.token);
+                // localStorage.setItem("role", "expert");
+                login(response.data.token, "expert");
                 navigate("/expert/spottings");
             }
         },

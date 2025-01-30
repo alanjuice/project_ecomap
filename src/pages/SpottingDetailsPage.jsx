@@ -2,11 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import {
-    getSpottingById,
-    getSpottings,
-    identifySpecies,
-} from "../api";
+import { getSpecies, getSpottingById, identifySpecies } from "../api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast, ToastContainer } from "react-toastify";
 import LoadingIcon from "../components/LoadingIcon";
@@ -34,7 +30,7 @@ const SpottingDetailsPage = () => {
         error,
     } = useQuery({
         queryKey: ["getallspecies"],
-        queryFn: getSpottings,
+        queryFn: () => getSpecies(null),
     });
 
     if (isSpottingLoadingError) {
@@ -185,9 +181,10 @@ const SpottingDetailsPage = () => {
                 style={{ width: "100%", height: 400 }}
                 mapStyle="https://demotiles.maplibre.org/style.json"
             >
+                {console.log(spottingData)}
                 <Marker
-                    longitude={spottingData?.Coordinates?.[0] || 78.9629}
-                    latitude={spottingData?.Coordinates?.[1] || 20.5937}
+                    longitude={spottingData.data.location.coordinates[0]}
+                    latitude={spottingData.data.location.coordinates[1]}
                     anchor="bottom"
                 />
             </Map>

@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { loginAdmin } from "../api";
 import { toast, ToastContainer } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
+import { useAuth } from "../context/AuthContext";
 
 const AdminLoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const { login } = useAuth();
 
     const navigate = useNavigate();
 
@@ -23,8 +25,9 @@ const AdminLoginPage = () => {
         mutationFn: loginAdmin,
         onSuccess: (response) => {
             if (response.data.token) {
-                localStorage.setItem("token", response.data.token);
-                localStorage.setItem("role", "admin");
+                // localStorage.setItem("token", response.data.token);
+                // localStorage.setItem("role", "admin");
+                login(response.data.token, "admin");
                 navigate("/admin/experts");
             }
         },
