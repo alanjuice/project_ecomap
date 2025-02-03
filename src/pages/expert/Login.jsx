@@ -1,47 +1,61 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { registerExpert } from "../api";
-import { toast } from "react-toastify";
-import { ToastContainer } from "react-toastify";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import { useMutation } from "@tanstack/react-query";
 
-const ExpertSignUpPage = () => {
+import { loginExpert } from "../../api";
+import { useAuth } from "../context/AuthContext";
+
+const ExpertLogin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
+
+    const { login } = useAuth();
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (
+            localStorage.getItem("token") &&
+            localStorage.getItem("role") == "expert"
+        ) {
+            navigate("/expert/spottings");
+        }
+    });
+
+    const mutation = useMutation({
+        mutationFn: loginExpert,
+        onSuccess: (response) => {
+            console.log(response);
+            if (response.data.token) {
+                // localStorage.setItem("token", response.data.token);
+                // localStorage.setItem("role", "expert");
+                login(response.data.token, "expert");
+                navigate("/expert/spottings");
+            }
+        },
+        onError: (error) => {
+            console.log(error);
+            toast.error(error.response.data.message, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                pauseOnHover: true,
+                theme: "light",
+            });
+        },
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Email:", email);
-        console.log("Password:", password);
-        console.log("Name:", name);
-
-        const response = await registerExpert({ email, password, name });
-        if (!response.success)
-            toast.error(response.data.message, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: true,
-                theme: "light",
-            });
-        else {
-            toast(response.data.message, {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: true,
-                theme: "light",
-            });
-        }
+        mutation.mutate({ email, password });
     };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h1 className="text-2xl font-semibold text-center text-gray-700 mb-6">
-                    Expert Sign Up
+                    Expert Login
                 </h1>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
@@ -58,24 +72,6 @@ const ExpertSignUpPage = () => {
                             className="w-full px-4 py-2 mt-2 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="mb-6">
-                        <label
-                            htmlFor="name"
-                            className="block text-sm font-medium text-gray-600"
-                        >
-                            Name
-                        </label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            className="w-full px-4 py-2 mt-2 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
                             required
                         />
                     </div>
@@ -105,22 +101,10 @@ const ExpertSignUpPage = () => {
                         Login
                     </button>
                 </form>
-
-                <div className="mt-4 text-center text-sm text-gray-600">
-                    <p>
-                        Have an account?{" "}
-                        <Link
-                            to="/expert/login"
-                            className="text-indigo-600 hover:text-indigo-700"
-                        >
-                            Login
-                        </Link>
-                    </p>
-                </div>
             </div>
             <ToastContainer />
         </div>
     );
 };
 
-export default ExpertSignUpPage;
+export default ExpertLogin;

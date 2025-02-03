@@ -1,12 +1,13 @@
-import CardGrid from "../components/CardGrid";
-import SideBar from "../components/SideBar";
-import { getOccurence } from "../api";
+import { getOccurence } from "../../api";
 import { useQuery } from "@tanstack/react-query";
-import LoadingIcon from "../components/LoadingIcon";
-import Error from "../components/Error";
-import FilterContent from "../components/FilterContent";
-import { FilterProvider, useFilter } from "../context/FilterContext";
-import NoResourceFound from "../components/NoResourceFound";
+
+import { FilterProvider, useFilter } from "../../context/FilterContext";
+
+import NoResourceFound from "../../components/NoResourceFound";
+import CardGrid from "../../components/CardGrid";
+import SideBar from "../../components/SideBar";
+import LoadingIcon from "../../components/LoadingIcon";
+import Error from "../../components/Error";
 
 const OccurenceContent = () => {
     const { filter } = useFilter();
@@ -42,7 +43,7 @@ const OccurenceContent = () => {
     );
 };
 
-export default function OccurrencePage() {
+export default function Occurrence() {
     return (
         <FilterProvider>
             <OccurenceContent />

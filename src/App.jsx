@@ -2,24 +2,34 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 
-import HomePage from "./pages/HomePage";
-import SpeciesPage from "./pages/SpeciesPage";
-import OccurrencePage from "./pages/OccurrencePage";
-import ExpertLoginPage from "./pages/ExpertLoginPage";
-import ExpertMainPage from "./pages/ExpertMainPage";
-import SpottingListPage from "./pages/SpottingListPage";
-import SpeciesDetailsPage from "./pages/SpeciesDetailsPage";
-import SpottingDetailsPage from "./pages/SpottingDetailsPage";
-import OccurenceDetailsPage from "./pages/OccurenceDetailsPage";
-import AdminLoginPage from "./pages/AdminLoginPage";
-import AdminMainPage from "./pages/AdminMainPage";
-import AdminUsersList from "./pages/AdminListPage";
-import ExpertAccountPage from "./pages/ExpertAccountPage";
+// User Routes
+import Home from "./pages/user/Home";
+
+import Species from "./pages/user/Species";
+import SpeciesDetails from "./pages/user/SpeciesDetails";
+
+import Occurrence from "./pages/user/Occurence";
+import OccurenceDetails from "./pages/user/OccurenceDetails";
+
+// Expert Routes
+import ExpertLogin from "./pages/admin/Login";
+import ExpertMain from "./pages/admin/Main";
+import ExpertAccount from "./pages/expert/Account";
+import SpottingList from "./pages/expert/SpottingList";
+import SpottingDetails from "./pages/expert/SpottingDetails";
+
+// Admin Routes
+import AdminLogin from "./pages/admin/Login";
+import AdminMain from "./pages/admin/Main";
+import AdminList from "./pages/admin/AdminList";
+
+// Fallback Route
+import NotFound from "./pages/common/NotFound";
+
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
-import NotFoundPage from "./pages/NotFoundPage";
-import AdminListPage from "./pages/AdminListPage";
 import { AuthProvider } from "./context/AuthContext";
 
+// Create a router
 let router = createBrowserRouter([
     {
         path: "/",
@@ -27,27 +37,27 @@ let router = createBrowserRouter([
         children: [
             {
                 path: "",
-                element: <HomePage />,
+                element: <Home />,
             },
             {
                 path: "species",
-                element: <SpeciesPage />,
+                element: <Species />,
             },
             {
                 path: "species/:id",
-                element: <SpeciesDetailsPage />,
+                element: <SpeciesDetails />,
             },
             {
                 path: "occurrence",
-                element: <OccurrencePage />,
+                element: <Occurrence />,
             },
             {
                 path: "occurence/:id",
-                element: <OccurenceDetailsPage />,
+                element: <OccurenceDetails />,
             },
             {
                 path: "expert/",
-                element: <ExpertMainPage />,
+                element: <ExpertMain />,
                 children: [
                     {
                         path: "",
@@ -55,25 +65,25 @@ let router = createBrowserRouter([
                     },
                     {
                         path: "spottings",
-                        element: <SpottingListPage />,
+                        element: <SpottingList />,
                     },
                     {
                         path: "account/",
-                        element: <ExpertAccountPage />,
+                        element: <ExpertAccount />,
                     },
                     {
                         path: "spottings/:id",
-                        element: <SpottingDetailsPage />,
+                        element: <SpottingDetails />,
                     },
                 ],
             },
             {
                 path: "admin/",
-                element: <AdminLoginPage />,
+                element: <AdminLogin />,
             },
             {
                 path: "admin/",
-                element: <AdminMainPage />,
+                element: <AdminMain />,
                 children: [
                     {
                         path: "",
@@ -81,27 +91,27 @@ let router = createBrowserRouter([
                     },
                     {
                         path: "experts",
-                        element: <AdminListPage resource={"Expert"} />,
+                        element: <AdminList resource={"Expert"} />,
                     },
                     {
                         path: "users",
-                        element: <AdminListPage resource={"User"} />,
+                        element: <AdminList resource={"User"} />,
                     },
                     {
                         path: "species",
-                        element: <AdminListPage resource={"Species"} />,
+                        element: <AdminList resource={"Species"} />,
                     },
                 ],
             },
             {
                 path: "expert/login",
-                element: <ExpertLoginPage />,
+                element: <ExpertLogin />,
             },
             {
                 path: "admin/login",
-                element: <AdminLoginPage />,
+                element: <AdminLogin />,
             },
-            { path: "*", element: <NotFoundPage /> },
+            { path: "*", element: <NotFound /> },
         ],
     },
 ]);

@@ -1,17 +1,18 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import AdminSideBar from "../components/AdminSideBar";
 import { useEffect, useState } from "react";
 
-const AdminMainPage = () => {
+import ExpertSideBar from "../components/ExpertSideBar";
+
+const ExpertMain = () => {
     const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     useEffect(() => {
         if (
-            !localStorage.getItem("token") &
-            (!localStorage.getItem("role") == "admin")
+            !localStorage.getItem("token") &&
+            !localStorage.getItem("role") == "expert"
         ) {
-            navigate("/admin/login");
+            navigate("/expert/login");
             return;
         }
         setIsAuthenticated(true);
@@ -20,10 +21,10 @@ const AdminMainPage = () => {
     if (isAuthenticated)
         return (
             <div className="flex sm:flex-row flex-col">
-                <AdminSideBar />
+                <ExpertSideBar />
                 <Outlet />
             </div>
         );
 };
 
-export default AdminMainPage;
+export default ExpertMain;

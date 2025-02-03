@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Map, Marker } from "@vis.gl/react-maplibre";
-import "maplibre-gl/dist/maplibre-gl.css";
-import { getSpecies, getSpottingById, identifySpecies } from "../api";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { toast, ToastContainer } from "react-toastify";
-import LoadingIcon from "../components/LoadingIcon";
-import AddSpeciesModal from "../components/AddSpeciesModal";
-import Error from "../components/Error";
 
-const SpottingDetailsPage = () => {
+import { Map, Marker } from "@vis.gl/react-maplibre";
+import "maplibre-gl/dist/maplibre-gl.css";
+
+import { getSpecies, getSpottingById, identifySpecies } from "../../api";
+import LoadingIcon from "../../components/LoadingIcon";
+import AddSpeciesModal from "../../components/AddSpeciesModal";
+import Error from "../../components/Error";
+
+const SpottingDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -44,7 +46,7 @@ const SpottingDetailsPage = () => {
     const identificationMutation = useMutation({
         mutationFn: ({ spotId, userId, speciesId }) =>
             identifySpecies({ spotId, userId, speciesId }),
-        onSuccess: (data) => {
+        onSuccess: () => {
             toast.success("Species Identified Successfully!", {
                 position: "top-right",
                 autoClose: 3000,
@@ -52,7 +54,6 @@ const SpottingDetailsPage = () => {
             navigate("/expert/spottings");
         },
         onError: (error) => {
-            console.log(error);
             toast.error(
                 error?.response?.data?.message || "Failed to identify species!",
                 {
@@ -193,4 +194,4 @@ const SpottingDetailsPage = () => {
     );
 };
 
-export default SpottingDetailsPage;
+export default SpottingDetails;

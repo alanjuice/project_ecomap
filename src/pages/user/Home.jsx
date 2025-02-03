@@ -1,42 +1,13 @@
 import { motion } from "framer-motion";
-import ColouredCard from "../components/ColouredCard";
-import IntroVideo from "../assets/videoplayback.webm";
+import ColouredCard from "../../components/ColouredCard";
+import IntroVideo from "../../assets/videoplayback.webm";
 import { useQuery } from "@tanstack/react-query";
-import { getCount } from "../api";
-import LoadingIcon from "../components/LoadingIcon";
-import Error from "../components/Error";
+import { getCount } from "../../api";
+import LoadingIcon from "../../components/LoadingIcon";
+import Error from "../../components/Error";
 
-const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1 } },
-};
-
-const steps = [
-    {
-        title: "Log Your Sighting",
-        description:
-            "Users can log their sightings of animals through the platform by uploading images and details.",
-        image: "https://placehold.co/150?text=1",
-    },
-    {
-        title: "Validation",
-        description:
-            "Experts validate the sightings, ensuring accurate identification and reliable biodiversity data.",
-        image: "https://placehold.co/150?text=2",
-    },
-    {
-        title: "Data Storage",
-        description:
-            "The validated observations are stored in a central database, ready for further analysis.",
-        image: "https://placehold.co/150?text=3",
-    },
-    {
-        title: "Interactive Density Map",
-        description:
-            "The collected data is visualized on an interactive map, showcasing insights into biodiversity hotspots and patterns.",
-        image: "https://placehold.co/150?text=4",
-    },
-];
+import { fadeIn } from "../../constants";
+import { hotItWorksSteps } from "../../constants"; 
 
 const HomePage = () => {
     const {
@@ -149,7 +120,7 @@ const HomePage = () => {
                 </h2>
 
                 <div className="flex flex-col items-center space-y-10">
-                    {steps.map((step, index) => (
+                    {hotItWorksSteps.map((step, index) => (
                         <motion.div
                             key={index}
                             className="flex flex-col md:flex-row items-center md:space-x-6 text-center md:text-left w-full max-w-4xl p-4 bg-white shadow-md rounded-lg"

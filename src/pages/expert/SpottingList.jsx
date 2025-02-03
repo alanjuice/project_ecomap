@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import CardGrid from "../components/CardGrid";
-import { getSpottings } from "../api";
-import LoadingIcon from "../components/LoadingIcon";
-import Error from "../components/Error";
-import NoResourceFound from "../components/NoResourceFound";
 
-const SpottingListPage = () => {
+import { getSpottings } from "../../api";
+
+import LoadingIcon from "../../components/LoadingIcon";
+import Error from "../../components/Error";
+import NoResourceFound from "../../components/NoResourceFound";
+import CardGrid from "../../components/CardGrid";
+
+const SpottingList = () => {
     const {
         data: spottingListData,
         isLoading,
@@ -41,4 +43,4 @@ const SpottingListPage = () => {
     );
 };
 
-export default SpottingListPage;
+export default SpottingList;

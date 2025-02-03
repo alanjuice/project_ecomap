@@ -1,15 +1,17 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import LoadingIcon from "../components/LoadingIcon";
 
-import ColouredCard from "../components/ColouredCard";
-import { getOccurencebyId } from "../api";
 import { useQuery } from "@tanstack/react-query";
-import Error from "../components/Error";
 
-const OccurenceDetailsPage = () => {
+import LoadingIcon from "../../components/LoadingIcon";
+import ColouredCard from "../../components/ColouredCard";
+import Error from "../../components/Error";
+
+import { getOccurencebyId } from "../../api";
+
+
+const OccurenceDetails = () => {
     const { id } = useParams();
 
     const {
@@ -108,4 +110,4 @@ const OccurenceDetailsPage = () => {
     );
 };
 
-export default OccurenceDetailsPage;
+export default OccurenceDetails;

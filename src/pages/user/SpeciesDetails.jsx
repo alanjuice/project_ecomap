@@ -1,14 +1,13 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Map, Layer, Source } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import ColouredCard from "../components/ColouredCard";
-import { getMapData, getSpeciesbyId, getSpeciesDatabyID } from "../api";
+import ColouredCard from "../../components/ColouredCard";
+import { getMapData, getSpeciesbyId, getSpeciesDatabyID } from "../../api";
 
-import { heatmapLayerStyle, pointLayerStyle } from "../utils/MapLayerStyle";
-import LoadingIcon from "../components/LoadingIcon";
+import { heatmapLayerStyle, pointLayerStyle } from "../../utils/MapLayerStyle";
+import LoadingIcon from "../../components/LoadingIcon";
 import { useQuery } from "@tanstack/react-query";
-import Error from "../components/Error";
+import Error from "../../components/Error";
 
 const SpeciesDetailsPage = () => {
     const { id } = useParams();

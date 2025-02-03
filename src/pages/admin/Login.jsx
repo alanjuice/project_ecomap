@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { loginExpert } from "../api";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import { toast, ToastContainer } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
-const ExpertLoginPage = () => {
+import { loginAdmin } from "../../api";
+
+const AdminLogin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
     const { login } = useAuth();
 
     const navigate = useNavigate();
@@ -16,21 +17,20 @@ const ExpertLoginPage = () => {
     useEffect(() => {
         if (
             localStorage.getItem("token") &&
-            localStorage.getItem("role") == "expert"
+            localStorage.getItem("role") == "admin"
         ) {
-            navigate("/expert/spottings");
+            navigate("/admin/experts");
         }
     });
 
     const mutation = useMutation({
-        mutationFn: loginExpert,
+        mutationFn: loginAdmin,
         onSuccess: (response) => {
-            console.log(response);
             if (response.data.token) {
                 // localStorage.setItem("token", response.data.token);
-                // localStorage.setItem("role", "expert");
-                login(response.data.token, "expert");
-                navigate("/expert/spottings");
+                // localStorage.setItem("role", "admin");
+                login(response.data.token, "admin");
+                navigate("/admin/experts");
             }
         },
         onError: (error) => {
@@ -54,7 +54,7 @@ const ExpertLoginPage = () => {
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h1 className="text-2xl font-semibold text-center text-gray-700 mb-6">
-                    Expert Login
+                    Admin Login
                 </h1>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
@@ -106,4 +106,4 @@ const ExpertLoginPage = () => {
     );
 };
 
-export default ExpertLoginPage;
+export default AdminLogin;

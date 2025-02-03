@@ -1,5 +1,5 @@
 import React from "react";
 
-export default function ExpertAccountPage() {
+export default function ExpertAccount() {
     return <div>ExpertAccountPage</div>;
 }

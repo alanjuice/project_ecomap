@@ -10,21 +10,19 @@ instance.interceptors.request.use((config) => {
     if (token) {
         config.headers["x-authtoken"] = token;
     }
-    console.log(config);
     return config;
 });
 
 const loginExpert = async (loginData) => {
-    return instance.post("expert/login", loginData);
+    return await instance.post("expert/login", loginData);
 };
 
 const loginAdmin = async (loginData) => {
-    return instance.post("admin/login", loginData);
+    return await instance.post("admin/login", loginData);
 };
 
 const registerExpert = async (registerData) => {
-    const response = await instance.post("expert/register", registerData);
-    return response;
+    return await instance.post("expert/register", registerData);
 };
 
 const getSpottings = async () => {
@@ -36,13 +34,11 @@ const registerUser = async (registerData) => {
 };
 
 const getSpeciesDatabyID = async (id) => {
-    const response = await instance.get(`expert/species/${id}`);
-    return response;
-};
+    return await instance.get(`expert/species/${id}`);
+}
 
 const deleteSpecies = async (id) => {
-    const response = await instance.post(`expert/delete-species/${id}`);
-    return response;
+    return await instance.post(`expert/delete-species/${id}`);
 };
 
 const getSpecies = async (filter) => {
@@ -57,34 +53,27 @@ const getSpeciesbyId = async (id) => {
 };
 
 const getOccurencebyId = async (id) => {
-    const data = await instance.get(`expert/get-occurance/${id}`);
-    console.log(data);
-    return data;
+    return await instance.get(`expert/get-occurance/${id}`);
 };
 
 const getOccurence = async (filter) => {
-    console.log(filter);
-    const response = await instance.get("expert/get-occurance", {
+    return await instance.get("expert/get-occurance", {
         params: filter,
     });
-    return response;
 };
 
 const getExperts = async () => {
     const response = await instance.get("admin/experts");
-    console.log(response);
     return response.data;
 };
 
 const getUsers = async () => {
     const response = await instance.get("admin/users");
-    console.log(response);
     return response.data;
 };
 
 const addSpecies = async (speciesData) => {
     const response = await instance.post("expert/add-species", speciesData, {});
-    console.log(response);
     return response;
 };
 

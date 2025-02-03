@@ -1,11 +1,11 @@
-import CardGrid from "../components/CardGrid";
-import SideBar from "../components/SideBar";
-import { getSpecies } from "../api";
+import CardGrid from "../../components/CardGrid";
+import SideBar from "../../components/SideBar";
+import { getSpecies } from "../../api";
 import { useQuery } from "@tanstack/react-query";
-import LoadingIcon from "../components/LoadingIcon";
-import Error from "../components/Error";
-import { FilterProvider, useFilter } from "../context/FilterContext";
-import NoResourceFound from "../components/NoResourceFound";
+import LoadingIcon from "../../components/LoadingIcon";
+import Error from "../../components/Error";
+import { FilterProvider, useFilter } from "../../context/FilterContext";
+import NoResourceFound from "../../components/NoResourceFound";
 
 const SpeciesContent = () => {
     const { filter } = useFilter();
@@ -38,7 +38,7 @@ const SpeciesContent = () => {
     );
 };
 
-export default function SpeciesPage() {
+export default function Species() {
     return (
         <FilterProvider>
             <SpeciesContent />

@@ -1,58 +1,47 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { loginAdmin } from "../api";
-import { toast, ToastContainer } from "react-toastify";
-import { useMutation } from "@tanstack/react-query";
-import { useAuth } from "../context/AuthContext";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { registerExpert } from "../../api";
+import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 
-const AdminLoginPage = () => {
+const ExpertSignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { login } = useAuth();
-
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (
-            localStorage.getItem("token") &&
-            localStorage.getItem("role") == "admin"
-        ) {
-            navigate("/admin/experts");
-        }
-    });
-
-    const mutation = useMutation({
-        mutationFn: loginAdmin,
-        onSuccess: (response) => {
-            if (response.data.token) {
-                // localStorage.setItem("token", response.data.token);
-                // localStorage.setItem("role", "admin");
-                login(response.data.token, "admin");
-                navigate("/admin/experts");
-            }
-        },
-        onError: (error) => {
-            console.log(error);
-            toast.error(error.response.data.message, {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: true,
-                pauseOnHover: true,
-                theme: "light",
-            });
-        },
-    });
+    const [name, setName] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        mutation.mutate({ email, password });
+        console.log("Email:", email);
+        console.log("Password:", password);
+        console.log("Name:", name);
+
+        const response = await registerExpert({ email, password, name });
+        if (!response.success)
+            toast.error(response.data.message, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: true,
+                theme: "light",
+            });
+        else {
+            toast(response.data.message, {
+                position: "top-right",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: true,
+                theme: "light",
+            });
+        }
     };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h1 className="text-2xl font-semibold text-center text-gray-700 mb-6">
-                    Admin Login
+                    Expert Sign Up
                 </h1>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
@@ -69,6 +58,24 @@ const AdminLoginPage = () => {
                             className="w-full px-4 py-2 mt-2 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="mb-6">
+                        <label
+                            htmlFor="name"
+                            className="block text-sm font-medium text-gray-600"
+                        >
+                            Name
+                        </label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            className="w-full px-4 py-2 mt-2 border border-gray-300  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             required
                         />
                     </div>
@@ -98,10 +105,22 @@ const AdminLoginPage = () => {
                         Login
                     </button>
                 </form>
+
+                <div className="mt-4 text-center text-sm text-gray-600">
+                    <p>
+                        Have an account?{" "}
+                        <Link
+                            to="/expert/login"
+                            className="text-indigo-600 hover:text-indigo-700"
+                        >
+                            Login
+                        </Link>
+                    </p>
+                </div>
             </div>
             <ToastContainer />
         </div>
     );
 };
 
-export default AdminLoginPage;
+export default ExpertSignUp;

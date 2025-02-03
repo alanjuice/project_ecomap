@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import UserRegistrationModal from "../components/RegistrationModal";
 import { useQuery } from "@tanstack/react-query";
-import { getExperts, getSpecies, getUsers } from "../api";
-import LoadingIcon from "../components/LoadingIcon";
-import Error from "../components/Error";
-import AddSpeciesModal from "../components/AddSpeciesModal";
+
+import { getExperts, getSpecies, getUsers } from "../../api";
+
+import UserRegistrationModal from "../../components/RegistrationModal";
+import LoadingIcon from "../../components/LoadingIcon";
+import Error from "../../components/Error";
+import AddSpeciesModal from "../../components/AddSpeciesModal";
 
 const AdminListPage = ({ resource }) => {
     const fetchData = (resource) => {
