@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const CardGrid = ({ data, resource }) => {
     return (

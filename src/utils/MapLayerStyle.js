@@ -2,7 +2,7 @@ const heatmapLayerStyle = {
     id: "species_heat",
     type: "heatmap",
     source: "species_locations",
-    maxzoom: 9,
+    maxzoom: 12,
     paint: {
         "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 0, 1, 9, 3],
 
@@ -34,11 +34,8 @@ const pointLayerStyle = {
     id: "species-point",
     type: "circle",
     source: "species_locations",
-    minzoom: 7,
+    minzoom: 12,
     paint: {
-        // Size circle radius by earthquake magnitude and zoom level
-
-        // Color circle by earthquake magnitude
         "circle-color": [
             "interpolate",
             ["linear"],
