@@ -216,18 +216,14 @@ const SpottingDetails = () => {
                         </PopoverContent>
                     </Popover>
 
-                    <button
-                        className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
-                        onClick={handleIdentify}
+                    <Button onClick={handleIdentify}>Identify</Button>
+                    <Button
+                        onClick={() => {
+                            setModalOpen(true);
+                        }}
                     >
-                        Identify
-                    </button>
-                    <button
-                        className="px-6 py-2 bg-gray-600 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105"
-                        onClick={() => setModalOpen(true)}
-                    >
-                        Can't Find Species?
-                    </button>
+                        Can't Find Species
+                    </Button>
                 </div>
             </div>
 
