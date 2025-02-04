@@ -1,13 +1,15 @@
-import { sidebarTabs } from "@/constants";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { sidebarTabs } from "@/constants";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-const UserSideBar = ({ userType }) => {
+const UserSidebar = ({ userType }) => {
     const [activeTab, setActiveTab] = useState("Experts");
     const navigate = useNavigate();
-    const tabs = sidebarTabs[userType];
-
+    const tabs = sidebarTabs[userType] || [];
+    
     const handleSignOut = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("role");
@@ -15,75 +17,69 @@ const UserSideBar = ({ userType }) => {
     };
 
     return (
-        <>
-            {/* Mobile Sidebar Toggle */}
-            <div className="sm:hidden bg-gray-800 text-white flex justify-between items-center px-4 py-2 shadow-lg">
-                <button onClick={() => setMobileOpen(!mobileOpen)}>
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="lucide lucide-menu text-white h-6 w-6"
-                    >
-                        <line x1="4" x2="20" y1="12" y2="12"></line>
-                        <line x1="4" x2="20" y1="6" y2="6"></line>
-                        <line x1="4" x2="20" y1="18" y2="18"></line>
-                    </svg>
-                </button>
+        <div className="md:h-screen bg-gray-100 shadow-lg p-4 sticky top-0 sm:w-64 w-full sm:block hidden">
+            {/* Mobile Sidebar */}
+            <div className="flex justify-between items-center mb-4">
+                <Sheet>
+                    <SheetTrigger asChild className="sm:hidden block">
+                        <Button variant="ghost">
+                            <Menu className="text-gray-800 h-6 w-6" />
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="bg-gray-800 text-white w-64 p-4">
+                        <h2 className="text-lg font-bold mb-4">Dashboard</h2>
+                        <div className="border-b border-gray-700 mb-4"></div>
+                        {tabs.map((tab) => (
+                            <Link
+                                to={tab.path}
+                                key={tab.name}
+                                className={`block p-3 rounded text-sm font-medium ${
+                                    activeTab === tab.name ? "bg-gray-700" : "hover:bg-gray-700"
+                                }`}
+                                onClick={() => setActiveTab(tab.name)}
+                            >
+                                {tab.name}
+                            </Link>
+                        ))}
+                        <div className="border-b border-gray-700 my-4"></div>
+                        <Button
+                            variant="destructive"
+                            className="w-full flex items-center gap-2"
+                            onClick={handleSignOut}
+                        >
+                            Sign Out
+                        </Button>
+                    </SheetContent>
+                </Sheet>
             </div>
 
-            {/* Sidebar for Larger Screens */}
-            <div className="hidden sm:flex flex-col sm:h-screen sm:w-64 bg-gray-800 text-white shadow-lg p-4 space-y-4">
-                <h2 className="text-lg font-bold text-gray-200">Dashboard</h2>
-                <div className="shrink-0 bg-border h-[1px] w-full"></div>
-
+            {/* Desktop Sidebar */}
+            <div className="">
+                <h2 className="text-lg font-bold mb-4 text-gray-800">Dashboard</h2>
+                <div className="border-b border-gray-300 mb-4"></div>
                 {tabs.map((tab) => (
-                    <Link key={tab.name} to={tab.path} className="w-full">
-                        <Button
-                            variant={activeTab === tab.name ? "secondary" : "ghost"}
-                            className="w-full text-left"
-                            onClick={() => setActiveTab(tab.name)}
-                        >
-                            {tab.name}
-                        </Button>
+                    <Link
+                        to={tab.path}
+                        key={tab.name}
+                        className={`block p-3 rounded text-sm font-medium text-gray-800 ${
+                            activeTab === tab.name ? "bg-gray-200" : "hover:bg-gray-300"
+                        }`}
+                        onClick={() => setActiveTab(tab.name)}
+                    >
+                        {tab.name}
                     </Link>
                 ))}
-
-                <div className="shrink-0 bg-border h-[1px] w-full"></div>
-
-                {/* Sign Out Button */}
+                <div className="border-b border-gray-300 my-4"></div>
                 <Button
-                    className="w-full flex items-center gap-2"
                     variant="destructive"
+                    className="w-full flex items-center gap-2"
                     onClick={handleSignOut}
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="lucide lucide-log-out w-4 h-4"
-                    >
-                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                        <polyline points="16 17 21 12 16 7"></polyline>
-                        <line x1="21" x2="9" y1="12" y2="12"></line>
-                    </svg>
                     Sign Out
                 </Button>
             </div>
-        </>
+        </div>
     );
 };
 
-export default UserSideBar;
+export default UserSidebar;

@@ -28,6 +28,7 @@ import NotFound from "./pages/common/NotFound";
 
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { AuthProvider } from "./context/AuthContext";
+import { SidebarProvider } from "./context/SideBarContext";
 
 // Create a router
 let router = createBrowserRouter([
@@ -122,9 +123,12 @@ function App() {
     return (
         <>
             <AuthProvider>
+                <SidebarProvider>
                 <QueryClientProvider client={queryClient}>
                     <RouterProvider router={router}></RouterProvider>
                 </QueryClientProvider>
+                </SidebarProvider>
+                
             </AuthProvider>
         </>
     );
