@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import ExpertSideBar from "../components/ExpertSideBar";
+import UserSideBar from "@/components/UserSidebar";
 
 const ExpertMain = () => {
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ const ExpertMain = () => {
     if (isAuthenticated)
         return (
             <div className="flex sm:flex-row flex-col">
-                <ExpertSideBar />
+                <UserSideBar userType={"expert"} />
                 <Outlet />
             </div>
         );

@@ -11,9 +11,30 @@ import LoadingIcon from "../../components/LoadingIcon";
 import AddSpeciesModal from "../../components/AddSpeciesModal";
 import Error from "../../components/Error";
 
+import { Check, ChevronsUpDown } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+
 const SpottingDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+
+    const [open, setOpen] = useState(false);
+    const [value, setValue] = useState("");
 
     const {
         data: spottingData,
@@ -133,32 +154,74 @@ const SpottingDetails = () => {
                 <h2 className="text-xl font-semibold mb-4">
                     Identify the Species
                 </h2>
+
+                {/* Added Combobox */}
                 <div className="flex items-center space-x-4">
-                    <select
-                        className="p-2 border border-gray-300 rounded"
-                        value={selectedSpecies}
-                        onChange={(e) => setSelectedSpecies(e.target.value)}
-                    >
-                        <option value="" disabled>
-                            Select Species
-                        </option>
-                        {speciesOptions.data.length > 0 ? (
-                            speciesOptions.data.map((species) => (
-                                <option key={species._id} value={species._id}>
-                                    {species.common_name}
-                                </option>
-                            ))
-                        ) : (
-                            <option disabled>No species available</option>
-                        )}
-                    </select>
+                    <Popover open={open} onOpenChange={setOpen}>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={open}
+                                className="w-[200px] justify-between"
+                            >
+                                {value
+                                    ? speciesOptions.data.find(
+                                          (species) => species._id === value
+                                      )?.common_name
+                                    : "Select species..."}
+                                <ChevronsUpDown className="opacity-50" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[200px] p-0">
+                            <Command>
+                                <CommandInput
+                                    placeholder="Search species..."
+                                    className="h-9"
+                                />
+                                <CommandList>
+                                    <CommandEmpty>
+                                        No species found.
+                                    </CommandEmpty>
+                                    <CommandGroup>
+                                        {speciesOptions.data.map((species) => (
+                                            <CommandItem
+                                                key={species._id}
+                                                onSelect={() => {
+                                                    setValue(
+                                                        species._id === value
+                                                            ? ""
+                                                            : species._id
+                                                    );
+                                                    setSelectedSpecies(
+                                                        species._id
+                                                    );
+                                                    setOpen(false);
+                                                }}
+                                            >
+                                                {species.common_name}
+                                                <Check
+                                                    className={cn(
+                                                        "ml-auto",
+                                                        value === species._id
+                                                            ? "opacity-100"
+                                                            : "opacity-0"
+                                                    )}
+                                                />
+                                            </CommandItem>
+                                        ))}
+                                    </CommandGroup>
+                                </CommandList>
+                            </Command>
+                        </PopoverContent>
+                    </Popover>
+
                     <button
                         className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition duration-300 ease-in-out transform hover:scale-105"
                         onClick={handleIdentify}
                     >
                         Identify
                     </button>
-
                     <button
                         className="px-6 py-2 bg-gray-600 text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 transition duration-300 ease-in-out transform hover:scale-105"
                         onClick={() => setModalOpen(true)}

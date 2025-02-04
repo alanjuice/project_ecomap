@@ -12,8 +12,8 @@ import Occurrence from "./pages/user/Occurence";
 import OccurenceDetails from "./pages/user/OccurenceDetails";
 
 // Expert Routes
-import ExpertLogin from "./pages/admin/Login";
-import ExpertMain from "./pages/admin/Main";
+import ExpertLogin from "./pages/expert/Login";
+import ExpertMain from "./pages/expert/Main";
 import ExpertAccount from "./pages/expert/Account";
 import SpottingList from "./pages/expert/SpottingList";
 import SpottingDetails from "./pages/expert/SpottingDetails";

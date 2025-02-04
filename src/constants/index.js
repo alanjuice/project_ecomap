@@ -30,6 +30,16 @@ const hotItWorksSteps = [
     },
 ];
 
-export {
-    fadeIn,hotItWorksSteps
-}
+const sidebarTabs = {
+    admin: [
+        { name: "Experts", path: "/admin/experts" },
+        { name: "Users", path: "/admin/users" },
+        { name: "Species", path: "/admin/species" },
+    ],
+    expert: [
+        { name: "Spottings", path: "/expert/spottings" },
+        { name: "Account", path: "/expert/account" },
+    ],
+};
+
+export { fadeIn, hotItWorksSteps, sidebarTabs };

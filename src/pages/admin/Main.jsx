@@ -1,7 +1,8 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import AdminSideBar from "../../components/AdminSideBar";
+import AdminSideBar from "../../components/UserSideBar";
+import UserSideBar from "../../components/UserSideBar";
 
 const AdminMain = () => {
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ const AdminMain = () => {
     if (isAuthenticated)
         return (
             <div className="flex sm:flex-row flex-col">
-                <AdminSideBar />
+                <UserSideBar userType={"admin"} />
                 <Outlet />
             </div>
         );

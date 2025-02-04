@@ -1,16 +1,13 @@
+import { sidebarTabs } from "@/constants";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const AdminSideBar = () => {
+const UserSideBar = ({ userType }) => {
     const [activeTab, setActiveTab] = useState("Experts");
 
-    const tabs = [
-        { name: "Experts", path: "/admin/experts" },
-        { name: "Users", path: "/admin/users" },
-        { name: "Species", path: "/admin/species" },
-    ];
-
     const navigate = useNavigate();
+
+    const tabs = sidebarTabs[userType];
 
     const handleSignOut = () => {
         localStorage.removeItem("token");
@@ -68,4 +65,4 @@ const AdminSideBar = () => {
     );
 };
 
-export default AdminSideBar;
+export default UserSideBar;
