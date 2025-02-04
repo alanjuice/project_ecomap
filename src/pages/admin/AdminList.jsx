@@ -8,6 +8,16 @@ import LoadingIcon from "../../components/LoadingIcon";
 import Error from "../../components/Error";
 import AddSpeciesModal from "../../components/AddSpeciesModal";
 
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+
 const AdminListPage = ({ resource }) => {
     const fetchData = (resource) => {
         if (resource === "Species") {
@@ -34,13 +44,12 @@ const AdminListPage = ({ resource }) => {
         let d = data;
 
         if (resource === "Species") {
-            d = data?.data; // Adjusting for Species
+            d = data?.data;
         }
 
         if (d) {
             setFilteredContent(
                 d.filter((item) =>
-                    // Adjust filtering based on resource type
                     resource === "Species"
                         ? item?.common_name
                               ?.toLowerCase()
@@ -70,70 +79,8 @@ const AdminListPage = ({ resource }) => {
     if (isLoading) return <LoadingIcon />;
     if (isError) return <Error message={error.message} />;
 
-    // Determine the table columns dynamically based on the resource
-    const renderTableHeaders = () => {
-        if (resource === "Species") {
-            return (
-                <>
-                    <th className="p-3 border">Id</th>
-                    <th className="p-3 border">Common Name</th>
-                    <th className="p-3 border">Scientific Name</th>
-                    <th className="p-3 border">Conservation Status</th>
-                </>
-            );
-        }
-        return (
-            <>
-                <th className="p-3 border">Id</th>
-                <th className="p-3 border">Name</th>
-                <th className="p-3 border">Email</th>
-            </>
-        );
-    };
-
-    const renderTableRows = () => {
-        if (filteredContent.length > 0) {
-            return filteredContent.map((item) => (
-                <tr
-                    key={item._id}
-                    className="border hover:bg-gray-100 transition duration-200"
-                >
-                    <td className="p-3 border">{item._id}</td>
-                    {resource === "Species" ? (
-                        <>
-                            <td className="p-3 border">{item.common_name}</td>
-                            <td className="p-3 border">
-                                {item.scientific_name ||
-                                    item.spotId?.scientific_name}
-                            </td>
-                            <td className="p-3 border">
-                                {item.conservation_status || item.spe}
-                            </td>
-                        </>
-                    ) : (
-                        <>
-                            <td className="p-3 border">{item.name}</td>
-                            <td className="p-3 border">{item.email}</td>
-                        </>
-                    )}
-                </tr>
-            ));
-        }
-
-        return (
-            <tr>
-                <td
-                    colSpan={resource === "Species" ? 4 : 3}
-                    className="p-4 text-center text-gray-500"
-                >
-                    No resource found.
-                </td>
-            </tr>
-        );
-    };
-
     return (
-        <div className="w-100 sm:m-2 p-4 bg-white sm:w-1/2">
+        <div className="w-full sm:m-2 p-4 bg-white sm:w-3/4 mx-auto">
             <h1 className="text-2xl font-bold mb-4 text-gray-800">
                 {resource} List
             </h1>
@@ -146,12 +93,9 @@ const AdminListPage = ({ resource }) => {
                     placeholder="Search..."
                     className="p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300 sm:w-1/3 w-2/3"
                 />
-                <button
-                    onClick={() => setModalOpen(true)}
-                    className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 transition"
-                >
+                <Button onClick={() => setModalOpen(true)}>
                     Add {resource}
-                </button>
+                </Button>
             </div>
 
             {resource === "Species" ? (
@@ -167,14 +111,82 @@ const AdminListPage = ({ resource }) => {
                 />
             )}
 
-            {/* Wrap the table inside a scrollable container */}
-            <div className="overflow-x-auto">
-                <table className="min-w-full table-auto">
-                    <thead className="bg-gray-800 text-white">
-                        <tr>{renderTableHeaders()}</tr>
-                    </thead>
-                    <tbody>{renderTableRows()}</tbody>
-                </table>
+            {/* Scrollable Table */}
+            <div className="overflow-x-auto border rounded-lg shadow-md">
+                <Table>
+                    <TableHeader className="bg-gray-800 text-white">
+                        <TableRow>
+                            <TableHead className="p-3">ID</TableHead>
+                            {resource === "Species" ? (
+                                <>
+                                    <TableHead className="p-3">
+                                        Common Name
+                                    </TableHead>
+                                    <TableHead className="p-3">
+                                        Scientific Name
+                                    </TableHead>
+                                    <TableHead className="p-3">
+                                        Conservation Status
+                                    </TableHead>
+                                </>
+                            ) : (
+                                <>
+                                    <TableHead className="p-3">Name</TableHead>
+                                    <TableHead className="p-3">Email</TableHead>
+                                </>
+                            )}
+                        </TableRow>
+                    </TableHeader>
+
+                    <TableBody>
+                        {filteredContent.length > 0 ? (
+                            filteredContent.map((item) => (
+                                <TableRow
+                                    key={item._id}
+                                    className="border hover:bg-gray-100 transition duration-200"
+                                >
+                                    <TableCell className="p-3">
+                                        {item._id}
+                                    </TableCell>
+                                    {resource === "Species" ? (
+                                        <>
+                                            <TableCell className="p-3">
+                                                {item.common_name}
+                                            </TableCell>
+                                            <TableCell className="p-3">
+                                                {item.scientific_name ||
+                                                    item.spotId
+                                                        ?.scientific_name}
+                                            </TableCell>
+                                            <TableCell className="p-3">
+                                                {item.conservation_status ||
+                                                    "N/A"}
+                                            </TableCell>
+                                        </>
+                                    ) : (
+                                        <>
+                                            <TableCell className="p-3">
+                                                {item.name}
+                                            </TableCell>
+                                            <TableCell className="p-3">
+                                                {item.email}
+                                            </TableCell>
+                                        </>
+                                    )}
+                                </TableRow>
+                            ))
+                        ) : (
+                            <TableRow>
+                                <TableCell
+                                    colSpan={resource === "Species" ? 4 : 3}
+                                    className="p-4 text-center text-gray-500"
+                                >
+                                    No records found.
+                                </TableCell>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
             </div>
         </div>
     );
