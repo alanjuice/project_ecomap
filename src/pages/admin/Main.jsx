@@ -1,7 +1,6 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import AdminSideBar from "../../components/UserSideBar";
 import UserSideBar from "../../components/UserSideBar";
 
 const AdminMain = () => {
