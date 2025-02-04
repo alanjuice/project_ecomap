@@ -114,7 +114,7 @@ const AdminListPage = ({ resource }) => {
             {/* Scrollable Table */}
             <div className="overflow-x-auto border rounded-lg shadow-md">
                 <Table>
-                    <TableHeader className="bg-gray-800 text-white">
+                    <TableHeader className="bg-green-100 text-white">
                         <TableRow>
                             <TableHead className="p-3">ID</TableHead>
                             {resource === "Species" ? (

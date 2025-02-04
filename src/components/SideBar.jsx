@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import {  X } from "lucide-react";
+import {  X,Filter } from "lucide-react";
 
 const Sidebar = ({ type }) => {
     const conservationStatuses = [
@@ -43,7 +43,7 @@ const Sidebar = ({ type }) => {
                 <Drawer>
                     <DrawerTrigger asChild>
                         <Button variant="ghost" className="md:hidden">
-                            {mobileFilterVisible ? <X size={20} /> : <p>dd</p> }
+                            {mobileFilterVisible ? <X size={20} /> : <Filter/> }
                         </Button>
                     </DrawerTrigger>
                     <DrawerContent className="p-4">
@@ -78,7 +78,7 @@ const FilterContent = ({ type, filters, onFilterChange }) => {
                 <div>
                     <h3 className="text-lg font-semibold text-gray-700 mb-2">Conservation Status</h3>
                     <div className="space-y-2">
-                        {["All", "Endangered", "Vulnerable", "Near Threatened", "Least Concern"].map(
+                        {[ "Endangered", "Vulnerable", "Near Threatened", "Least Concern"].map(
                             (status) => (
                                 <div key={status} className="flex items-center space-x-2">
                                     <Checkbox
@@ -121,6 +121,7 @@ const FilterContent = ({ type, filters, onFilterChange }) => {
                 <h3 className="text-lg font-semibold text-gray-700 mb-2">Sort By</h3>
                 <Select
                     value={filters.sortBy}
+                    defaultValue= {type === "occurence" ? "recent" : "asc"}
                     onValueChange={(value) => onFilterChange("sortBy", value)}
                 >
                     <SelectTrigger className="w-full">
