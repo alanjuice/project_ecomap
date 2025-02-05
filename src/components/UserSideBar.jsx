@@ -5,19 +5,20 @@ import { Link, useNavigate } from "react-router-dom";
 import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
+import { useAuth } from "../context/AuthContext";
+
 const UserSidebar = ({ userType }) => {
     const [activeTab, setActiveTab] = useState("Experts");
     const navigate = useNavigate();
-    const tabs = sidebarTabs[userType] || [];
-    
+    const tabs = sidebarTabs[userType];
+    const {logout} = useAuth();
     const handleSignOut = () => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("role");
+        logout();
         navigate("/");
     };
 
     return (
-        <div className="md:h-screen bg-gray-100 shadow-lg p-4 sticky top-0 sm:w-64 w-full sm:block hidden">
+        <div className="sm:h-screen bg-gray-100 shadow-lg p-4 sticky top-0 sm:w-64 w-full sm:block hidden">
             {/* Mobile Sidebar */}
             <div className="flex justify-between items-center mb-4">
                 <Sheet>
