@@ -6,15 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import {  X,Filter } from "lucide-react";
+import { conservationStatuses } from "@/constants";
 
 const Sidebar = ({ type }) => {
-    const conservationStatuses = [
-        "Endangered",
-        "Vulnerable",
-        "Near Threatened",
-        "Least Concern",
-        "Critically Endangered",
-    ];
+    
 
     const { updateFilter } = useFilter();
     const [filters, setFilters] = useState({
@@ -69,6 +64,7 @@ const Sidebar = ({ type }) => {
 };
 
 const FilterContent = ({ type, filters, onFilterChange }) => {
+
     return (
         <div className="space-y-6">
             <h2 className="text-xl font-bold text-gray-700">Filters</h2>
@@ -78,7 +74,7 @@ const FilterContent = ({ type, filters, onFilterChange }) => {
                 <div>
                     <h3 className="text-lg font-semibold text-gray-700 mb-2">Conservation Status</h3>
                     <div className="space-y-2">
-                        {[ "Endangered", "Vulnerable", "Near Threatened", "Least Concern"].map(
+                        {conservationStatuses.map(
                             (status) => (
                                 <div key={status} className="flex items-center space-x-2">
                                     <Checkbox

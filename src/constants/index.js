@@ -42,4 +42,12 @@ const sidebarTabs = {
     ],
 };
 
-export { fadeIn, hotItWorksSteps, sidebarTabs };
+const conservationStatuses = [
+    "Endangered",
+    "Vulnerable",
+    "Near Threatened",
+    "Least Concern",
+    "Critically Endangered",
+];
+
+export { fadeIn, hotItWorksSteps, sidebarTabs,conservationStatuses };
