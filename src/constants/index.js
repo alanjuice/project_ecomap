@@ -40,6 +40,10 @@ const sidebarTabs = {
         { name: "Spottings", path: "/expert/spottings" },
         { name: "Account", path: "/expert/account" },
     ],
+    user: [
+        { name: "Species", path: "/species" },
+        { name: "Occurence", path: "/occurrence" },
+    ],
 };
 
 const conservationStatuses = [
