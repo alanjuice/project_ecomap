@@ -22,6 +22,7 @@ const Navbar = () => {
         logout();
         navigate("/");
     };
+
   return (
     <>
       <nav className="bg-green-800 text-white px-6 py-3 flex justify-between items-center">
@@ -86,7 +87,7 @@ const Navbar = () => {
           <img src={EcoMapLogo} alt="Logo" className="w-8 h-8" />
           <Link
             to="/"
-            className="text-2xl font-bold hover:text-green-300 hidden sm:block"
+            className="text-2xl font-bold hover:text-green-300"
           >
             EcoMap
           </Link>

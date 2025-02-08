@@ -8,39 +8,37 @@ import NoResourceFound from "../../components/NoResourceFound";
 import CardGrid from "../../components/CardGrid";
 
 const SpottingList = () => {
-    const {
-        data: spottingListData,
-        isLoading,
-        error,
-        isError,
-    } = useQuery({
-        queryKey: ["getallspottings"],
-        queryFn: getSpottings,
-    });
+  const {
+    data: spottingListData,
+    isLoading,
+    error,
+    isError,
+  } = useQuery({
+    queryKey: ["getallspottings"],
+    queryFn: getSpottings,
+  });
 
-    if (isError) {
-        return <Error message={error.message} />;
-    }
+  if (isError) {
+    return <Error message={error.message} />;
+  }
 
-    if (isLoading) {
-        return (
-            <>
-                <LoadingIcon />
-            </>
-        );
-    }
+  if (isLoading) {
     return (
-        <div className="flex flex-col md:flex-row">
-            {spottingListData.data.length > 0 ? (
-                <CardGrid
-                    data={spottingListData.data}
-                    resource={"expert/spottings"}
-                />
-            ) : (
-                <NoResourceFound resource={"Spotting"} />
-            )}
-        </div>
+      <>
+        <LoadingIcon />
+      </>
     );
+  }
+
+  if (!spottingListData.data.length > 0) {
+    return <NoResourceFound resource={"Spotting"} />;
+  }
+  
+  return (
+    <div className="flex flex-col md:flex-row">
+      <CardGrid data={spottingListData.data} resource={"expert/spottings"} />
+    </div>
+  );
 };
 
 export default SpottingList;
