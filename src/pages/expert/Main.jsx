@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-import UserSideBar from "@/components/UserSidebar";
+import UserSideBar from "../../components/UserSidebar";
 
 const ExpertMain = () => {
     const navigate = useNavigate();
