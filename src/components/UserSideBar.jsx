@@ -7,7 +7,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { useAuth } from "../context/AuthContext";
 
-const UserSidebar = ({ userType }) => {
+const UserSideBar = ({ userType }) => {
     const [activeTab, setActiveTab] = useState("Experts");
     const navigate = useNavigate();
     const tabs = sidebarTabs[userType];
@@ -83,4 +83,4 @@ const UserSidebar = ({ userType }) => {
     );
 };
 
-export default UserSidebar;
+export default UserSideBar;
