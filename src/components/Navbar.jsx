@@ -58,6 +58,8 @@ const Navbar = () => {
                     ))}
                     <SheetClose asChild>
                       <Button
+                       variant="destructive"
+                            className="w-full flex items-center"
                         type="button"
                         onClick={handleSignOut}
                       >
