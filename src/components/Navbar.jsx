@@ -15,13 +15,13 @@ import { sidebarTabs } from "@/constants";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  
-    const navigate= useNavigate();
 
-    const handleSignOut = () => {
-        logout();
-        navigate("/");
-    };
+  const navigate = useNavigate();
+
+  const handleSignOut = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <>
@@ -42,6 +42,23 @@ const Navbar = () => {
               <div className="border-b border-gray-700 mb-4"></div>
 
               <ul className="space-y-3">
+                {/* If logged in, show expert or admin specific links along with guest links, else only show user/guest links */}
+
+                {/* Common Links */}
+                {sidebarTabs["user"].map((tab) => (
+                  <li key={tab.path}>
+                    <SheetClose asChild>
+                      <Link
+                        to={tab.path}
+                        className="block p-2 rounded hover:bg-gray-700"
+                      >
+                        {tab.name}
+                      </Link>
+                    </SheetClose>
+                  </li>
+                ))}
+
+                {/* User Role Specific Links */}
                 {user ? (
                   <>
                     {sidebarTabs[user.role].map((tab) => (
@@ -58,8 +75,8 @@ const Navbar = () => {
                     ))}
                     <SheetClose asChild>
                       <Button
-                       variant="destructive"
-                            className="w-full flex items-center"
+                        variant="destructive"
+                        className="w-full flex items-center"
                         type="button"
                         onClick={handleSignOut}
                       >
@@ -68,18 +85,7 @@ const Navbar = () => {
                     </SheetClose>
                   </>
                 ) : (
-                  sidebarTabs["user"].map((tab) => (
-                    <li key={tab.path}>
-                      <SheetClose asChild>
-                        <Link
-                          to={tab.path}
-                          className="block p-2 rounded hover:bg-gray-700"
-                        >
-                          {tab.name}
-                        </Link>
-                      </SheetClose>
-                    </li>
-                  ))
+                  ""
                 )}
               </ul>
             </SheetContent>
@@ -87,10 +93,7 @@ const Navbar = () => {
 
           {/* Logo & Desktop Links */}
           <img src={EcoMapLogo} alt="Logo" className="w-8 h-8" />
-          <Link
-            to="/"
-            className="text-2xl font-bold hover:text-green-300"
-          >
+          <Link to="/" className="text-2xl font-bold hover:text-green-300">
             EcoMap
           </Link>
           <ul className="hidden sm:flex space-x-4">
