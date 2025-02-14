@@ -10,7 +10,6 @@ import Error from "../../components/Error";
 
 import { getOccurencebyId } from "../../api";
 
-
 const OccurenceDetails = () => {
     const { id } = useParams();
 

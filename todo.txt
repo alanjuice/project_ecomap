@@ -1,0 +1,22 @@
+Catch Network Error i.e When server is down/dead.
+
+Add Occurences List Page for Admin.
+
+Fix Species List in Admin Error when no Species are present.
+
+Add delete and update button for each resource in admin panel i.e species,user,expert,occurence.
+
+Fix spottingsList page card size and (cardgrid max cards in row)
+
+Add pagination for all list pages
+
+Fix Species Details Page Error due to no Occurences
+
+Setup Forgot Password
+
+Consistant colouring and UI setup - (greeny colours)
+
+Catch errors and fix bugs
+
+Add user/expert working how? and to change?
+

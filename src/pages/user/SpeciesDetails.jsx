@@ -11,7 +11,6 @@ import Error from "../../components/Error";
 
 const SpeciesDetailsPage = () => {
     const { id } = useParams();
-
     const {
         data: speciesData,
         isLoading,
@@ -19,7 +18,7 @@ const SpeciesDetailsPage = () => {
         isError,
     } = useQuery({
         queryKey: ["getSpeciesById"],
-        queryFn: () => getSpeciesbyId(id),
+        queryFn: () => getSpeciesbyId(id)
     });
 
     const {
