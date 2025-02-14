@@ -1,13 +1,22 @@
 import { useParams } from "react-router-dom";
 import { Map, Layer, Source } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
-import ColouredCard from "../../components/ColouredCard";
-import { getMapData, getSpeciesbyId, getSpeciesDatabyID } from "../../api";
-
-import { heatmapLayerStyle, pointLayerStyle } from "../../utils/MapLayerStyle";
-import LoadingIcon from "../../components/LoadingIcon";
 import { useQuery } from "@tanstack/react-query";
+
+import LoadingIcon from "../../components/LoadingIcon";
 import Error from "../../components/Error";
+
+import { getMapData, getSpeciesbyId } from "../../api";
+import { heatmapLayerStyle, pointLayerStyle } from "../../utils/MapLayerStyle";
+
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const SpeciesDetailsPage = () => {
     const { id } = useParams();
@@ -18,7 +27,7 @@ const SpeciesDetailsPage = () => {
         isError,
     } = useQuery({
         queryKey: ["getSpeciesById"],
-        queryFn: () => getSpeciesbyId(id)
+        queryFn: () => getSpeciesbyId(id),
     });
 
     const {
@@ -31,10 +40,7 @@ const SpeciesDetailsPage = () => {
         queryFn: () => getMapData(id),
     });
 
-    console.log(speciesData);
-
     if (isError || isMapError) {
-        console.log(mapError);
         return <Error message={"Something went wrong"} />;
     }
 
@@ -43,70 +49,80 @@ const SpeciesDetailsPage = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
-            {/* Hero Section */}
-            <div className="relative w-full h-96 bg-gradient-to-br from-gray-800 to-gray-600">
-                <img
-                    src={speciesData.data.image}
-                    alt={speciesData.data.common_name}
-                    className="absolute inset-0 w-full h-full object-scale-down opacity-50"
-                />
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
-                    <h1 className="text-4xl font-extrabold mb-2">
-                        {speciesData.data.common_name}
-                    </h1>
-                    <h2 className="text-lg font-semibold italic">
-                        {speciesData.data.scientific_name}
-                    </h2>
-                </div>
-            </div>
+        <div className="min-h-screen bg-gray-50 p-6">
+            <div className="container mx-auto space-y-8">
+                {/* Image Card */}
+                <Card className="overflow-hidden shadow-lg">
+                    <img
+                        src={speciesData.data.image}
+                        alt={speciesData.data.common_name}
+                        className="w-full h-96 object-contain"
+                    />
+                </Card>
 
-            {/* Content Section */}
-            <div className="container mx-auto p-6 space-y-8">
-                {/* Info Grid */}
-
+                {/* Info Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <ColouredCard
-                        title={"Common Name"}
-                        color={"yellow"}
-                        value={speciesData.data.common_name}
-                    />
-                    <ColouredCard
-                        title={"Scientific Name"}
-                        color={"lightblue"}
-                        value={speciesData.data.scientific_name}
-                    />
-                    <ColouredCard
-                        title={"Taxonomic Class"}
-                        color={"orange"}
-                        value={speciesData.data.taxonomy_class || "NA"}
-                    />
+                    <Card className="bg-yellow-200 shadow-md">
+                        <CardHeader>
+                            <CardTitle>Common Name</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <CardDescription>
+                                {speciesData.data.common_name}
+                            </CardDescription>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="bg-green-200 shadow-md">
+                        <CardHeader>
+                            <CardTitle>Scientific Name</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <CardDescription>
+                                {speciesData.data.scientific_name}
+                            </CardDescription>
+                        </CardContent>
+                    </Card>
+
+                    <Card className="bg-orange-200 shadow-md">
+                        <CardHeader>
+                            <CardTitle>Taxonomic Class</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <CardDescription>
+                                {speciesData.data.taxonomy_class || "NA"}
+                            </CardDescription>
+                        </CardContent>
+                    </Card>
                 </div>
 
+                {/* Map Section */}
                 <div className="mt-8">
-                    <h2 className="text-2xl font-semibold text-gray-700 mb-4">
-                        Density Map
-                    </h2>
-                    <Map
-                        initialViewState={{
-                            longitude: -100,
-                            latitude: 40,
-                            zoom: 3.5,
-                        }}
-                        style={{ width: "100%", height: 500 }}
-                        mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
-                    >
-                        {console.log(mapData)}
-                        <Source
-                            id="species-locations"
-                            type="geojson"
-                            data={mapData.data}
-                        >
-                            <Layer {...heatmapLayerStyle}></Layer>
-                            <Layer {...pointLayerStyle}></Layer>
-                        </Source>
-                    </Map>
-                    ;
+                    <Card className="shadow-lg overflow-hidden">
+                        <CardHeader>
+                            <CardTitle>Species Distribution</CardTitle>
+                        </CardHeader>
+                        <CardContent className="p-0">
+                            <Map
+                                initialViewState={{
+                                    longitude: -100,
+                                    latitude: 40,
+                                    zoom: 3.5,
+                                }}
+                                style={{ width: "100%", height: 500 }}
+                                mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
+                            >
+                                <Source
+                                    id="species-locations"
+                                    type="geojson"
+                                    data={mapData.data}
+                                >
+                                    <Layer {...heatmapLayerStyle}></Layer>
+                                    <Layer {...pointLayerStyle}></Layer>
+                                </Source>
+                            </Map>
+                        </CardContent>
+                    </Card>
                 </div>
             </div>
         </div>
