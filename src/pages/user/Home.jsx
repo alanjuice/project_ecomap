@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import ColouredCard from "../../components/ColouredCard";
 import IntroVideo from "../../assets/videoplayback.webm";
 import { useQuery } from "@tanstack/react-query";
 import { getCount } from "../../api";
@@ -8,6 +7,7 @@ import Error from "../../components/Error";
 
 import { fadeIn } from "../../constants";
 import { hotItWorksSteps } from "../../constants"; 
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const HomePage = () => {
     const {
@@ -80,17 +80,17 @@ const HomePage = () => {
                         {
                             title: "Species",
                             value: countData.data.species,
-                            color: "lightblue",
+                            color: "orange",
                         },
                         {
                             title: "Occurences",
                             value: countData.data.occurrence,
-                            color: "lightgreen",
+                            color: "blue",
                         },
                         {
                             title: "Users",
                             value: countData.data.User,
-                            color: "red",
+                            color: "green",
                         },
                     ].map((item, index) => (
                         <motion.div
@@ -99,11 +99,14 @@ const HomePage = () => {
                             transition={{ type: "spring", stiffness: 200 }}
                             className="sm:w-1/4 m-3"
                         >
-                            <ColouredCard
-                                title={item.title}
-                                value={item.value}
-                                color={item.color}
-                            />
+                            <Card className={`bg-${item.color}-200 shadow-md m-2`}>
+                                <CardHeader>
+                                    <CardTitle>{item.title}</CardTitle>
+                                        <CardDescription>
+                                            {item.value}
+                                        </CardDescription>
+                                </CardHeader>
+                            </Card>
                         </motion.div>
                     ))}
                 </div>
