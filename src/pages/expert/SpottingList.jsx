@@ -36,7 +36,7 @@ const SpottingList = () => {
   
   return (
     <div className="flex flex-col md:flex-row">
-      <CardGrid data={spottingListData.data} resource={"expert/spottings"} />
+      <CardGrid data={spottingListData.data} resource={"expert/spottings"} imageScale={2}/>
     </div>
   );
 };
