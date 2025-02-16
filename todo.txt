@@ -20,3 +20,5 @@ Catch errors and fix bugs
 
 Add user/expert working how? and to change?
 
+Fix Image size for all pages?
+

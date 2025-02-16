@@ -17,6 +17,7 @@ import {
     CardContent,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import ImageCard from "@/components/ImageCard";
 
 const SpeciesDetailsPage = () => {
     const { id } = useParams();
@@ -52,13 +53,7 @@ const SpeciesDetailsPage = () => {
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="container mx-auto space-y-8">
                 {/* Image Card */}
-                <Card className="overflow-hidden shadow-lg">
-                    <img
-                        src={speciesData.data.image}
-                        alt={speciesData.data.common_name}
-                        className="w-full h-96 object-contain"
-                    />
-                </Card>
+                <ImageCard imageUrl={speciesData.data.image}/>
 
                 {/* Info Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

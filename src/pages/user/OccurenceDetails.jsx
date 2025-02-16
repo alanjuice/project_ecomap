@@ -16,6 +16,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 import { getOccurencebyId } from "../../api";
+import ImageCard from "@/components/ImageCard";
 
 const OccurenceDetails = () => {
     const { id } = useParams();
@@ -42,16 +43,7 @@ const OccurenceDetails = () => {
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="container mx-auto space-y-8">
                 {/* Image Card */}
-                <Card className="overflow-hidden shadow-lg">
-                    <img
-                        src={
-                            occurenceData.data.spotId.image ||
-                            "https://placehold.co/600x400"
-                        }
-                        alt={occurenceData.data.speciesId.common_name}
-                        className="w-full h-96 object-contain"
-                    />
-                </Card>
+                <ImageCard imageUrl={occurenceData.data.spotId.image}/>
 
                 {/* Info Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -60,15 +52,6 @@ const OccurenceDetails = () => {
                             <CardTitle>Species Name</CardTitle>
                             <CardDescription>
                                 {occurenceData.data.speciesId.common_name}
-                            </CardDescription>
-                        </CardHeader>
-                    </Card>
-
-                    <Card className="bg-yellow-200 shadow-md">
-                        <CardHeader>
-                            <CardTitle>Scientific Name</CardTitle>
-                            <CardDescription>
-                                {occurenceData.data.speciesId.scientific_name}
                             </CardDescription>
                         </CardHeader>
                     </Card>

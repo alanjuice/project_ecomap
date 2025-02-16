@@ -55,7 +55,7 @@ const HomePage = () => {
                 variants={fadeIn}
                 viewport={{ once: true }}
             >
-                <h1 className="text-4xl font-bold text-green-700 mb-4">
+                <h1 className="text-2xl font-bold text-green-700 mb-4">
                     What is Ecomap?
                 </h1>
                 <p className="text-lg text-gray-700 leading-relaxed max-w-2xl mx-auto">

@@ -15,6 +15,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import {
     Command,
     CommandEmpty,
@@ -28,6 +29,13 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableRow,
+} from "@/components/ui/table";
+import ImageCard from "@/components/ImageCard";
 
 const SpottingDetails = () => {
     const { id } = useParams();
@@ -35,6 +43,8 @@ const SpottingDetails = () => {
 
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState("");
+    const [selectedSpecies, setSelectedSpecies] = useState("");
+    const [modalOpen, setModalOpen] = useState(false);
 
     const {
         data: spottingData,
@@ -48,21 +58,13 @@ const SpottingDetails = () => {
 
     const {
         data: speciesOptions,
-        isDropDownDataLoading,
+        isLoading: isDropDownDataLoading,
         isError,
         error,
     } = useQuery({
         queryKey: ["getallspecies"],
         queryFn: () => getSpecies(null),
     });
-
-    if (isSpottingLoadingError) {
-        return <Error message={spottingerror.message} />;
-    }
-
-    if (isError) {
-        return <Error message={error.message} />;
-    }
 
     const identificationMutation = useMutation({
         mutationFn: ({ spotId, userId, speciesId }) =>
@@ -85,9 +87,6 @@ const SpottingDetails = () => {
         },
     });
 
-    const [selectedSpecies, setSelectedSpecies] = useState("");
-    const [modalOpen, setModalOpen] = useState(false);
-
     const handleIdentify = (e) => {
         e.preventDefault();
         if (!selectedSpecies) {
@@ -101,61 +100,60 @@ const SpottingDetails = () => {
         });
     };
 
+    if (isSpottingLoadingError) {
+        return (
+            <Error
+                message={
+                    spottingerror?.message || "Failed to load spotting details."
+                }
+            />
+        );
+    }
+
+    if (isError) {
+        return (
+            <Error
+                message={error?.message || "Failed to load species options."}
+            />
+        );
+    }
+
     if (isLoading || isDropDownDataLoading) {
         return <LoadingIcon />;
     }
 
     return (
-        <div className="bg-gray-50 p-4 w-screen">
-            <h1 className="text-2xl font-bold mb-4">Spotting Details</h1>
+        <div className="bg-gray-50 p-6 w-screen">
+            <h1 className="text-3xl font-bold mb-6">Spotting Details</h1>
 
-            {/* Image Section */}
-            <div className="flex justify-center mb-6">
-                <img
-                    src={spottingData.data.image || "https://placehold.co/400"}
-                    alt="Spotted Animal"
-                    className="w-full max-w-md rounded-lg shadow-md"
-                />
-            </div>
+            <ImageCard imageUrl={spottingData.data.image}/>
 
-            {/* Table Section */}
-            <table className="table-auto w-full md:w-3/4 border border-gray-300 text-left mb-8">
-                <tbody>
-                    <tr className="border-b">
-                        <th className="p-2">Spotting ID</th>
-                        <td className="p-2">
-                            {spottingData.data._id || "N/A"}
-                        </td>
-                    </tr>
-                    <tr className="border-b">
-                        <th className="p-2">Spotted By</th>
-                        <td className="p-2">
-                            {spottingData.data.user.name || "Unknown"}
-                        </td>
-                    </tr>
-                    <tr className="border-b">
-                        <th className="p-2">Spotted At</th>
-                        <td className="p-2">
-                            {spottingData.data.date || "N/A"}
-                        </td>
-                    </tr>
-                    <tr className="border-b">
-                        <th className="p-2">Description</th>
-                        <td className="p-2">
-                            {spottingData.data.description ||
-                                "No description available."}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <Table className="mb-8">
+                <TableBody>
+                    <TableRow>
+                        <TableCell> ID</TableCell>
+                        <TableCell>{spottingData.data._id}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>Spotted By</TableCell>
+                        <TableCell>{spottingData.data.user.name}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>Spotted At</TableCell>
+                        <TableCell>{spottingData.data.date}</TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>Description</TableCell>
+                        <TableCell>{spottingData.data.description}</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
 
-            {/* Identification Section */}
             <div className="mb-8 mt-4">
                 <h2 className="text-xl font-semibold mb-4">
                     Identify the Species
                 </h2>
 
-                {/* Added Combobox */}
                 <div className="flex items-center space-x-4">
                     <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
@@ -166,8 +164,9 @@ const SpottingDetails = () => {
                                 className="w-[200px] justify-between"
                             >
                                 {value
-                                    ? speciesOptions.data.find(
-                                          (species) => species._id === value
+                                    ? speciesOptions?.data?.find(
+                                          (species) =>
+                                              species._id === value
                                       )?.common_name
                                     : "Select species..."}
                                 <ChevronsUpDown className="opacity-50" />
@@ -184,32 +183,36 @@ const SpottingDetails = () => {
                                         No species found.
                                     </CommandEmpty>
                                     <CommandGroup>
-                                        {speciesOptions.data.map((species) => (
-                                            <CommandItem
-                                                key={species._id}
-                                                onSelect={() => {
-                                                    setValue(
-                                                        species._id === value
-                                                            ? ""
-                                                            : species._id
-                                                    );
-                                                    setSelectedSpecies(
-                                                        species._id
-                                                    );
-                                                    setOpen(false);
-                                                }}
-                                            >
-                                                {species.common_name}
-                                                <Check
-                                                    className={cn(
-                                                        "ml-auto",
-                                                        value === species._id
-                                                            ? "opacity-100"
-                                                            : "opacity-0"
-                                                    )}
-                                                />
-                                            </CommandItem>
-                                        ))}
+                                        {speciesOptions?.data?.map(
+                                            (species) => (
+                                                <CommandItem
+                                                    key={species._id}
+                                                    onSelect={() => {
+                                                        setValue(
+                                                            species._id ===
+                                                                value
+                                                                ? ""
+                                                                : species._id
+                                                        );
+                                                        setSelectedSpecies(
+                                                            species._id
+                                                        );
+                                                        setOpen(false);
+                                                    }}
+                                                >
+                                                    {species.common_name}
+                                                    <Check
+                                                        className={cn(
+                                                            "ml-auto",
+                                                            value ===
+                                                                species._id
+                                                                ? "opacity-100"
+                                                                : "opacity-0"
+                                                        )}
+                                                    />
+                                                </CommandItem>
+                                            )
+                                        )}
                                     </CommandGroup>
                                 </CommandList>
                             </Command>
@@ -217,11 +220,7 @@ const SpottingDetails = () => {
                     </Popover>
 
                     <Button onClick={handleIdentify}>Identify</Button>
-                    <Button
-                        onClick={() => {
-                            setModalOpen(true);
-                        }}
-                    >
+                    <Button onClick={() => setModalOpen(true)}>
                         Can't Find Species
                     </Button>
                 </div>
@@ -234,21 +233,28 @@ const SpottingDetails = () => {
 
             <Map
                 initialViewState={{
-                    longitude: spottingData?.Coordinates?.[0] || 78.9629,
-                    latitude: spottingData?.Coordinates?.[1] || 20.5937,
+                    longitude:
+                        spottingData?.data?.location?.coordinates?.[0] ||
+                        78.9629,
+                    latitude:
+                        spottingData?.data?.location?.coordinates?.[1] ||
+                        20.5937,
                     zoom: 5,
                 }}
                 style={{ width: "100%", height: 400 }}
                 mapStyle="https://demotiles.maplibre.org/style.json"
             >
-                {console.log(spottingData)}
                 <Marker
-                    longitude={spottingData.data.location.coordinates[0]}
-                    latitude={spottingData.data.location.coordinates[1]}
+                    longitude={
+                        spottingData.data.location.coordinates[0]
+                    }
+                    latitude={
+                        spottingData.data.location.coordinates[1]
+                    }
                     anchor="bottom"
                 />
             </Map>
-            <ToastContainer />
+            <ToastContainer limit={3} />
         </div>
     );
 };
