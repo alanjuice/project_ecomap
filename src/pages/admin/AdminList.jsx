@@ -80,7 +80,7 @@ const AdminListPage = ({ resource }) => {
     if (isError) return <Error message={error.message} />;
 
     return (
-        <div className="w-full sm:m-2 p-4 bg-white sm:w-3/4 mx-auto">
+        <div className="w-full md:w-2/3 sm:m-2 p-4 bg-white sm:w-3/4 mx-auto">
             <h1 className="text-2xl font-bold mb-4 text-gray-800">
                 {resource} List
             </h1>
@@ -116,7 +116,6 @@ const AdminListPage = ({ resource }) => {
                 <Table>
                     <TableHeader className="bg-green-100 text-white">
                         <TableRow>
-                            <TableHead className="p-3">ID</TableHead>
                             {resource === "Species" ? (
                                 <>
                                     <TableHead className="p-3">
@@ -145,9 +144,6 @@ const AdminListPage = ({ resource }) => {
                                     key={item._id}
                                     className="border hover:bg-gray-100 transition duration-200"
                                 >
-                                    <TableCell className="p-3">
-                                        {item._id}
-                                    </TableCell>
                                     {resource === "Species" ? (
                                         <>
                                             <TableCell className="p-3">
