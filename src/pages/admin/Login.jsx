@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { useAuth } from "../../context/AuthContext";
 
@@ -9,12 +8,14 @@ import { loginAdmin } from "../../api";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useToast } from "@/context/ToastContext";
 
 const AdminLogin = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const { login } = useAuth();
     const navigate = useNavigate();
+    const {toast} = useToast();
 
     useEffect(() => {
         if (localStorage.getItem("token") && localStorage.getItem("role") === "admin") {
@@ -77,7 +78,6 @@ const AdminLogin = () => {
                     </form>
                 </CardContent>
             </Card>
-            <ToastContainer />
         </div>
     );
 };

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { toast, ToastContainer } from "react-toastify";
 
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
@@ -36,10 +35,12 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import ImageCard from "@/components/ImageCard";
+import { useToast } from "@/context/ToastContext";
 
 const SpottingDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const {toast} = useToast();
 
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState("");
@@ -288,7 +289,6 @@ const SpottingDetails = () => {
                     anchor="bottom"
                 />
             </Map>
-            <ToastContainer limit={3} />
         </div>
     );
 };

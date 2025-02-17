@@ -1,9 +1,12 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { addSpecies } from "../api";
-import { toast, ToastContainer } from "react-toastify";
+import { useToast } from "@/context/ToastContext";
 
 const AddSpeciesModal = ({ isOpen, toggle }) => {
+
+    const {toast} = useToast();
+
     const mutation = useMutation({
         mutationFn: addSpecies,
         onSuccess: () => {
@@ -176,7 +179,6 @@ const AddSpeciesModal = ({ isOpen, toggle }) => {
                     </div>
                 </form>
             </div>
-            <ToastContainer />
         </div>
     );
 };

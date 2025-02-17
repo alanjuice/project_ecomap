@@ -1,9 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { registerExpert, registerUser } from "../api";
-import { toast, ToastContainer } from "react-toastify";
+import { useToast } from "@/context/ToastContext";
 
 const RegistrationModal = ({ isOpen, toggle, userType }) => {
+    const {toast} = useToast();
     const mutation = useMutation({
         mutationFn: userType == "Expert" ? registerExpert : registerUser,
         onSuccess: (resp) => {
@@ -121,7 +122,6 @@ const RegistrationModal = ({ isOpen, toggle, userType }) => {
                     </div>
                 </form>
             </div>
-            <ToastContainer />
         </div>
     );
 };
