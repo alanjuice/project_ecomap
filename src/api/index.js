@@ -78,7 +78,7 @@ const addSpecies = async (speciesData) => {
 };
 
 const getSpottingById = async (id) => {
-    return await instance.get("expert/get-upload-byid/" + id);
+    return await instance.get("expert/get-upload/" + id);
 };
 
 const getMapData = async (id) => {
@@ -91,6 +91,10 @@ const getCount = async (id) => {
 
 const identifySpecies = async (data) => {
     return await instance.post("expert/save-occurance", data);
+};
+
+const rejectSpotting = async (data) => {
+    return await instance.post("expert/reject-upload", data);
 };
 
 const getSpeciesAdmin = async () => {
@@ -116,5 +120,6 @@ export {
     getCount,
     deleteSpecies,
     getMapData,
-    getSpeciesAdmin
+    getSpeciesAdmin,
+    rejectSpotting
 };

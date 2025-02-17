@@ -6,7 +6,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import { getSpecies, getSpottingById, identifySpecies } from "../../api";
+import { getSpecies, getSpottingById, identifySpecies,rejectSpotting } from "../../api";
 import LoadingIcon from "../../components/LoadingIcon";
 import AddSpeciesModal from "../../components/AddSpeciesModal";
 import Error from "../../components/Error";
@@ -15,7 +15,7 @@ import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+
 import {
     Command,
     CommandEmpty,
@@ -87,6 +87,28 @@ const SpottingDetails = () => {
         },
     });
 
+    const rejectionMutation = useMutation({
+        mutationFn: ({ spotId }) =>
+            rejectSpotting({ spotId }),
+        onSuccess: () => {
+            toast.success("Spotting Rejected !", {
+                position: "top-right",
+                autoClose: 3000,
+            });
+            navigate("/expert/spottings");
+        },
+        onError: (error) => {
+            console.log(error)
+            toast.error(
+                error?.response?.data?.message || "Failed to identify species!",
+                {
+                    position: "top-right",
+                    autoClose: 3000,
+                }
+            );
+        },
+    });
+
     const handleIdentify = (e) => {
         e.preventDefault();
         if (!selectedSpecies) {
@@ -99,6 +121,12 @@ const SpottingDetails = () => {
             speciesId: selectedSpecies,
         });
     };
+
+    const rejectUpload = (e)=>{
+        e.preventDefault();
+        console.log(e)
+        rejectionMutation.mutate({spotId:id})
+    }
 
     if (isSpottingLoadingError) {
         return (
@@ -220,10 +248,16 @@ const SpottingDetails = () => {
                     </Popover>
 
                     <Button onClick={handleIdentify}>Identify</Button>
-                    <Button onClick={() => setModalOpen(true)}>
-                        Can't Find Species
-                    </Button>
                 </div>
+                <div className="mt-4 ">
+                <Button onClick={() => setModalOpen(true)} className="mr-8">
+                        Can't Find Species
+                </Button>
+                <Button onClick={rejectUpload}>
+                        Reject
+                </Button>
+                </div>
+                
             </div>
 
             <AddSpeciesModal
