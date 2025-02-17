@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import { getExperts, getSpecies, getUsers } from "../../api";
+import { getExperts, getSpeciesAdmin, getUsers } from "../../api";
 
 import UserRegistrationModal from "../../components/RegistrationModal";
 import LoadingIcon from "../../components/LoadingIcon";
@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
 const AdminListPage = ({ resource }) => {
     const fetchData = (resource) => {
         if (resource === "Species") {
-            return getSpecies();
+            return getSpeciesAdmin();
         } else if (resource === "Expert") {
             return getExperts();
         } else if (resource === "User") {

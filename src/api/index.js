@@ -93,6 +93,10 @@ const identifySpecies = async (data) => {
     return await instance.post("expert/save-occurance", data);
 };
 
+const getSpeciesAdmin = async () => {
+    return await instance.get("admin/species");
+};
+
 export {
     loginAdmin,
     loginExpert,
@@ -112,4 +116,5 @@ export {
     getCount,
     deleteSpecies,
     getMapData,
+    getSpeciesAdmin
 };
