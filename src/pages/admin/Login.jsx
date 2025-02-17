@@ -28,6 +28,7 @@ const AdminLogin = () => {
         onSuccess: (response) => {
             if (response.data.token) {
                 login(response.data.token, "admin");
+                toast.success("Login Succesfull", { autoClose: 3000 });
                 navigate("/admin/experts");
             }
         },

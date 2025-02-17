@@ -6,14 +6,17 @@ import { Menu } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 import { useAuth } from "../context/AuthContext";
+import { useToast } from "@/context/ToastContext";
 
 const UserSideBar = ({ userType }) => {
     const [activeTab, setActiveTab] = useState("Experts");
     const navigate = useNavigate();
+    const {toast} = useToast();
     const tabs = sidebarTabs[userType];
     const {logout} = useAuth();
     const handleSignOut = () => {
         logout();
+        toast.success("LogOut Successfull", { autoClose: 3000 });
         navigate("/");
     };
 

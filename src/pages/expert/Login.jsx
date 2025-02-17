@@ -28,6 +28,7 @@ const ExpertLogin = () => {
         onSuccess: (response) => {
             if (response.data.token) {
                 login(response.data.token, "expert");
+                toast.success("Login Succesfull", { autoClose: 3000 });
                 navigate("/expert/spottings");
             }
         },
