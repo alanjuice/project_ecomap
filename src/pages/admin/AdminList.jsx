@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { getExperts, getSpeciesAdmin, getUsers } from "../../api";
+import {
+    getExperts,
+    getSpeciesAdmin,
+    getUsers,
+    deleteExpert,
+    deleteSpecies,
+    deleteUser,
+} from "../../api";
 
 import UserRegistrationModal from "../../components/RegistrationModal";
 import LoadingIcon from "../../components/LoadingIcon";
@@ -17,8 +24,11 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from "@/components/ui/alert-dialog";
 
 const AdminListPage = ({ resource }) => {
+    const queryClient = useQueryClient();
+
     const fetchData = (resource) => {
         if (resource === "Species") {
             return getSpeciesAdmin();
@@ -31,9 +41,31 @@ const AdminListPage = ({ resource }) => {
         }
     };
 
+    const deleteData = async (id) => {
+        if (resource === "Species") {
+            await deleteSpecies(id);
+        } else if (resource === "Expert") {
+            await deleteExpert(id);
+        } else if (resource === "User") {
+            await deleteUser(id);
+        } else {
+            throw new Error("Invalid resource type");
+        }
+    };
+
     const { data, isLoading, isError, error } = useQuery({
         queryKey: [resource],
         queryFn: () => fetchData(resource),
+    });
+
+    const deleteMutation = useMutation({
+        mutationFn: (id) => deleteData(id),
+        onSuccess: () => {
+            queryClient.invalidateQueries([resource]);
+        },
+        onError: (error) => {
+            console.error("Delete Error:", error);
+        },
     });
 
     const [search, setSearch] = useState("");
@@ -41,6 +73,8 @@ const AdminListPage = ({ resource }) => {
     const [filteredContent, setFilteredContent] = useState([]);
 
     useEffect(() => {
+
+        //Temp Fix, I forgot what this does, but dont remove..it just works
         let d = data;
 
         if (resource === "Species") {
@@ -75,6 +109,10 @@ const AdminListPage = ({ resource }) => {
     }, [search, data, resource]);
 
     const handleSearch = (event) => setSearch(event.target.value);
+
+    const handleDelete = (id) => {
+        deleteMutation.mutate(id);
+    };
 
     if (isLoading) return <LoadingIcon />;
     if (isError) return <Error message={error.message} />;
@@ -127,11 +165,13 @@ const AdminListPage = ({ resource }) => {
                                     <TableHead className="p-3">
                                         Conservation Status
                                     </TableHead>
+                                    <TableHead className="p-3">Actions</TableHead>
                                 </>
                             ) : (
                                 <>
                                     <TableHead className="p-3">Name</TableHead>
                                     <TableHead className="p-3">Email</TableHead>
+                                    <TableHead className="p-3">Actions</TableHead>
                                 </>
                             )}
                         </TableRow>
@@ -150,13 +190,10 @@ const AdminListPage = ({ resource }) => {
                                                 {item.common_name}
                                             </TableCell>
                                             <TableCell className="p-3">
-                                                {item.scientific_name ||
-                                                    item.spotId
-                                                        ?.scientific_name}
+                                                {item.scientific_name || item.spotId?.scientific_name}
                                             </TableCell>
                                             <TableCell className="p-3">
-                                                {item.conservation_status ||
-                                                    "N/A"}
+                                                {item.conservation_status || "N/A"}
                                             </TableCell>
                                         </>
                                     ) : (
@@ -169,14 +206,38 @@ const AdminListPage = ({ resource }) => {
                                             </TableCell>
                                         </>
                                     )}
+                                    <TableCell className="p-3">
+                                        <AlertDialog>
+                                            <AlertDialogTrigger asChild>
+                                                <Button variant="destructive">
+                                                    Delete
+                                                </Button>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle>
+                                                        Confirm Delete
+                                                    </AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        Are you sure you want to delete this {resource}?
+                                                    </AlertDialogDescription>
+                                                </AlertDialogHeader>
+                                                <AlertDialogFooter>
+                                                    <Button
+                                                        onClick={() => handleDelete(item._id)}
+                                                        variant="destructive"
+                                                    >
+                                                        Confirm
+                                                    </Button>
+                                                </AlertDialogFooter>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
+                                    </TableCell>
                                 </TableRow>
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell
-                                    colSpan={resource === "Species" ? 4 : 3}
-                                    className="p-4 text-center text-gray-500"
-                                >
+                                <TableCell colSpan="4" className="p-4 text-center text-gray-500">
                                     No records found.
                                 </TableCell>
                             </TableRow>

@@ -37,10 +37,6 @@ const getSpeciesDatabyID = async (id) => {
     return await instance.get(`expert/species/${id}`);
 }
 
-const deleteSpecies = async (id) => {
-    return await instance.post(`expert/delete-species/${id}`);
-};
-
 const getSpecies = async (filter) => {
     console.log(filter);
     if (filter)
@@ -101,6 +97,26 @@ const getSpeciesAdmin = async () => {
     return await instance.get("admin/species");
 };
 
+const getExpertDetails = async () => {
+    return await instance.get("expert/get-expert");
+};
+
+const updateExpertDetails = async (data) => {
+    return await instance.post("expert/get-expert");
+};
+
+const deleteSpecies = async (id,data) => {
+    return await instance.delete("admin/species/" + id,data);
+};
+
+const deleteUser = async (id,data) => {
+    return await instance.delete("admin/user/" + id,data);
+};
+
+const deleteExpert = async (id,data) => {
+    return await instance.delete("admin/expert/" + id,data);
+};
+
 export {
     loginAdmin,
     loginExpert,
@@ -121,5 +137,8 @@ export {
     deleteSpecies,
     getMapData,
     getSpeciesAdmin,
-    rejectSpotting
+    rejectSpotting,
+    getExpertDetails,
+    deleteExpert,
+    deleteUser
 };
