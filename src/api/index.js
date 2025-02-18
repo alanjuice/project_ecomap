@@ -45,7 +45,7 @@ const getSpecies = async (filter) => {
 };
 
 const getSpeciesbyId = async (id) => {
-    return await instance.get(`expert/get-species-byid/${id}`);
+    return await instance.get(`expert/get-species/${id}`);
 };
 
 const getOccurencebyId = async (id) => {
