@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { addSpecies } from "../api";
 import { useToast } from "@/context/ToastContext";
+import { Button } from "./ui/button";
 
 const AddSpeciesModal = ({ isOpen, toggle }) => {
 
@@ -169,13 +170,13 @@ const AddSpeciesModal = ({ isOpen, toggle }) => {
 
                     {/* Submit Button */}
                     <div className="flex justify-end">
-                        <button
+                        <Button
                             type="submit"
-                            className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700"
+                            className=" px-4 py-2"
                             disabled={mutation.isLoading}
                         >
                             {mutation.isLoading ? "Adding..." : "Submit"}
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </div>

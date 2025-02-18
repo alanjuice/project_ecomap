@@ -90,7 +90,7 @@ const getCount = async (id) => {
 };
 
 const identifySpecies = async (data) => {
-    return await instance.post("expert/save-occurance", data);
+    return await instance.post("expert/save-upload", data);
 };
 
 const rejectSpotting = async (data) => {

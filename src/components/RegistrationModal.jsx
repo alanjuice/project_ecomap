@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { registerExpert, registerUser } from "../api";
 import { useToast } from "@/context/ToastContext";
+import { Button } from "./ui/button";
 
 const RegistrationModal = ({ isOpen, toggle, userType }) => {
     const {toast} = useToast();
@@ -113,12 +114,12 @@ const RegistrationModal = ({ isOpen, toggle, userType }) => {
 
                     {/* Submit Button */}
                     <div className="flex justify-end">
-                        <button
+                        <Button
                             type="submit"
-                            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+                            className= " px-4 py-2 "
                         >
                             Register
-                        </button>
+                        </Button>
                     </div>
                 </form>
             </div>

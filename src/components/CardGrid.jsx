@@ -9,7 +9,7 @@ const CardGrid = ({ data, resource }) => {
                     <Link
                         key={item._id || index}
                         to={`/${resource}/${item._id}`}
-                        className="block transform transition hover:scale-110 m-2"
+                        className="block transform transition hover:scale-110"
                         style={{ transformOrigin: "center" }}
                     >
                         <Card className="rounded-lg overflow-hidden shadow-md transition hover:shadow-lg">

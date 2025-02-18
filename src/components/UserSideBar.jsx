@@ -16,7 +16,7 @@ const UserSideBar = ({ userType }) => {
     const {logout} = useAuth();
     const handleSignOut = () => {
         logout();
-        toast.success("LogOut Successfull", { autoClose: 3000 });
+        toast.success("Logout Successful", { autoClose: 3000 });
         navigate("/");
     };
 

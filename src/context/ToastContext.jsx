@@ -8,7 +8,7 @@ export const ToastProvider = ({ children }) => {
     return (
         <ToastContext.Provider value={{toast}}>
             {children}
-            <ToastContainer/>
+            <ToastContainer limit={1} />
         </ToastContext.Provider>
     );
 };

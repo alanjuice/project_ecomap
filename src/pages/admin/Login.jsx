@@ -28,7 +28,7 @@ const AdminLogin = () => {
         onSuccess: (response) => {
             if (response.data.token) {
                 login(response.data.token, "admin");
-                toast.success("Login Succesfull", { autoClose: 3000 });
+                toast.success("Login Successful", { autoClose: 3000 });
                 navigate("/admin/experts");
             }
         },
@@ -73,7 +73,7 @@ const AdminLogin = () => {
                                 required
                             />
                         </div>
-                        <Button type="submit" className="w-full bg-green-600 hover:bg-green-700">
+                        <Button type="submit" className="w-full">
                             {mutation.isLoading ? "Logging in..." : "Login"}
                         </Button>
                     </form>
