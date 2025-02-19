@@ -22,6 +22,7 @@ const RegistrationModal = ({ isOpen, toggle, userType }) => {
                 email: "",
                 password: "",
             });
+            toggle();
         },
         onError: (error) => {
             console.log(error);

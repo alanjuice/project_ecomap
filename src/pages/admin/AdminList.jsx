@@ -24,10 +24,12 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter } from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel } from "@/components/ui/alert-dialog";
+import { useToast } from "@/context/ToastContext";
 
 const AdminListPage = ({ resource }) => {
     const queryClient = useQueryClient();
+    const {toast} = useToast();
 
     const fetchData = (resource) => {
         if (resource === "Species") {
@@ -62,9 +64,10 @@ const AdminListPage = ({ resource }) => {
         mutationFn: (id) => deleteData(id),
         onSuccess: () => {
             queryClient.invalidateQueries([resource]);
+            toast.success("Deletion Successful")
         },
-        onError: (error) => {
-            console.error("Delete Error:", error);
+        onError: () => {
+            toast.error("Deletion UnSuccessful")
         },
     });
 
@@ -229,6 +232,7 @@ const AdminListPage = ({ resource }) => {
                                                     >
                                                         Confirm
                                                     </Button>
+                                                    <AlertDialogCancel >Cancel</AlertDialogCancel>
                                                 </AlertDialogFooter>
                                             </AlertDialogContent>
                                         </AlertDialog>

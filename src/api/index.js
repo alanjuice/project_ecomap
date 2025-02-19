@@ -106,7 +106,7 @@ const getExpertDetails = async () => {
 };
 
 const updateExpertDetails = async (data) => {
-    return await instance.post("expert/get-expert");
+    return await instance.put("expert/update-expert");
 };
 
 const deleteSpecies = async (id,data) => {
@@ -145,5 +145,6 @@ export {
     getExpertDetails,
     deleteExpert,
     deleteUser,
-    addSpeciesAdmin
+    addSpeciesAdmin,
+    updateExpertDetails
 };
