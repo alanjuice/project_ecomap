@@ -254,7 +254,7 @@ const SpottingDetails = () => {
                 <Button onClick={() => setModalOpen(true)} className="mr-8">
                         Can't Find Species
                 </Button>
-                <Button onClick={rejectUpload}>
+                <Button onClick={rejectUpload} variant="destructive">
                         Reject
                 </Button>
                 </div>

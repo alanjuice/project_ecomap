@@ -97,6 +97,10 @@ const getSpeciesAdmin = async () => {
     return await instance.get("admin/species");
 };
 
+const addSpeciesAdmin = async () => {
+    return await instance.post("admin/add-species");
+};
+
 const getExpertDetails = async () => {
     return await instance.get("expert/get-expert");
 };
@@ -140,5 +144,6 @@ export {
     rejectSpotting,
     getExpertDetails,
     deleteExpert,
-    deleteUser
+    deleteUser,
+    addSpeciesAdmin
 };

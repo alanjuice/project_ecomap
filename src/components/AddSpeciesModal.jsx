@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { addSpecies } from "../api";
+import {  addSpeciesAdmin } from "../api";
 import { useToast } from "@/context/ToastContext";
 import { Button } from "./ui/button";
 
@@ -9,7 +9,7 @@ const AddSpeciesModal = ({ isOpen, toggle }) => {
     const {toast} = useToast();
 
     const mutation = useMutation({
-        mutationFn: addSpecies,
+        mutationFn: addSpeciesAdmin,
         onSuccess: () => {
             toast.success("Species added successfully!", { autoClose: 3000 });
             setFormData({
