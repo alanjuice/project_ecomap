@@ -264,6 +264,7 @@ const SpottingDetails = () => {
             <AddSpeciesModal
                 isOpen={modalOpen}
                 toggle={() => setModalOpen(false)}
+                type={"expert"}
             />
 
             <Map

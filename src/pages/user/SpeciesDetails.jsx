@@ -41,7 +41,7 @@ const SpeciesDetailsPage = () => {
         queryFn: () => getMapData(id),
     });
 
-    if (isError || isMapError) {
+    if (isError) {
         return <Error message={"Something went wrong"} />;
     }
 
@@ -110,7 +110,7 @@ const SpeciesDetailsPage = () => {
                                 <Source
                                     id="species-locations"
                                     type="geojson"
-                                    data={mapData.data}
+                                    data={mapData?.data || { type: "FeatureCollection", features: [] }}
                                 >
                                     <Layer {...heatmapLayerStyle}></Layer>
                                     <Layer {...pointLayerStyle}></Layer>

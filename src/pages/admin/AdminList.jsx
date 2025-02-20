@@ -143,6 +143,7 @@ const AdminListPage = ({ resource }) => {
                 <AddSpeciesModal
                     isOpen={modalOpen}
                     toggle={() => setModalOpen(!modalOpen)}
+                    type={"admin"}
                 />
             ) : (
                 <UserRegistrationModal

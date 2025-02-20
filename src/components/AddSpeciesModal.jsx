@@ -1,15 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
-import {  addSpeciesAdmin } from "../api";
+import {  addSpeciesAdmin,addSpecies } from "../api";
 import { useToast } from "@/context/ToastContext";
 import { Button } from "./ui/button";
 
-const AddSpeciesModal = ({ isOpen, toggle }) => {
+const AddSpeciesModal = ({ isOpen, toggle,type }) => {
 
     const {toast} = useToast();
 
+    const mutationfn = type === "admin" ? addSpeciesAdmin : addSpecies;
+
     const mutation = useMutation({
-        mutationFn: addSpeciesAdmin,
+        mutationFn: mutationfn,
         onSuccess: () => {
             toast.success("Species added successfully!", { autoClose: 3000 });
             setFormData({
@@ -33,7 +35,7 @@ const AddSpeciesModal = ({ isOpen, toggle }) => {
         common_name: "",
         scientific_name: "",
         taxonomy_class: "",
-        conservation_status: "", // ✅ Ensure correct key
+        conservation_status: "", 
         imageFile: null,
     });
 
@@ -41,7 +43,7 @@ const AddSpeciesModal = ({ isOpen, toggle }) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: value, // ✅ Correctly update state
+            [name]: value, 
         }));
     };
 
@@ -137,7 +139,7 @@ const AddSpeciesModal = ({ isOpen, toggle }) => {
                             Conservation Status
                         </label>
                         <select
-                            name="conservation_status" // ✅ Ensure correct name
+                            name="conservation_status" 
                             value={formData.conservation_status}
                             onChange={handleChange}
                             className="w-full mt-1 p-2 border rounded-md focus:ring focus:ring-blue-300"

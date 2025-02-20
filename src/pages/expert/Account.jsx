@@ -1,16 +1,51 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { getExpertDetails, updateExpertDetails } from "@/api";
+import LoadingIcon from "@/components/LoadingIcon";
 
-const AccountPage = ({ resource }) => {
+const AccountPage = () => {
+    
+    const {
+        data: expertDetails,
+        isLoading,
+        isError,
+        error,
+    } = useQuery({
+        queryKey: ["getexpertdetails"],
+        queryFn: () => getExpertDetails(),
+    });
+
+    const mutation = useMutation({
+        mutationFn: updateExpertDetails,
+        onSuccess: (response) => {
+            toast.success("Update Successful", { autoClose: 3000 });
+        },
+        onError: (error) => {
+            toast.error("Error, Couldn't Update", {
+                autoClose: 3000,
+            });
+        },
+    });
+
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
-        name:  "",
-        email:  "",
-        password: "", 
-        bio:  "",
+        name: "",
+        email: "",
+        password: "",
     });
+
+    useEffect(() => {
+        if (expertDetails) {
+            setFormData({
+                name: expertDetails.data.name || "",
+                email: expertDetails.data.email || "",
+                password: "",
+            });
+        }
+    }, [expertDetails]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,8 +53,25 @@ const AccountPage = ({ resource }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setIsEditing(false);
+        mutation.mutate({name:formData.name,email:formData.email,...(formData.password!="" && { password: formData.password })})
     };
+
+    if (isError) {
+        return (
+            <div className="flex items-center justify-center h-full w-full p-4">
+                <Alert variant="destructive">
+                    <AlertTitle>Error</AlertTitle>
+                    <AlertDescription>
+                        {error?.message || "Failed to load account details."}
+                    </AlertDescription>
+                </Alert>
+            </div>
+        );
+    }
+
+    if (isLoading) {
+        return <LoadingIcon />;
+    }
 
     return (
         <div className="flex items-center justify-center h-full w-full p-4">
@@ -60,18 +112,33 @@ const AccountPage = ({ resource }) => {
                                 />
                             </div>
                             <div className="flex gap-4">
-                                <Button type="submit" className="w-full">Save Changes</Button>
-                                <Button variant="outline" onClick={() => setIsEditing(false)} className="w-full">Cancel</Button>
+                                <Button type="submit" className="w-full">
+                                    Save Changes
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    onClick={() => setIsEditing(false)}
+                                    className="w-full"
+                                >
+                                    Cancel
+                                </Button>
                             </div>
                         </form>
                     ) : (
                         <div className="space-y-4">
                             <div>
-                                <p><strong>Name:</strong> {formData.name}</p>
-                                <p><strong>Email:</strong> {formData.email}</p>
+                                <p>
+                                    <strong>Name:</strong> {expertDetails.data.name}
+                                </p>
+                                <p>
+                                    <strong>Email:</strong> {expertDetails.data.email}
+                                </p>
                             </div>
                             <div className="flex justify-center">
-                                <Button className="w-full" onClick={() => setIsEditing(true)}>
+                                <Button
+                                    className="w-full"
+                                    onClick={() => setIsEditing(true)}
+                                >
                                     Edit Profile
                                 </Button>
                             </div>
