@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getExpertDetails, updateExpertDetails } from "@/api";
 import LoadingIcon from "@/components/LoadingIcon";
+import { useToast } from "@/context/ToastContext";
 
 const AccountPage = () => {
     
@@ -13,17 +14,22 @@ const AccountPage = () => {
         isLoading,
         isError,
         error,
+        refetch
     } = useQuery({
         queryKey: ["getexpertdetails"],
         queryFn: () => getExpertDetails(),
     });
 
+    const {toast} = useToast();
+
     const mutation = useMutation({
         mutationFn: updateExpertDetails,
-        onSuccess: (response) => {
+        onSuccess: () => {
             toast.success("Update Successful", { autoClose: 3000 });
+            setIsEditing(false)
+            refetch();
         },
-        onError: (error) => {
+        onError: () => {
             toast.error("Error, Couldn't Update", {
                 autoClose: 3000,
             });

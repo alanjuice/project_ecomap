@@ -69,6 +69,7 @@ const getUsers = async () => {
 };
 
 const addSpecies = async (speciesData) => {
+    console.log(speciesData)
     const response = await instance.post("expert/add-species", speciesData);
     return response;
 };
@@ -97,9 +98,10 @@ const getSpeciesAdmin = async () => {
     return await instance.get("admin/species");
 };
 
-const addSpeciesAdmin = async (data) => {
-    console.log(data)
-    return await instance.post("admin/add-species",data);
+const addSpeciesAdmin = async (speciesData) => {
+    console.log(speciesData)
+    const response = await instance.post("admin/add-species", speciesData);
+    return response;
 };
 
 const getExpertDetails = async () => {
@@ -107,7 +109,7 @@ const getExpertDetails = async () => {
 };
 
 const updateExpertDetails = async (data) => {
-    return await instance.put("expert/update-expert");
+    return await instance.put("expert/update-expert",data);
 };
 
 const deleteSpecies = async (id,data) => {
