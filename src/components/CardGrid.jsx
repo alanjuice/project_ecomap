@@ -20,6 +20,7 @@ const CardGrid = ({ data, resource }) => {
                                         item.spotId?.image ||
                                         "https://placehold.co/800"
                                     }
+                                    loading="lazy"
                                     alt={item.title || "Image"}
                                     className={`w-full min-w-48 min-h-48 h-48 object-cover`}
                                 />

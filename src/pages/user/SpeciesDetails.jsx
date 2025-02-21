@@ -100,8 +100,8 @@ const SpeciesDetailsPage = () => {
                         <CardContent className="p-0">
                             <Map
                                 initialViewState={{
-                                    longitude: -100,
-                                    latitude: 40,
+                                    longitude: 78.9629,
+                                    latitude: 20.5937,
                                     zoom: 3.5,
                                 }}
                                 style={{ width: "100%", height: 500 }}
