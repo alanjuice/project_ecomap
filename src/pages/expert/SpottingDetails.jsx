@@ -278,7 +278,7 @@ const SpottingDetails = () => {
                     zoom: 5,
                 }}
                 style={{ width: "100%", height: 400 }}
-                mapStyle="https://demotiles.maplibre.org/style.json"
+                mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
             >
                 <Marker
                     longitude={
