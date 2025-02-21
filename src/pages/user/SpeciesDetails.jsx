@@ -21,6 +21,9 @@ import ImageCard from "@/components/ImageCard";
 
 const SpeciesDetailsPage = () => {
     const { id } = useParams();
+    
+    const mapTileUrl = import.meta.env.VITE_MAP_TILER_KEY 
+
     const {
         data: speciesData,
         isLoading,
@@ -105,7 +108,7 @@ const SpeciesDetailsPage = () => {
                                     zoom: 3.5,
                                 }}
                                 style={{ width: "100%", height: 500 }}
-                                mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
+                                mapStyle={mapTileUrl}
                             >
                                 <Source
                                     id="species-locations"

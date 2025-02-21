@@ -41,6 +41,8 @@ const SpottingDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const {toast} = useToast();
+    
+    const mapTileUrl = import.meta.env.VITE_MAP_TILER_KEY 
 
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState("");
@@ -278,7 +280,7 @@ const SpottingDetails = () => {
                     zoom: 5,
                 }}
                 style={{ width: "100%", height: 400 }}
-                mapStyle="https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
+                mapStyle={mapTileUrl}
             >
                 <Marker
                     longitude={
