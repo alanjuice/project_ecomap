@@ -10,10 +10,10 @@ import {
     deleteUser,
 } from "../../api";
 
-import UserRegistrationModal from "../../components/RegistrationModal";
+import UserRegistrationModal from "../../components/modals/RegistrationModal";
 import LoadingIcon from "../../components/LoadingIcon";
 import Error from "../../components/Error";
-import AddSpeciesModal from "../../components/AddSpeciesModal";
+import AddSpeciesModal from "../../components/modals/AddSpeciesModal";
 
 import {
     Table,

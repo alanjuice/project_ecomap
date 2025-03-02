@@ -1,5 +1,5 @@
 import CardGrid from "../../components/CardGrid";
-import SideBar from "../../components/SideBar";
+import SideBar from "./SideBar";
 import { getSpecies } from "../../api";
 import { useQuery } from "@tanstack/react-query";
 import LoadingIcon from "../../components/LoadingIcon";

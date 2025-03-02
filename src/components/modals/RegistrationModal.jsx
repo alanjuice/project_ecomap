@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { registerExpert, registerUser } from "../api";
+import { registerExpert, registerUser } from "../../api";
 import { useToast } from "@/context/ToastContext";
-import { Button } from "./ui/button";
+import { Button } from ".././ui/button";
 
 const RegistrationModal = ({ isOpen, toggle, userType }) => {
     const {toast} = useToast();

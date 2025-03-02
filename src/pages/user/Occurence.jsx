@@ -5,7 +5,7 @@ import { FilterProvider, useFilter } from "../../context/FilterContext";
 
 import NoResourceFound from "../../components/NoResourceFound";
 import CardGrid from "../../components/CardGrid";
-import SideBar from "../../components/SideBar";
+import SideBar from "./SideBar";
 import LoadingIcon from "../../components/LoadingIcon";
 import Error from "../../components/Error";
 

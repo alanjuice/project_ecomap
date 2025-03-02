@@ -1,8 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
-import {  addSpeciesAdmin,addSpecies } from "../api";
+import {  addSpeciesAdmin,addSpecies } from "../../api";
 import { useToast } from "@/context/ToastContext";
-import { Button } from "./ui/button";
+import { Button } from ".././ui/button";
 
 const AddSpeciesModal = ({ isOpen, toggle,type }) => {
 

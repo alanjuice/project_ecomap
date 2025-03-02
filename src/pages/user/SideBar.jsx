@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useFilter } from "../context/FilterContext";
+import { useFilter } from "../../context/FilterContext";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

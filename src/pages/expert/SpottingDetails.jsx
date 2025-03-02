@@ -7,7 +7,7 @@ import "maplibre-gl/dist/maplibre-gl.css";
 
 import { getSpecies, getSpottingById, identifySpecies,rejectSpotting } from "../../api";
 import LoadingIcon from "../../components/LoadingIcon";
-import AddSpeciesModal from "../../components/AddSpeciesModal";
+import AddSpeciesModal from "../../components/modals/AddSpeciesModal";
 import Error from "../../components/Error";
 
 import { Check, ChevronsUpDown } from "lucide-react";
