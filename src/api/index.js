@@ -38,10 +38,9 @@ const getSpeciesDatabyID = async (id) => {
 }
 
 const getSpecies = async (filter) => {
-    console.log(filter);
     if (filter)
-        return await instance.get(`expert/get-species`, { params: filter });
-    else return await instance.get(`expert/get-species`);
+        return await instance.get(`expert/get-species`, { params: {sortBy:"asc",...filter} });
+    else return await instance.get(`expert/get-species`,{ params: {sortBy:"asc"}});
 };
 
 const getSpeciesbyId = async (id) => {
@@ -54,7 +53,7 @@ const getOccurencebyId = async (id) => {
 
 const getOccurence = async (filter) => {
     return await instance.get("expert/get-occurance", {
-        params: filter,
+        params: {sortBy:"recent",...filter},
     });
 };
 
