@@ -13,7 +13,7 @@ const Sidebar = ({ type }) => {
 
     const { updateFilter } = useFilter();
     const [filters, setFilters] = useState({
-        sortBy: type === "occurence" ? "recent" : "alphabetic",
+        sortBy: type === "occurence" ? "recent" : "asc",
         conservationStatus: "",
         startDate: "",
         endDate: "",

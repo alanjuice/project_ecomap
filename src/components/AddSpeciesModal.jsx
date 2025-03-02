@@ -9,7 +9,6 @@ const AddSpeciesModal = ({ isOpen, toggle,type }) => {
     const {toast} = useToast();
 
     const mutationfn = type === "admin" ? addSpeciesAdmin : addSpecies;
-
     const mutation = useMutation({
         mutationFn: mutationfn,
         onSuccess: () => {
