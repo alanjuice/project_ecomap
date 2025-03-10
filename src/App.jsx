@@ -15,6 +15,7 @@ import OccurenceDetails from "./pages/user/OccurenceDetails";
 import ExpertLogin from "./pages/expert/Login";
 import ExpertMain from "./pages/expert/Main";
 import ExpertAccount from "./pages/expert/Account";
+import ExpertHistory from "./pages/expert/History";
 import SpottingList from "./pages/expert/SpottingList";
 import SpottingDetails from "./pages/expert/SpottingDetails";
 
@@ -29,108 +30,117 @@ import NotFound from "./pages/common/NotFound";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { AuthProvider } from "./context/AuthContext";
 import { ToastProvider } from "./context/ToastContext";
+import PendingUsers from "./pages/admin/PendingUsers";
 
 // Create a router
 let router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Navbar />,
-    children: [
-      {
-        path: "",
-        element: <Home />,
-      },
-      {
-        path: "species",
-        element: <Species />,
-      },
-      {
-        path: "species/:id",
-        element: <SpeciesDetails />,
-      },
-      {
-        path: "occurrence",
-        element: <Occurrence />,
-      },
-      {
-        path: "occurence/:id",
-        element: <OccurenceDetails />,
-      },
-      {
-        path: "expert/",
-        element: <ExpertMain />,
+    {
+        path: "/",
+        element: <Navbar />,
         children: [
-          {
-            path: "",
-            element: <></>,
-          },
-          {
-            path: "spottings",
-            element: <SpottingList />,
-          },
-          {
-            path: "account/",
-            element: <ExpertAccount />,
-          },
-          {
-            path: "spottings/:id",
-            element: <SpottingDetails />,
-          },
+            {
+                path: "",
+                element: <Home />,
+            },
+            {
+                path: "species",
+                element: <Species />,
+            },
+            {
+                path: "species/:id",
+                element: <SpeciesDetails />,
+            },
+            {
+                path: "occurrence",
+                element: <Occurrence />,
+            },
+            {
+                path: "occurence/:id",
+                element: <OccurenceDetails />,
+            },
+            {
+                path: "expert/",
+                element: <ExpertMain />,
+                children: [
+                    {
+                        path: "",
+                        element: <></>,
+                    },
+                    {
+                        path: "spottings",
+                        element: <SpottingList />,
+                    },
+                    {
+                        path: "account/",
+                        element: <ExpertAccount />,
+                    },
+                    {
+                        path: "history/",
+                        element: <ExpertHistory />,
+                    },
+                    {
+                        path: "spottings/:id",
+                        element: <SpottingDetails />,
+                    },
+                ],
+            },
+            {
+                path: "admin/",
+                element: <AdminLogin />,
+            },
+            {
+                path: "admin/",
+                element: <AdminMain />,
+                children: [
+                    {
+                        path: "",
+                        element: <></>,
+                    },
+                    {
+                        path: "experts",
+                        element: <AdminList resource={"Expert"} />,
+                    },
+                    {
+                        path: "users",
+                        element: <AdminList resource={"User"} />,
+                    },
+                    {
+                        path: "users/pending",
+                        element: <PendingUsers />,
+                    },
+                    {
+                        path: "species",
+                        element: <AdminList resource={"Species"} />,
+                    },
+                ],
+            },
+            {
+                path: "expert/login",
+                element: <ExpertLogin />,
+            },
+            {
+                path: "admin/login",
+                element: <AdminLogin />,
+            },
+            { path: "*", element: <NotFound /> },
         ],
-      },
-      {
-        path: "admin/",
-        element: <AdminLogin />,
-      },
-      {
-        path: "admin/",
-        element: <AdminMain />,
-        children: [
-          {
-            path: "",
-            element: <></>,
-          },
-          {
-            path: "experts",
-            element: <AdminList resource={"Expert"} />,
-          },
-          {
-            path: "users",
-            element: <AdminList resource={"User"} />,
-          },
-          {
-            path: "species",
-            element: <AdminList resource={"Species"} />,
-          },
-        ],
-      },
-      {
-        path: "expert/login",
-        element: <ExpertLogin />,
-      },
-      {
-        path: "admin/login",
-        element: <AdminLogin />,
-      },
-      { path: "*", element: <NotFound /> },
-    ],
-  },
+    },
 ]);
 
 function App() {
-  const queryClient = new QueryClient();
+    const queryClient = new QueryClient();
 
-  return (
-    <>
-      <AuthProvider>
-        <QueryClientProvider client={queryClient}>
-          <ToastProvider>
-            <RouterProvider router={router}></RouterProvider>
-          </ToastProvider>
-        </QueryClientProvider>
-      </AuthProvider>
-    </>
-  );
+    return (
+        <>
+            <AuthProvider>
+                <QueryClientProvider client={queryClient}>
+                    <ToastProvider>
+                        <RouterProvider router={router}></RouterProvider>
+                    </ToastProvider>
+                </QueryClientProvider>
+            </AuthProvider>
+        </>
+    );
 }
 
 export default App;

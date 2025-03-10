@@ -38,6 +38,7 @@ const sidebarTabs = {
     ],
     expert: [
         { name: "Spottings", path: "/expert/spottings" },
+        { name: "History", path: "/expert/history" },
         { name: "Account", path: "/expert/account" },
     ],
     user: [
@@ -54,4 +55,4 @@ const conservationStatuses = [
     "Critically Endangered",
 ];
 
-export { fadeIn, hotItWorksSteps, sidebarTabs,conservationStatuses };
+export { fadeIn, hotItWorksSteps, sidebarTabs, conservationStatuses };

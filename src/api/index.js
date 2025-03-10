@@ -35,12 +35,17 @@ const registerUser = async (registerData) => {
 
 const getSpeciesDatabyID = async (id) => {
     return await instance.get(`expert/species/${id}`);
-}
+};
 
 const getSpecies = async (filter) => {
     if (filter)
-        return await instance.get(`expert/get-species`, { params: {sortBy:"asc",...filter} });
-    else return await instance.get(`expert/get-species`,{ params: {sortBy:"asc"}});
+        return await instance.get(`expert/get-species`, {
+            params: { sortBy: "asc", ...filter },
+        });
+    else
+        return await instance.get(`expert/get-species`, {
+            params: { sortBy: "asc" },
+        });
 };
 
 const getSpeciesbyId = async (id) => {
@@ -53,7 +58,7 @@ const getOccurencebyId = async (id) => {
 
 const getOccurence = async (filter) => {
     return await instance.get("expert/get-occurance", {
-        params: {sortBy:"recent",...filter},
+        params: { sortBy: "recent", ...filter },
     });
 };
 
@@ -68,7 +73,7 @@ const getUsers = async () => {
 };
 
 const addSpecies = async (speciesData) => {
-    console.log(speciesData)
+    console.log(speciesData);
     const response = await instance.post("expert/add-species", speciesData);
     return response;
 };
@@ -98,7 +103,7 @@ const getSpeciesAdmin = async () => {
 };
 
 const addSpeciesAdmin = async (speciesData) => {
-    console.log(speciesData)
+    console.log(speciesData);
     const response = await instance.post("admin/add-species", speciesData);
     return response;
 };
@@ -107,20 +112,37 @@ const getExpertDetails = async () => {
     return await instance.get("expert/get-expert");
 };
 
+const getExpertOccurences = async () => {
+    return await instance.get("expert/get-expert-occurrences");
+};
+
+const getPendingUsers = async () => {
+    const s = await instance.get("admin/pending-users");
+    return s.data;
+};
+
+const approveUser = async (id) => {
+    return await instance.put("admin/user/" + id + "/approve");
+};
+
+const rejectUser = async (id) => {
+    return await instance.put("admin/user/" + id + "/reject");
+};
+
 const updateExpertDetails = async (data) => {
-    return await instance.put("expert/update-expert",data);
+    return await instance.put("expert/update-expert", data);
 };
 
-const deleteSpecies = async (id,data) => {
-    return await instance.delete("admin/species/" + id,data);
+const deleteSpecies = async (id, data) => {
+    return await instance.delete("admin/species/" + id, data);
 };
 
-const deleteUser = async (id,data) => {
-    return await instance.delete("admin/user/" + id,data);
+const deleteUser = async (id, data) => {
+    return await instance.delete("admin/user/" + id, data);
 };
 
-const deleteExpert = async (id,data) => {
-    return await instance.delete("admin/expert/" + id,data);
+const deleteExpert = async (id, data) => {
+    return await instance.delete("admin/expert/" + id, data);
 };
 
 export {
@@ -148,5 +170,9 @@ export {
     deleteExpert,
     deleteUser,
     addSpeciesAdmin,
-    updateExpertDetails
+    getExpertOccurences,
+    updateExpertDetails,
+    getPendingUsers,
+    approveUser,
+    rejectUser,
 };

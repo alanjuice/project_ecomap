@@ -24,12 +24,22 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel } from "@/components/ui/alert-dialog";
+import {
+    AlertDialog,
+    AlertDialogTrigger,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 import { useToast } from "@/context/ToastContext";
+import { Link } from "react-router-dom";
 
 const AdminListPage = ({ resource }) => {
     const queryClient = useQueryClient();
-    const {toast} = useToast();
+    const { toast } = useToast();
 
     const fetchData = (resource) => {
         if (resource === "Species") {
@@ -64,10 +74,10 @@ const AdminListPage = ({ resource }) => {
         mutationFn: (id) => deleteData(id),
         onSuccess: () => {
             queryClient.invalidateQueries([resource]);
-            toast.success("Deletion Successful")
+            toast.success("Deletion Successful");
         },
         onError: () => {
-            toast.error("Deletion UnSuccessful")
+            toast.error("Deletion UnSuccessful");
         },
     });
 
@@ -76,7 +86,6 @@ const AdminListPage = ({ resource }) => {
     const [filteredContent, setFilteredContent] = useState([]);
 
     useEffect(() => {
-
         //Temp Fix, I forgot what this does, but dont remove..it just works
         let d = data;
 
@@ -134,6 +143,13 @@ const AdminListPage = ({ resource }) => {
                     placeholder="Search..."
                     className="p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300 sm:w-1/3 w-2/3"
                 />
+                {resource === "User" ? (
+                    <Link to="/admin/users/pending">
+                        <Button>Pending Users</Button>
+                    </Link>
+                ) : (
+                    ""
+                )}
                 <Button onClick={() => setModalOpen(true)}>
                     Add {resource}
                 </Button>
@@ -169,13 +185,17 @@ const AdminListPage = ({ resource }) => {
                                     <TableHead className="p-3">
                                         Conservation Status
                                     </TableHead>
-                                    <TableHead className="p-3">Actions</TableHead>
+                                    <TableHead className="p-3">
+                                        Actions
+                                    </TableHead>
                                 </>
                             ) : (
                                 <>
                                     <TableHead className="p-3">Name</TableHead>
                                     <TableHead className="p-3">Email</TableHead>
-                                    <TableHead className="p-3">Actions</TableHead>
+                                    <TableHead className="p-3">
+                                        Actions
+                                    </TableHead>
                                 </>
                             )}
                         </TableRow>
@@ -194,10 +214,13 @@ const AdminListPage = ({ resource }) => {
                                                 {item.common_name}
                                             </TableCell>
                                             <TableCell className="p-3">
-                                                {item.scientific_name || item.spotId?.scientific_name}
+                                                {item.scientific_name ||
+                                                    item.spotId
+                                                        ?.scientific_name}
                                             </TableCell>
                                             <TableCell className="p-3">
-                                                {item.conservation_status || "N/A"}
+                                                {item.conservation_status ||
+                                                    "N/A"}
                                             </TableCell>
                                         </>
                                     ) : (
@@ -223,17 +246,24 @@ const AdminListPage = ({ resource }) => {
                                                         Confirm Delete
                                                     </AlertDialogTitle>
                                                     <AlertDialogDescription>
-                                                        Are you sure you want to delete this {resource}?
+                                                        Are you sure you want to
+                                                        delete this {resource}?
                                                     </AlertDialogDescription>
                                                 </AlertDialogHeader>
                                                 <AlertDialogFooter>
                                                     <Button
-                                                        onClick={() => handleDelete(item._id)}
+                                                        onClick={() =>
+                                                            handleDelete(
+                                                                item._id
+                                                            )
+                                                        }
                                                         variant="destructive"
                                                     >
                                                         Confirm
                                                     </Button>
-                                                    <AlertDialogCancel >Cancel</AlertDialogCancel>
+                                                    <AlertDialogCancel>
+                                                        Cancel
+                                                    </AlertDialogCancel>
                                                 </AlertDialogFooter>
                                             </AlertDialogContent>
                                         </AlertDialog>
@@ -242,7 +272,10 @@ const AdminListPage = ({ resource }) => {
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan="4" className="p-4 text-center text-gray-500">
+                                <TableCell
+                                    colSpan="4"
+                                    className="p-4 text-center text-gray-500"
+                                >
                                     No records found.
                                 </TableCell>
                             </TableRow>
