@@ -94,7 +94,7 @@ const PendingUsers = () => {
                 )
             );
         }
-    }, [search, data]); // Added data as dependency to update when data changes
+    }, [search, data]);
 
     const handleSearch = (event) => setSearch(event.target.value);
 
@@ -128,7 +128,7 @@ const PendingUsers = () => {
             {/* Scrollable Table */}
             <div className="overflow-x-auto border rounded-lg shadow-md">
                 <Table>
-                    <TableHeader className="bg-green-700 text-white">
+                    <TableHeader className="bg-green-100 text-white">
                         <TableRow>
                             <TableHead className="p-3">Name</TableHead>
                             <TableHead className="p-3">Email</TableHead>

@@ -125,6 +125,10 @@ const approveUser = async (id) => {
     return await instance.put("admin/user/" + id + "/approve");
 };
 
+const updateOccurence = async (id) => {
+    return await instance.put("admin/user/" + id + "/approve");
+};
+
 const rejectUser = async (id) => {
     return await instance.put("admin/user/" + id + "/reject");
 };
@@ -159,6 +163,7 @@ export {
     getOccurence,
     getSpeciesbyId,
     getOccurencebyId,
+    updateOccurence,
     getExperts,
     getUsers,
     getCount,
