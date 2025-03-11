@@ -17,9 +17,15 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getExpertOccurences, getSpecies, updateOccurence } from "@/api";
+import {
+    getExpertOccurences,
+    getSpecies,
+    updateOccurence,
+    deleteOccurrence,
+} from "@/api";
 import LoadingIcon from "@/components/LoadingIcon";
 import { useToast } from "@/context/ToastContext";
+import { Trash } from "lucide-react";
 
 export default function ExpertHistory() {
     const queryClient = useQueryClient();
@@ -73,6 +79,27 @@ export default function ExpertHistory() {
         },
     });
 
+    // Mutation to delete an occurrence
+    const deleteOccurrenceMutation = useMutation({
+        mutationFn: (id) => deleteOccurrence(id),
+        onSuccess: () => {
+            // Invalidate and refetch occurrences after successful deletion
+            queryClient.invalidateQueries({ queryKey: ["expertOccurrences"] });
+            toast({
+                title: "Success",
+                description: "Occurrence deleted successfully",
+                variant: "success",
+            });
+        },
+        onError: (error) => {
+            toast({
+                title: "Error",
+                description: `Failed to delete occurrence: ${error.message}`,
+                variant: "destructive",
+            });
+        },
+    });
+
     // Handle edit button click
     const handleEdit = (id, currentSpeciesId) => {
         setEditingId(id);
@@ -101,6 +128,17 @@ export default function ExpertHistory() {
     const handleCancelEdit = () => {
         setEditingId(null);
         setSelectedSpecies(null);
+    };
+
+    // Handle delete button click
+    const handleDelete = (id) => {
+        if (
+            confirm(
+                "Are you sure you want to delete this occurrence? This action cannot be undone."
+            )
+        ) {
+            deleteOccurrenceMutation.mutate(id);
+        }
     };
 
     // Display loading state
@@ -217,21 +255,40 @@ export default function ExpertHistory() {
                                                     </Button>
                                                 </div>
                                             ) : (
-                                                <Button
-                                                    size="sm"
-                                                    onClick={() =>
-                                                        handleEdit(
-                                                            occurrence._id,
-                                                            occurrence.speciesId
-                                                                ._id
-                                                        )
-                                                    }
-                                                    disabled={
-                                                        updateSpeciesMutation.isPending
-                                                    }
-                                                >
-                                                    Edit
-                                                </Button>
+                                                <div className="flex space-x-2">
+                                                    <Button
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            handleEdit(
+                                                                occurrence._id,
+                                                                occurrence
+                                                                    .speciesId
+                                                                    ._id
+                                                            )
+                                                        }
+                                                        disabled={
+                                                            updateSpeciesMutation.isPending ||
+                                                            deleteOccurrenceMutation.isPending
+                                                        }
+                                                    >
+                                                        Edit
+                                                    </Button>
+                                                    <Button
+                                                        size="sm"
+                                                        variant="destructive"
+                                                        onClick={() =>
+                                                            handleDelete(
+                                                                occurrence._id
+                                                            )
+                                                        }
+                                                        disabled={
+                                                            updateSpeciesMutation.isPending ||
+                                                            deleteOccurrenceMutation.isPending
+                                                        }
+                                                    >
+                                                        <Trash className="h-4 w-4" />
+                                                    </Button>
+                                                </div>
                                             )}
                                         </TableCell>
                                     </TableRow>

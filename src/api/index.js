@@ -141,6 +141,10 @@ const deleteSpecies = async (id, data) => {
     return await instance.delete("admin/species/" + id, data);
 };
 
+const deleteOccurrence = async (id, data) => {
+    return await instance.delete("admin/species/" + id, data);
+};
+
 const deleteUser = async (id, data) => {
     return await instance.delete("admin/user/" + id, data);
 };
@@ -179,5 +183,6 @@ export {
     updateExpertDetails,
     getPendingUsers,
     approveUser,
+    deleteOccurrence,
     rejectUser,
 };
