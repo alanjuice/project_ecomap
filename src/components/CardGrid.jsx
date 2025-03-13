@@ -21,19 +21,24 @@ const CardGrid = ({ data, resource }) => {
                                         "https://placehold.co/800"
                                     }
                                     loading="lazy"
-                                    alt={item.title ||
+                                    alt={
+                                        item.title ||
                                         item.common_name ||
                                         item.speciesId?.common_name ||
-                                        item.spotId?.title || "Image"}
+                                        item.spotId?.title ||
+                                        "Image"
+                                    }
                                     className={`w-full min-w-48 min-h-48 h-48 object-cover`}
                                 />
                             </CardContent>
                             <CardFooter className="p-3 text-center font-semibold text-gray-700">
-                                {item.title ||
-                                    item.common_name ||
-                                    item.speciesId?.common_name ||
-                                    item.spotId?.title ||
-                                    "Untitled"}
+                                <div className="w-full truncate">
+                                    {item.title ||
+                                        item.common_name ||
+                                        item.speciesId?.common_name ||
+                                        item.spotId?.title ||
+                                        "Untitled"}
+                                </div>
                             </CardFooter>
                         </Card>
                     </Link>
