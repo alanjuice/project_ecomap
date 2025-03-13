@@ -26,6 +26,9 @@ import {
 import LoadingIcon from "@/components/LoadingIcon";
 import { useToast } from "@/context/ToastContext";
 import { Trash } from "lucide-react";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
+import { X } from "lucide-react";
 
 export default function ExpertHistory() {
     const queryClient = useQueryClient();
@@ -177,11 +180,19 @@ export default function ExpertHistory() {
                                 {occurrenceListData.data.map((occurrence) => (
                                     <TableRow key={occurrence._id}>
                                         <TableCell>
-                                            <img
-                                                src={occurrence.spotId.image}
-                                                alt="species"
-                                                className="w-12 h-12 rounded-md object-cover"
-                                            />
+                                            <Zoom
+                                                IconUnzoom={X}
+                                                classDialog="custom-zoom"
+                                                className="custom-zoom"
+                                            >
+                                                <img
+                                                    src={
+                                                        occurrence.spotId.image
+                                                    }
+                                                    alt="species"
+                                                    className="w-12 h-12 rounded-md object-cover"
+                                                />
+                                            </Zoom>
                                         </TableCell>
                                         <TableCell>
                                             {occurrence.userId.name}
