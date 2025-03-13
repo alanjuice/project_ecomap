@@ -6,27 +6,27 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getExpertDetails, updateExpertDetails } from "@/api";
 import LoadingIcon from "@/components/LoadingIcon";
 import { useToast } from "@/context/ToastContext";
+import ImageCard from "@/components/ImageCard";
 
 const AccountPage = () => {
-    
     const {
         data: expertDetails,
         isLoading,
         isError,
         error,
-        refetch
+        refetch,
     } = useQuery({
         queryKey: ["getexpertdetails"],
         queryFn: () => getExpertDetails(),
     });
 
-    const {toast} = useToast();
+    const { toast } = useToast();
 
     const mutation = useMutation({
         mutationFn: updateExpertDetails,
         onSuccess: () => {
             toast.success("Update Successful", { autoClose: 3000 });
-            setIsEditing(false)
+            setIsEditing(false);
             refetch();
         },
         onError: () => {
@@ -59,7 +59,11 @@ const AccountPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        mutation.mutate({name:formData.name,email:formData.email,...(formData.password!="" && { password: formData.password })})
+        mutation.mutate({
+            name: formData.name,
+            email: formData.email,
+            ...(formData.password != "" && { password: formData.password }),
+        });
     };
 
     if (isError) {
@@ -83,12 +87,13 @@ const AccountPage = () => {
         <div className="flex items-center justify-center h-full w-full p-4">
             <div className="w-full max-w-xl p-6 bg-white shadow-lg border border-gray-200 rounded-lg">
                 <h2 className="text-2xl font-semibold mb-4">Account Details</h2>
-                <Separator />
                 <div className="mt-4">
                     {isEditing ? (
                         <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Name</label>
+                                <label className="text-sm font-medium">
+                                    Name
+                                </label>
                                 <Input
                                     type="text"
                                     name="name"
@@ -98,7 +103,9 @@ const AccountPage = () => {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Email</label>
+                                <label className="text-sm font-medium">
+                                    Email
+                                </label>
                                 <Input
                                     type="email"
                                     name="email"
@@ -108,7 +115,9 @@ const AccountPage = () => {
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Password</label>
+                                <label className="text-sm font-medium">
+                                    Password
+                                </label>
                                 <Input
                                     type="password"
                                     name="password"
@@ -133,11 +142,16 @@ const AccountPage = () => {
                     ) : (
                         <div className="space-y-4">
                             <div>
+                                <ImageCard
+                                    imageUrl={expertDetails.data.profilepic}
+                                />
                                 <p>
-                                    <strong>Name:</strong> {expertDetails.data.name}
+                                    <strong>Name:</strong>{" "}
+                                    {expertDetails.data.name}
                                 </p>
                                 <p>
-                                    <strong>Email:</strong> {expertDetails.data.email}
+                                    <strong>Email:</strong>{" "}
+                                    {expertDetails.data.email}
                                 </p>
                             </div>
                             <div className="flex justify-center">
