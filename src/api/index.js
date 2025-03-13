@@ -141,8 +141,8 @@ const deleteSpecies = async (id, data) => {
     return await instance.delete("admin/species/" + id, data);
 };
 
-const deleteOccurrence = async (id, data) => {
-    return await instance.delete("admin/species/" + id, data);
+const deleteOccurrence = async (id) => {
+    return await instance.delete("expert/occurrence/" + id);
 };
 
 const deleteUser = async (id, data) => {
