@@ -125,8 +125,9 @@ const approveUser = async (id) => {
     return await instance.put("admin/user/" + id + "/approve");
 };
 
-const updateOccurence = async (id) => {
-    return await instance.put("admin/user/" + id + "/approve");
+const updateOccurence = async (id, data) => {
+    const d = { speciesId: data };
+    return await instance.put("expert/occurrence/" + id, d);
 };
 
 const rejectUser = async (id) => {
