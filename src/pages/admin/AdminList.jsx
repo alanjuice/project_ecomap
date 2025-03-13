@@ -143,16 +143,16 @@ const AdminListPage = ({ resource }) => {
                     placeholder="Search..."
                     className="p-2 border border-gray-300 rounded-md focus:ring focus:ring-blue-300 sm:w-1/3 w-2/3"
                 />
-                {resource === "User" ? (
-                    <Link to="/admin/users/pending">
-                        <Button>Pending Users</Button>
-                    </Link>
-                ) : (
-                    ""
-                )}
-                <Button onClick={() => setModalOpen(true)}>
-                    Add {resource}
-                </Button>
+                <div className="flex space-x-2 m-2">
+                    {resource === "User" && (
+                        <Link to="/admin/users/pending">
+                            <Button variant="outline">Pending Users</Button>
+                        </Link>
+                    )}
+                    <Button onClick={() => setModalOpen(true)}>
+                        Add {resource}
+                    </Button>
+                </div>
             </div>
 
             {resource === "Species" ? (
