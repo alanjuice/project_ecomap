@@ -5,7 +5,12 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { Map, Marker } from "@vis.gl/react-maplibre";
 import "maplibre-gl/dist/maplibre-gl.css";
 
-import { getSpecies, getSpottingById, identifySpecies,rejectSpotting } from "../../api";
+import {
+    getSpecies,
+    getSpottingById,
+    identifySpecies,
+    rejectSpotting,
+} from "../../api";
 import LoadingIcon from "../../components/LoadingIcon";
 import AddSpeciesModal from "../../components/modals/AddSpeciesModal";
 import Error from "../../components/Error";
@@ -28,21 +33,16 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import ImageCard from "@/components/ImageCard";
 import { useToast } from "@/context/ToastContext";
 
 const SpottingDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const {toast} = useToast();
-    
-    const mapTileUrl = import.meta.env.VITE_MAP_TILER_KEY 
+    const { toast } = useToast();
+
+    const mapTileUrl = import.meta.env.VITE_MAP_TILER_KEY;
 
     const [open, setOpen] = useState(false);
     const [value, setValue] = useState("");
@@ -91,8 +91,7 @@ const SpottingDetails = () => {
     });
 
     const rejectionMutation = useMutation({
-        mutationFn: ({ spotId }) =>
-            rejectSpotting({ spotId }),
+        mutationFn: ({ spotId }) => rejectSpotting({ spotId }),
         onSuccess: () => {
             toast.success("Spotting Rejected !", {
                 position: "top-right",
@@ -101,7 +100,7 @@ const SpottingDetails = () => {
             navigate("/expert/spottings");
         },
         onError: (error) => {
-            console.log(error)
+            console.log(error);
             toast.error(
                 error?.response?.data?.message || "Failed to identify species!",
                 {
@@ -125,11 +124,11 @@ const SpottingDetails = () => {
         });
     };
 
-    const rejectUpload = (e)=>{
+    const rejectUpload = (e) => {
         e.preventDefault();
-        console.log(e)
-        rejectionMutation.mutate({spotId:id})
-    }
+        console.log(e);
+        rejectionMutation.mutate({ spotId: id });
+    };
 
     if (isSpottingLoadingError) {
         return (
@@ -157,7 +156,7 @@ const SpottingDetails = () => {
         <div className="bg-gray-50 p-6 w-screen">
             <h1 className="text-3xl font-bold mb-6">Spotting Details</h1>
 
-            <ImageCard imageUrl={spottingData.data.image}/>
+            <ImageCard imageUrl={spottingData.data.image} />
 
             <Table className="mb-8">
                 <TableBody>
@@ -196,8 +195,7 @@ const SpottingDetails = () => {
                             >
                                 {value
                                     ? speciesOptions?.data?.find(
-                                          (species) =>
-                                              species._id === value
+                                          (species) => species._id === value
                                       )?.common_name
                                     : "Select species..."}
                                 <ChevronsUpDown className="opacity-50" />
@@ -253,14 +251,13 @@ const SpottingDetails = () => {
                     <Button onClick={handleIdentify}>Identify</Button>
                 </div>
                 <div className="mt-4 ">
-                <Button onClick={() => setModalOpen(true)} className="mr-8">
+                    <Button onClick={() => setModalOpen(true)} className="mr-8">
                         Can't Find Species
-                </Button>
-                <Button onClick={rejectUpload} variant="destructive">
+                    </Button>
+                    <Button onClick={rejectUpload} variant="destructive">
                         Reject
-                </Button>
+                    </Button>
                 </div>
-                
             </div>
 
             <AddSpeciesModal
@@ -283,12 +280,8 @@ const SpottingDetails = () => {
                 mapStyle={mapTileUrl}
             >
                 <Marker
-                    longitude={
-                        spottingData.data.location.coordinates[0]
-                    }
-                    latitude={
-                        spottingData.data.location.coordinates[1]
-                    }
+                    longitude={spottingData.data.location.coordinates[0]}
+                    latitude={spottingData.data.location.coordinates[1]}
                     anchor="bottom"
                 />
             </Map>

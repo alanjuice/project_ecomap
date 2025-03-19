@@ -16,13 +16,12 @@ import {
     CardDescription,
     CardContent,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import ImageCard from "@/components/ImageCard";
 
 const SpeciesDetailsPage = () => {
     const { id } = useParams();
-    
-    const mapTileUrl = import.meta.env.VITE_MAP_TILER_KEY 
+
+    const mapTileUrl = import.meta.env.VITE_MAP_TILER_KEY;
 
     const {
         data: speciesData,
@@ -30,7 +29,7 @@ const SpeciesDetailsPage = () => {
         error,
         isError,
     } = useQuery({
-        queryKey: ["getSpeciesById"],
+        queryKey: ["getSpeciesById", id],
         queryFn: () => getSpeciesbyId(id),
     });
 
@@ -40,7 +39,7 @@ const SpeciesDetailsPage = () => {
         isError: isMapError,
         error: mapError,
     } = useQuery({
-        queryKey: ["getMapData"],
+        queryKey: ["getMapData", id],
         queryFn: () => getMapData(id),
     });
 
@@ -56,7 +55,7 @@ const SpeciesDetailsPage = () => {
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="container mx-auto space-y-8">
                 {/* Image Card */}
-                <ImageCard imageUrl={speciesData.data.image}/>
+                <ImageCard imageUrl={speciesData.data.image} />
 
                 {/* Info Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -113,7 +112,12 @@ const SpeciesDetailsPage = () => {
                                 <Source
                                     id="species-locations"
                                     type="geojson"
-                                    data={mapData?.data || { type: "FeatureCollection", features: [] }}
+                                    data={
+                                        mapData?.data || {
+                                            type: "FeatureCollection",
+                                            features: [],
+                                        }
+                                    }
                                 >
                                     <Layer {...heatmapLayerStyle}></Layer>
                                     <Layer {...pointLayerStyle}></Layer>

@@ -16,12 +16,12 @@ import {
 import { Separator } from "@/components/ui/separator";
 
 import { getOccurencebyId } from "../../api";
-import ImageCard from "@/components/ImageCard"; 
+import ImageCard from "@/components/ImageCard";
 
 const OccurenceDetails = () => {
     const { id } = useParams();
-    
-    const mapTileUrl = import.meta.env.VITE_MAP_TILER_KEY 
+
+    const mapTileUrl = import.meta.env.VITE_MAP_TILER_KEY;
 
     const {
         data: occurenceData,
@@ -29,7 +29,7 @@ const OccurenceDetails = () => {
         error,
         isError,
     } = useQuery({
-        queryKey: ["getOccurenceById"],
+        queryKey: ["getOccurenceById", id],
         queryFn: () => getOccurencebyId(id),
     });
 
@@ -45,7 +45,7 @@ const OccurenceDetails = () => {
         <div className="min-h-screen bg-gray-50 p-6">
             <div className="container mx-auto space-y-8">
                 {/* Image Card */}
-                <ImageCard imageUrl={occurenceData.data.spotId.image}/>
+                <ImageCard imageUrl={occurenceData.data.spotId.image} />
 
                 {/* Info Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
