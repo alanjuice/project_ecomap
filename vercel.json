@@ -1,1 +1,7 @@
-{ "rewrites": [{ "source": "/(.*)", "destination": "/" }] }
+{ "rewrites": [{ "source": "/(.*)", "destination": "/" }],"redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://www.ecomap.live/$1",
+      "permanent": true
+    }
+  ] }
