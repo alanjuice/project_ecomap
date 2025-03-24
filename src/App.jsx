@@ -128,7 +128,13 @@ let router = createBrowserRouter([
 ]);
 
 function App() {
-    const queryClient = new QueryClient();
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+            },
+        },
+    });
 
     return (
         <>
