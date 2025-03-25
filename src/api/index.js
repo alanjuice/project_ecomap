@@ -25,8 +25,10 @@ const registerExpert = async (registerData) => {
     return await instance.post("expert/register", registerData);
 };
 
-const getSpottings = async () => {
-    return await instance.get("expert/get-list-upload");
+const getSpottings = async (filter) => {
+    return await instance.get("expert/get-list-upload", {
+        params: { sortBy: "recent", ...filter },
+    });
 };
 
 const registerUser = async (registerData) => {
